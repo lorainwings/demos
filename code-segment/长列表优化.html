@@ -70,7 +70,7 @@
               :style="{
                 height: itemHeight + 'px'
               }"
-              v-for="(item,idx) in visibleDatza"
+              v-for="(item,idx) in visibleData"
               @click="showIndex(idx)">
               {{ item.value }}
             </div>
@@ -131,7 +131,7 @@
                         this.updateVisibleData(scrollTop)
                     });
                 },
-                showIndex(idx){
+                showIndex(idx) {
                     console.log(idx);
                 }
             }
