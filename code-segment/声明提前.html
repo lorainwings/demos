@@ -1,0 +1,22 @@
+<script>
+  // 第一类
+  console.log(a);
+
+  function a() {
+    console.log("这是a的函数");
+  }
+  var a = 11;
+  console.log(a);
+
+  //第二类
+  console.log(typeof myName); // function
+  var myName = "Richard"; // This is the variable assignment (initialization) that overrides the function declaration.
+  function myName() {
+    console.log("Rich");
+  }
+  console.log(typeof myName); // string
+
+
+  //结论: 函数声明与变量声明提前,都以函数为准(函数是整体提前,相当于已经赋值了)
+</script>
+

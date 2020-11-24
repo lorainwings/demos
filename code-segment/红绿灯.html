@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .red,
+        .amber,
+        .green {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: black;
+            margin-bottom: 4px;
+        }
+
+        @keyframes red {
+
+            0% {
+                background-color: black;
+            }
+
+            2%,
+            40% {
+                background-color: red;
+            }
+
+            42%,
+            100% {
+                background-color: black;
+            }
+        }
+
+        @keyframes amber {
+            0% {
+                background-color: black;
+            }
+
+            22%,
+            40% {
+                background-color: yellow;
+            }
+
+            42%,
+            80% {
+                background-color: black;
+            }
+
+            82%,
+            100% {
+                background-color: yellow;
+            }
+        }
+
+        @keyframes green {
+
+            0% {
+                background-color: black;
+            }
+
+            42%,
+            80% {
+                background-color: green;
+            }
+
+            82%,
+            100% {
+                background-color: black;
+            }
+        }
+
+
+        .red {
+            animation: red 10s linear infinite;
+        }
+
+        .amber {
+            animation: amber 10s linear infinite;
+        }
+
+        .green {
+            animation: green 10s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="red"></div>
+        <div class="amber"></div>
+        <div class="green"></div>
+    </div>
+</body>
+
+</html>

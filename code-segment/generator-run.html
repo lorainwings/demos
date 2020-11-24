@@ -1,0 +1,147 @@
+<script>
+
+    // 第一版 支持promise版
+    const runGenerote1 = (gen) => {
+        const g = gen();
+
+        const next = (res) => {
+            let result = g.next(res);
+
+            if (result.done) return;
+
+            result.value.then(data =>
+                data.json()
+            ).then(res => {
+                // console.log(res);
+                next(res);
+            });
+        }
+
+        next();
+    }
+
+
+    // 第二版 回调函数版 支持下面这种函数
+
+    /* function fetchData(url) {
+        return function (cb) {
+            setTimeout(function () {
+                cb({ status: 200, data: url })
+            }, 1000)
+        }
+
+        对于这样的 Generator 函数：
+
+        function* gen() {
+            var r1 = yield fetchData('https://api.github.com/users/github');
+            var r2 = yield fetchData('https://api.github.com/users/github/followers');
+            console.log([r1.data, r2.data].join('\n'));
+        }
+    } */
+
+    const runGenerote2 = (gen) => {
+        const g = gen();
+
+        const next = (res) => {
+            let result = g.next(res);
+
+            if (result.done) return;
+
+            result.value(next)
+        }
+
+        next();
+    }
+
+    // 第三版 支持上面2中形式
+
+    const runGenerote3 = (gen) => {
+        const isPromise = (obj) => {
+            return obj.then ? true : false;
+        }
+
+        const g = gen();
+
+        const next = (res) => {
+            let result = g.next(res);
+
+            if (result.done) return;
+
+            if (isPromise(result.value)) {
+                result.value.then((data) => {
+                    next(data)
+                })
+            } else {
+                result.value(next)
+            }
+
+        }
+        next();
+    }
+
+
+    // 第四版 支持错误处理,统一返回promise, 最接近async
+
+    const runGenerote4 = (gen) => {
+
+        const thunkPromise = fn => {
+            return new Promise((rsl, rej) => {
+                fn(function (err, data) {
+                    if (err) rej(err);
+                    else rsl(data);
+                })
+            })
+        }
+        const toPromise = obj => {
+            return obj.then ? obj : thunkPromise(obj)
+        }
+
+        const g = gen();
+
+        return new Promise((rsl, rej) => {
+            const next = (res) => {
+                let resPromise, result;
+                try {
+                    result = g.next(res);
+                } catch (e) {
+                    rej(e);
+                }
+
+                if (result.done) return rsl(result.value);
+
+                resPromise = toPromise(result.value)
+
+                resPromise.then(data => {
+                    next(data)
+                }, rej)
+            }
+
+            next();
+        })
+    }
+
+
+
+
+    // test
+    function fetchData(url) {
+        return function (cb) {
+            setTimeout(function () {
+                cb({ status: 200, data: url })
+            }, 1000)
+        }
+    }
+
+
+    function* gen() {
+        var r1 = yield fetch('https://api.github.com/users/github');
+        var r2 = yield fetch('https://api.github.com/users/github/followers');
+        var r3 = yield fetch('https://api.github.com/users/github/repos');
+        var r4 = yield fetchData("111")
+
+        // console.log([r1.bio, r2[0].login, r3[0].full_name].join('\n'));
+        console.log("===", r1, r2, r3, r4)
+    }
+
+    runGenerote4(gen).catch(e => { console.log("捕获到错误", e) });
+</script>

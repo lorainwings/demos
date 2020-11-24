@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!--The viewport meta tag is used to improve the presentation and behavior of the samples
+    on iOS devices-->
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+  <title></title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      padding: 0;
+    }
+
+    .first {
+      margin: 20px;
+      background: lightgreen;
+      width: 100px;
+      height: 100px;
+    }
+
+    ul {
+      /*同一个bfc容器中, 两个或多个毗邻的普通流中的块元素垂直方向上的 margin 会折叠*/
+      display: inline-block;
+      margin: 10px;
+      background: lightblue;
+      /* 此处设置的padding可以限制子元素的外边距影响外部元素 */
+      /* padding: 2px; */
+    }
+
+    li {
+      margin: 25px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body class="claro">
+  <div class="first"></div>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+</body>
+
+</html>

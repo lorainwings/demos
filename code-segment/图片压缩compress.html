@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片压缩测试</title>
+</head>
+
+<body>
+    <input type="file" name="" id="imgFile" accept='image/*' onchange="change(this)">
+    <script>
+        const input = document.getElementById('imgFile');
+
+        const compress = async ({ file, ratio, quality = 1 }) => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const { type } = file;
+            const { width, height, img } = await getImgAttr(file);
+            const cWidth = canvas.width = parseInt(width * ratio);
+            const cHeight = canvas.height = parseInt(height * ratio);
+            ctx.drawImage(img, 0, 0, cWidth, cHeight);
+
+            // 压缩完成,开始图片显示或下载 (可以使用toDataUrl和toBlob来生成本地图片)
+            // toDataUrl的quality参数对png图像无效
+            canvas.toBlob(async (blob) => {
+                const { width: compWidth, height: compHeight, img: nImg } = await getImgAttr(blob);
+                download(blob, type);
+            }, type, quality)
+        }
+
+        const getImgAttr = async (file) => {
+            const img = new Image();
+            const path = URL.createObjectURL(file);
+            img.src = path;
+            return new Promise((rs, rj) => {
+                img.onload = () => {
+                    const { naturalWidth, naturalHeight } = img;
+                    rs({ width: naturalWidth, height: naturalHeight, img });
+                }
+            });
+        }
+
+        const download = (blob, type) => {
+            const path = URL.createObjectURL(blob);
+            const aElem = document.createElement('a');
+            aElem.href = path;
+            const format = type.split('/')[1];
+            aElem.setAttribute('download', `dload.${format}`);
+            aElem.click();
+        }
+
+        const change = async (e) => {
+            const file = e.files[0];
+            console.log(file)
+            compress({ file, ratio: 0.5, quality: 1 });
+        }
+    </script>
+</body>
+
+</html>

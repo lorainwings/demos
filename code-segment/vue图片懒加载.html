@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+        .img {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <div id="app"></div>
+
+    <script>
+        const throttle = (fn, time, context) => {
+            let timer = null, pre = 0;
+            return (...args) => {
+                if (Date.now() - pre > time) {
+                    timer = null;
+                    pre = Date.now();
+                    clearTimeout(timer);
+                    fn.apply(context, args);
+                } else if (!timer) {
+                    timer = setTimeout(() => {
+                        fn.apply(context, args);
+                    }, time);
+                }
+            }
+        }
+
+
+        const App = Vue.component('app', {
+            template:
+                `<div>
+                    <div v-for="item in imgList">
+                        <img class="img lazy-img" :data-src="item.avatar" />
+                    </div>
+                </div>`,
+            data() {
+                return {
+                    imgList: [{
+                        "amountStr": "1.05亿",
+                        "avatar": "http://images2.jumei.com/user_avatar/901/083/901083067-200-1584557322.jpg?1584557323",
+                    },
+                    {
+                        "amountStr": "8740.4万",
+                        "avatar": "http://p0.jmstatic.com/jmstore/user/icon/green_200_200.png",
+                    },
+                    {
+                        "amountStr": "5353.1万",
+                        "avatar": "http://images2.jumei.com/user_avatar/046/369/1046369628-200-1586684208.jpg?1586684209",
+                    },
+                    {
+                        "amountStr": "5031.7万",
+                        "avatar": "http://images2.jumei.com/user_avatar/991/254/991254981-200-1586597346.jpg?1586597347",
+                    },
+                    {
+                        "amountStr": "4343.8万",
+                        "avatar": "http://images2.jumei.com/user_avatar/756/108/756108857-200-1586743276.png?1586743277",
+                    },
+                    {
+                        "amountStr": "2992.5万",
+                        "avatar": "http://images2.jumei.com/user_avatar/702/644/702644976-200-1585792020.jpg?1585792021",
+                    },
+                    {
+                        "amountStr": "2925.1万",
+                        "avatar": "http://images2.jumei.com/user_avatar/052/741/1052741017-200-1586593236.png?1586593237",
+                    }, {
+                        "amountStr": "1.05亿",
+                        "avatar": "http://images2.jumei.com/user_avatar/901/083/901083067-200-1584557322.jpg?1584557323",
+                    },
+                    {
+                        "amountStr": "8740.4万",
+                        "avatar": "http://p0.jmstatic.com/jmstore/user/icon/green_200_200.png",
+                    },
+                    {
+                        "amountStr": "5353.1万",
+                        "avatar": "http://images2.jumei.com/user_avatar/046/369/1046369628-200-1586684208.jpg?1586684209",
+                    },
+                    {
+                        "amountStr": "5031.7万",
+                        "avatar": "http://images2.jumei.com/user_avatar/991/254/991254981-200-1586597346.jpg?1586597347",
+                    },
+                    {
+                        "amountStr": "4343.8万",
+                        "avatar": "http://images2.jumei.com/user_avatar/756/108/756108857-200-1586743276.png?1586743277",
+                    },
+                    {
+                        "amountStr": "2992.5万",
+                        "avatar": "http://images2.jumei.com/user_avatar/702/644/702644976-200-1585792020.jpg?1585792021",
+                    },
+                    {
+                        "amountStr": "2925.1万",
+                        "avatar": "http://images2.jumei.com/user_avatar/052/741/1052741017-200-1586593236.png?1586593237",
+                    }]
+                };
+            },
+            mounted() {
+                const imgLazyLoad = throttle(this.imgScroll, 2000, this)
+                imgLazyLoad();
+                document.addEventListener("scroll", imgLazyLoad);
+            },
+            methods: {
+                imgScroll() {
+                    const imgs = document.querySelectorAll('.lazy-img');
+                    const isInView = (el) => el.getBoundingClientRect().top <= window.innerHeight && el.getBoundingClientRect().bottom >= 0;
+                    this.$nextTick(() => {
+                        if (imgs.length === 0) {
+                            document.removeEventListener('scroll', this.imgScroll);
+                            return;
+                        }
+                        imgs.forEach(img => {
+                            if (isInView(img)) {
+                                const src = img.dataset.src;
+                                img.src = src;
+                                img.classList.remove('lazy-img');
+                            }
+                        });
+                    });
+                }
+            }
+        });
+
+        new Vue({
+            render: h => h(App),
+        }).$mount('#app');
+    </script>
+</body>
+
+</html>

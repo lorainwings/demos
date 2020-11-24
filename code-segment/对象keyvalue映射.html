@@ -1,0 +1,21 @@
+<script>
+    const itemsCovert = () => {
+        const maps = {};
+        const origin = {
+            leg1: "这是第一个",
+            leg2: "这是第二个",
+            leg3: "这是第三个",
+            leg4: "这是第四个",
+            leg5: "这是第五个",
+            leg6: "这是第六个"
+        }
+        for (const key in origin) {
+            maps[maps[key] = origin[key]] = key;
+        }
+        return maps;
+    }
+
+    console.log(itemsCovert());
+
+
+</script>

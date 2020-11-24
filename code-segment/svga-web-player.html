@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>svga-web-player</title>
+    <link rel="icon" href="data:,">
+    <style>
+        html,
+        body,
+        #demoCanvas {
+            background-color: transparent;
+        }
+
+        #demoCanvas {
+            width: 375px;
+            height: 667px;
+            min-height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="svga">
+    <h1>svga-web-player test demo</h1>
+    <div id="demoCanvas"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.0/build/svga.min.js"></script>
+    <script>
+        var svgaPlayer = new SVGA.Player('#demoCanvas');
+        var svgaParser = new SVGA.Parser('#demoCanvas'); // 如果你需要支持 IE6+，那么必须把同样的选择器传给 Parser。
+        var el = document.getElementById('svga');
+        el.onchange = (e) => {
+            const [file] = e.target.files;
+            // const reader = new FileReader();
+            // reader.readAsDataURL(file);
+            // reader.onload = (res) => {
+            //     const data = res.target.result
+            // }
+            const url = URL.createObjectURL(file);
+            svgaParser.load(url, function (videoItem) {
+                svgaPlayer.setVideoItem(videoItem);
+                svgaPlayer.startAnimation();
+            })
+        }
+        var playSvgaFromData = function (data) {
+            alert("准备开始播放!")
+            svgaParser.load(data, function (videoItem) {
+                svgaPlayer.setVideoItem(videoItem);
+                svgaPlayer.startAnimation();
+            })
+        }
+
+        svgaPlayer.loops = 0;
+        svgaPlayer.onFinished(function (...args) {
+            console.log('播放完成')
+            window.bridge.svgaPlayerDidFinishedAnimation();
+        });
+
+    </script>
+</body>
+
+</html>

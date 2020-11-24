@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深度优先和广度优先算法</title>
+</head>
+
+<body>
+    <h1>DOM结构:</h1>
+    <div id="root">
+        <ul>
+            <li>
+                <a href="">
+                    <img src="" alt="">
+                </a>
+            </li>
+            <li>
+                <span></span>
+            </li>
+            <li>
+            </li>
+        </ul>
+        <p></p>
+        <button></button>
+    </div>
+
+    <hr>
+
+    <h1>图解顺序:</h1>
+    <div>
+        <div>广度优先(bfs)</div>
+        <img src="https://image-static.segmentfault.com/891/515/89151501-5c9df0b2e4f16_articlex" alt="广度优先">
+    </div>
+    <div>
+        <div>深度优先(dfs)</div>
+        <img src="https://image-static.segmentfault.com/353/510/3535104753-5c9dea8317820_articlex" alt="深度优先">
+    </div>
+
+
+    <script>
+        const root = document.getElementById("root")
+
+        // 广度优先
+        const breathFirstSearch = node => {
+            const nodes = [] // 最终的节点顺序列表
+            const queue = [] // 存储遍历元素的列表
+            if (node != null) {
+                queue.unshift(node)
+                while (queue.length != 0) {
+                    const item = queue.shift() // 始终拿到第一个兄弟元素
+                    nodes.push(item)
+                    queue.push(...item.children)  // ['兄弟1','兄弟2','兄弟3','1儿子','1儿子','1儿子']
+                }
+            }
+            return nodes
+        }
+
+        // 深度优先
+        const deepFirstSearch = node => {
+            const nodes = [] // 最终的节点顺序列表
+            const stack = [] // 存储遍历元素的列表
+            if (node != null) {
+                stack.push(node);
+                while (stack.length != 0) {
+                    const item = stack.pop() // 始终拿到第一个子类元素
+                    nodes.push(item)
+                    stack.push(...Array.from(item.children).reverse()) // ['兄弟3','兄弟2','兄弟1儿子3','兄弟1儿子2','兄弟1儿子1']
+                }
+            }
+            return nodes
+        }
+
+        // 总结:
+        // 广都优先技巧: 使用前弹shift + 正序children
+        // 深度优先技巧: 使用后弹pop   + 倒序children
+
+
+
+        // 测试代码
+        const bfs = breathFirstSearch(root)
+        const dfs = deepFirstSearch(root);
+        console.log('bfs:', bfs)
+        console.log('dfs:', dfs)
+
+    </script>
+</body>
+
+</html>

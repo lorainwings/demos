@@ -1,0 +1,27 @@
+<div id="s1" style="width:100px;height:100px;background:yellow">
+    s1
+    <div id="s2" style="width:50px;height:50px;background:red">s2</div>
+</div>
+<script>
+
+    // 总结如下
+
+    // 1. 非target节点, 先捕获在冒泡
+    // 2. 对于target节点, 事件先注册先执行, 不论是冒泡还是捕获
+
+    s1.addEventListener("click", function (e) {
+        console.log("s1 冒泡事件",e);
+    }, false);
+    s2.addEventListener("click", function (e) {
+        console.log("s2 冒泡事件",e);
+    }, false);
+
+    s1.addEventListener("click", function (e) {
+        console.log("s1 捕获事件",e);
+    }, true);
+
+    s2.addEventListener("click", function (e) {
+        console.log("s2 捕获事件",e);
+    }, true);
+
+</script>

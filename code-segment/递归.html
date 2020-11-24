@@ -1,0 +1,67 @@
+<script>
+    "use strict";
+    // function sum(x, y) {
+    //     if (y === 0) return 1;
+    //     return sum(x + 1, y - 1);
+    // }
+
+    // sum(1, 100000)
+
+
+    // function tco(f) {
+    //     var value;
+    //     var active = false;
+    //     var accumulated = [];
+
+    //     return function accumulator() {
+    //         accumulated.push(arguments);
+    //         if (!active) {
+    //             active = true;
+    //             while (accumulated.length) {
+    //                 value = f.apply(this, accumulated.shift());
+    //             }
+    //             active = false;
+    //             return value;
+    //         }
+    //     };
+    // }
+
+    // var Fibonacci = tco(function (n) {
+    //     if (n <= 1) { return 1 };
+    //     return Fibonacci(n - 1) + Fibonacci(n - 2);
+    // });
+
+    // console.log(Fibonacci(100))
+
+
+    const myInstanceof = (target, source) => {
+        let proto = target.__proto__;
+        while (true) {
+            if (proto === source.prototype) {
+                return true;
+            }
+            if (proto === null) {
+                return false;
+            }
+            proto = proto.__proto__;
+        }
+    }
+
+    const instanceof1 = (target, source) => {
+        let proto = target.__proto__;
+        let prototype = source.prototype;
+        while (proto !== prototype) {
+            if (proto === null) {
+                return false;
+            }
+            proto = proto.__proto__;
+        }
+        return true;
+    }
+
+
+    console.log(`%c${myInstanceof([], String)}`, "color:red")
+    console.log(`%c${instanceof1([], Object)}`, "color:red")
+
+
+</script>
