@@ -6,12 +6,14 @@
 // @author       Lorain
 // @match        *://blog.csdn.net/*/article/details/*
 // @match        *://juejin.im/post/*
+// @match        *://juejin.cn/post/*
 // @match        *://www.jianshu.com/p/*
 // @match        *://github.com/*/issues/*
 // @match        *://segmentfault.com/a/*
 // @match        *://www.cnblogs.com/*/p/*
 // @match        *://www.cnblogs.com/*/articles/*
 // @match        *://zhuanlan.zhihu.com/p/*
+// @match        *://wizardforcel.gitbooks.io/*
 // @match        *://medium.com/javascript-in-plain-english/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
 // @grant        none
@@ -76,7 +78,7 @@
             insertCtrl(style);
         })()
         const juejin = (() => {
-            if (!/juejin\.im/gi.test(location.href)) return;
+            if (!/juejin/gi.test(location.href)) return;
             const style = `
             <style>
                 .main-header.main-header.visible,
@@ -187,6 +189,20 @@
             #mainContent{
                 margin-left: 0;
                 margin-right: 0;
+            }
+            </style>`
+            insertCtrl(style);
+        })()
+
+        const gitbooks = (() => {
+            if (!/gitbooks/gi.test(location.href)) return;
+            const style = `
+            <style>
+            .book .book-body, .book .book-body .body-inner{
+                position: static;
+            }
+            .fa.fa-angle-right,.fa.fa-angle-left, .book .book-header{
+                display:none;
             }
             </style>`
             insertCtrl(style);
