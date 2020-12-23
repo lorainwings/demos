@@ -51,6 +51,7 @@
             $('#___control_btn').delegate('div#btn', 'click', function () {
                 $(this).hide();
                 $(document.head).append(style + normal);
+                window.print();
             })
             $("pre").each(function () {
                 const height = this.scrollHeight;
