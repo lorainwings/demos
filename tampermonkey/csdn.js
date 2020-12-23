@@ -22,23 +22,8 @@
 (function () {
     'use strict';
     $(function () {
-        const insertCtrl = (style) => {
-            const control = `
-            <div id="___control_btn" style="width:20px;height:20px;position:fixed;right:0;top:0;z-index:9999">
-                <div id="btn" 
-                    style="border:none;\
-                    border-radius:50%;\
-                    display:flex;\
-                    align-items:center;\
-                    justify-content:center;\
-                    width:100%;\
-                    height:100%;\
-                    cursor:pointer"
-                >
-                    &times;
-                </div> 
-            </div>`
-            const normal = `
+        $(document.head).append(`
+            <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
             <style>
                 code{
                     white-space: pre-wrap !important;
@@ -46,11 +31,28 @@
                 .fmt pre, .tui-editor-contents pre{
                     max-height: inherit;
                 }
-            </style>`
-            $(document.body).append(control);
-            $('#___control_btn').delegate('div#btn', 'click', function () {
+                #___control_btn{
+                    position:fixed;
+                    right:0;
+                    top:0;
+                    z-index:9999;
+                    cursor:pointer;
+                }
+                #__insert_btn{
+                    font-size:24px;
+                    color: #1ab394
+                }
+            </style>
+        `);
+
+        $(document.body).append(`
+            <div id="___control_btn"><div id="__insert_btn" class="fa fa-save fa-2x"></div></div>`
+        );
+
+        const addSavePlugin = (style) => {
+            $('#___control_btn').delegate('div#__insert_btn', 'click', function () {
                 $(this).hide();
-                $(document.head).append(style + normal);
+                $(document.head).append(style);
                 window.print();
             })
             $("pre").each(function () {
@@ -76,7 +78,7 @@
                     display:none
                 }
             </style>`;
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
         const juejin = (() => {
             if (!/juejin/gi.test(location.href)) return;
@@ -88,11 +90,13 @@
                 .suspension-panel.suspension-panel,
                 .article-banner,
                 .footer-author-block,
-                .action-box.action-bar{
+                .action-box.action-bar,
+                .main-area.recommended-area.shadow
+                {
                     display:none;
                 }
             </style>`;
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
         const jianshu = (() => {
             if (!/jianshu\.com/gi.test(location.href)) return;
@@ -102,7 +106,7 @@
                     display:none;
                 }
             </style>`;
-            insertCtrl(style)
+            addSavePlugin(style)
         })()
         const github = (() => {
             if (!/github\.com/gi.test(location.href)) return;
@@ -116,7 +120,7 @@
                     display: none !important;
                 }
             </style>`;
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
         const segment = (() => {
             if (!/segmentfault\.com/gi.test(location.href)) return;
@@ -130,7 +134,7 @@
                     display: none !important;
                 }
             </style>`;
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
         const medium = (() => {
             if (!/medium\.com/gi.test(location.href)) return;
@@ -141,7 +145,7 @@
                 display:none
             }
             </style>`
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
         const zhihu = (() => {
             if (!/zhuanlan\.zhihu\.com/gi.test(location.href)) return;
@@ -155,7 +159,7 @@
                 display:none
             }
             </style>`
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
         const cnblogs = (() => {
             if (!/cnblogs\.com/gi.test(location.href)) return;
@@ -192,7 +196,7 @@
                 margin-right: 0;
             }
             </style>`
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
 
         const gitbooks = (() => {
@@ -206,7 +210,7 @@
                 display:none;
             }
             </style>`
-            insertCtrl(style);
+            addSavePlugin(style);
         })()
     });
     // Your code here...
