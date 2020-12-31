@@ -1,0 +1,22 @@
+<p>Initial (please wait 5s)</p>
+<script>
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+
+            // Now we modify the DOM
+            document.querySelector('p').textContent = "modified";
+            // and we start locking the UI using a Promise chain
+            const start = performance.now();
+            (function lockUI() {     // IIFE
+                if (performance.now() - start < 5000) {
+                    // recursive Promise chaining
+                    // all these promises will get executed before the next rendering
+                    // and block the UI rendering
+                    // even though we were in an rAF callback!
+                    return Promise.resolve().then(lockUI);
+                }
+            })();
+
+        });
+    });
+</script>

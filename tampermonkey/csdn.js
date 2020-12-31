@@ -13,10 +13,12 @@
 // @match        *://www.cnblogs.com/*/p/*
 // @match        *://www.cnblogs.com/*/articles/*
 // @match        *://zhuanlan.zhihu.com/p/*
+// @match        *://www.zhihu.com/question/*
 // @match        *://wizardforcel.gitbooks.io/*
 // @match        *://medium.com/javascript-in-plain-english/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
 // @grant        none
+// @connect *
 // ==/UserScript==
 
 (function () {
@@ -37,20 +39,42 @@
                     top:0;
                     z-index:9999;
                     cursor:pointer;
+                    width:27px;
+                    height:27px;
                 }
                 #__insert_btn{
                     font-size:24px;
                     color: #1ab394
                 }
+                #__insert_btn.control_btn_error{
+                    font-size: 12px;
+                    white-space:nowrap;
+                    color: #fff;
+                    background-color: #0084ff;
+                    border-radius:12px;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                }
             </style>
         `);
 
+
         $(document.body).append(`
-            <div id="___control_btn"><div id="__insert_btn" class="fa fa-save fa-2x"></div></div>`
+        <div id="___control_btn"><div id="__insert_btn" class="fa fa-save fa-2x"></div></div>`
         );
 
-        const addSavePlugin = (style) => {
+        window.addEventListener('error', (err) => {
+            console.log("捕获到错误:", err);
+            if (/font-awesome/gi.test(err.target.href)) {
+                $("#__insert_btn").text('保存').addClass('control_btn_error');
+            }
+        }, true);
+
+        const addSavePlugin = (style, fn) => {
             $('#___control_btn').delegate('div#__insert_btn', 'click', function () {
+                console.log("=======charule");
+                if (fn) fn();
                 $(this).hide();
                 $(document.head).append(style);
                 window.print();
@@ -148,18 +172,34 @@
             addSavePlugin(style);
         })()
         const zhihu = (() => {
-            if (!/zhuanlan\.zhihu\.com/gi.test(location.href)) return;
+            if (!/zhihu\.com/gi.test(location.href)) return;
             const style = `
             <style>
             .Post-SideActions, 
             .RichContent-actions.is-fixed,
             .ColumnPageHeader-Wrapper,
             .CornerButtons,
-            .Recommendations-Main{
+            .Recommendations-Main,
+            header,
+            .CornerButtons,
+            .QuestionHeader-main.QuestionHeader-footer-main,
+            .QuestionHeader-side,
+            .Sticky,
+            .ContentItem-actions.Sticky.RichContent-actions,
+            .ModalWrap,
+            .ModalLoading-content{
                 display:none
             }
+            .Question-mainColumn{
+                width:100%;
+            }
+            .Question-sideColumn{
+                width:0;
+            }
             </style>`
-            addSavePlugin(style);
+            addSavePlugin(style, () => {
+                $('button.Button.QuestionRichText-more.Button--plain').click();
+            });
         })()
         const cnblogs = (() => {
             if (!/cnblogs\.com/gi.test(location.href)) return;
