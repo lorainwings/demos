@@ -30,7 +30,8 @@
         sentMsg() {
           console.log('父元素的未声明的属性:', this.$attrs);
           console.log('父元素的所有事件监听器为:', this.$listeners);
-          this.$emit('showTime', this.count);
+          // this.$emit('showTime', this.count);
+          this.$listeners.showTime("222222");
         },
       },
     });
@@ -85,9 +86,9 @@
       },
       methods: {
         showMeTime(val) {
-          console.log('这是父元素的事件,通过子组件来触发!', val);
+          console.log('这是父元素中的函数,通过子组件来触发!', val);
         },
-        touchEv(){
+        touchEv() {
           console.log("我是原生事件")
         }
       },

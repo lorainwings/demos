@@ -98,7 +98,13 @@
                     width:80% !important;
                     margin-left:-100px";
                 }
-                .left-toolbox{
+                #toolBarBox,
+                .comment-box,
+                .template-box,
+                .left-toolbox,
+                #csdn-toolbar,
+                .recommend-box
+                {
                     display:none
                 }
             </style>`;

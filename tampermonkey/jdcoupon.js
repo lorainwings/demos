@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         JD优惠券秒杀
+// @name         优惠券秒杀
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -8,12 +8,13 @@
 // @match        *://prodev.m.jd.com/mall/active/*
 // @match        *://detail.m.tmall.com/item.htm
 // @match        *://pro.m.jd.com/jdlite/active/*
+// @match        *://market.m.taobao.com/apps/market/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
 // @grant        none
 // ==/UserScript==
 
 
-(function () {
+$(function () {
     'use strict';
     // Your code here...
     const request = (opts) => {
@@ -67,6 +68,28 @@
         }
     }
 
-    refreshCheck();
-})();
+    const rushCoupon = () => {
+        const btn = $('.btn');
+        const btnText = $('.btn .btnText');
+        const timeout = new Date().getMinutes() >= 2 && new Date().getMinutes() !== 59;
+        const exist = btnText.text() !== '已抢光';
+        if (timeout) { console.log('超时了,结束任务!'); return };
+        if (exist) {
+            btn.click();
+            console.log("恭喜抢券成功!");
+            setTimeout(rushCoupon, 300);
+        } else {
+            console.log("红包检查中...");
+            setTimeout(() => { location.reload() }, 1000);
+        }
+    }
+
+
+    const main = () => {
+        if (~location.href.indexOf('jd')) refreshCheck();
+        if (~location.href.indexOf('taobao')) rushCoupon();
+    }
+
+    window.onload = main;
+});
 
