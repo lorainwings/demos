@@ -7,9 +7,21 @@
 
 <body>
     <script>
+        function createMicroTask(callback) {
+            var counter = 1
+            var targetNode = document.createTextNode(counter)
+            var observerOptions = {
+                characterData: true // 一旦文本改变则触发回调函数 nextTickHandle
+            }
+            var observer = new MutationObserver(callback);
+            observer.observe(targetNode, observerOptions);
+            textNode.data = (counter + 1) % 2;
+        }
+
+
         try {
             module.exports = Promise
-        } catch (e) {}
+        } catch (e) { }
 
         function Promise(executor) {
             var self = this
@@ -22,7 +34,7 @@
                 if (value instanceof Promise) {
                     return value.then(resolve, reject)
                 }
-                setTimeout(function () { // 异步执行所有的回调函数
+                createMicroTask(function () { // 异步执行所有的回调函数
                     if (self.status === 'pending') {
                         self.status = 'resolved'
                         self.data = value
@@ -34,7 +46,7 @@
             }
 
             function reject(reason) {
-                setTimeout(function () { // 异步执行所有的回调函数
+                createMicroTask(function () { // 异步执行所有的回调函数
                     if (self.status === 'pending') {
                         self.status = 'rejected'
                         self.data = reason
@@ -52,7 +64,7 @@
             }
         }
 
-        
+
         /*
             promise 解析函数
         */
@@ -113,7 +125,7 @@
 
             if (self.status === 'resolved') {
                 return promise2 = new Promise(function (resolve, reject) {
-                    setTimeout(function () { // 异步执行onResolved
+                    createMicroTask(function () { // 异步执行onResolved
                         try {
                             var x = onResolved(self.data)
                             resolvePromise(promise2, x, resolve, reject)
@@ -126,7 +138,7 @@
 
             if (self.status === 'rejected') {
                 return promise2 = new Promise(function (resolve, reject) {
-                    setTimeout(function () { // 异步执行onRejected
+                    createMicroTask(function () { // 异步执行onRejected
                         try {
                             var x = onRejected(self.data)
                             resolvePromise(promise2, x, resolve, reject)
