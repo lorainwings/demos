@@ -40,4 +40,3 @@ const dirList = async () => {
 
 console.log("正在生成快捷访问链接.....");
 dirList();
-process.exit(0);

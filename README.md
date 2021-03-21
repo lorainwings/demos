@@ -3,11 +3,15 @@
 ## 预览链接
 [BFC](https://lorainwings.github.io/demos/code-segment/BFC.html)
 [BFC1](https://lorainwings.github.io/demos/code-segment/BFC1.html)
+[MessageChannel是宏任务还是微任务](https://lorainwings.github.io/demos/code-segment/MessageChannel是宏任务还是微任务.html)
+[UI渲染阻塞测试](https://lorainwings.github.io/demos/code-segment/UI渲染阻塞测试.html)
 [array-flatten](https://lorainwings.github.io/demos/code-segment/array-flatten.html)
 [async替代promise](https://lorainwings.github.io/demos/code-segment/async替代promise.html)
 [canvas](https://lorainwings.github.io/demos/code-segment/canvas.html)
 [canvas圆环动画](https://lorainwings.github.io/demos/code-segment/canvas圆环动画.html)
+[chrome共享进程](https://lorainwings.github.io/demos/code-segment/chrome共享进程.html)
 [compose-函数组合](https://lorainwings.github.io/demos/code-segment/compose-函数组合.html)
+[css转圈动画](https://lorainwings.github.io/demos/code-segment/css转圈动画.html)
 [debounce-throttle](https://lorainwings.github.io/demos/code-segment/debounce-throttle.html)
 [deep-clone](https://lorainwings.github.io/demos/code-segment/deep-clone.html)
 [demo](https://lorainwings.github.io/demos/code-segment/demo.html)
@@ -16,8 +20,10 @@
 [generator-run](https://lorainwings.github.io/demos/code-segment/generator-run.html)
 [instanceof](https://lorainwings.github.io/demos/code-segment/instanceof.html)
 [ios测试背景不滚动](https://lorainwings.github.io/demos/code-segment/ios测试背景不滚动.html)
+[jobs and tasks](https://lorainwings.github.io/demos/code-segment/jobs and tasks.html)
 [jquery-anchor-scroll](https://lorainwings.github.io/demos/code-segment/jquery-anchor-scroll.html)
 [js无法识别的字符u+2028](https://lorainwings.github.io/demos/code-segment/js无法识别的字符u+2028.html)
+[linked-list](https://lorainwings.github.io/demos/code-segment/linked-list.html)
 [location](https://lorainwings.github.io/demos/code-segment/location.html)
 [sort-algrom](https://lorainwings.github.io/demos/code-segment/sort-algrom.html)
 [svga-web-player](https://lorainwings.github.io/demos/code-segment/svga-web-player.html)
@@ -31,9 +37,12 @@
 [vue转盘抽奖](https://lorainwings.github.io/demos/code-segment/vue转盘抽奖.html)
 [vue通信](https://lorainwings.github.io/demos/code-segment/vue通信.html)
 [web-components](https://lorainwings.github.io/demos/code-segment/web-components.html)
+[writing-mode居中](https://lorainwings.github.io/demos/code-segment/writing-mode居中.html)
+[两栏布局](https://lorainwings.github.io/demos/code-segment/两栏布局.html)
 [事件捕获和冒泡](https://lorainwings.github.io/demos/code-segment/事件捕获和冒泡.html)
 [依赖注入](https://lorainwings.github.io/demos/code-segment/依赖注入.html)
 [全局异常捕获](https://lorainwings.github.io/demos/code-segment/全局异常捕获.html)
+[击鼓传花](https://lorainwings.github.io/demos/code-segment/击鼓传花.html)
 [双飞翼&圣杯布局](https://lorainwings.github.io/demos/code-segment/双飞翼&圣杯布局.html)
 [图片压缩compress](https://lorainwings.github.io/demos/code-segment/图片压缩compress.html)
 [图片懒加载](https://lorainwings.github.io/demos/code-segment/图片懒加载.html)
@@ -44,6 +53,7 @@
 [手写jsonp](https://lorainwings.github.io/demos/code-segment/手写jsonp.html)
 [手写promise](https://lorainwings.github.io/demos/code-segment/手写promise.html)
 [深度优先和广度优先算法](https://lorainwings.github.io/demos/code-segment/深度优先和广度优先算法.html)
+[渲染阻塞](https://lorainwings.github.io/demos/code-segment/渲染阻塞.html)
 [滑动跟随动画](https://lorainwings.github.io/demos/code-segment/滑动跟随动画.html)
 [策略模式进行表单验证](https://lorainwings.github.io/demos/code-segment/策略模式进行表单验证.html)
 [红绿灯](https://lorainwings.github.io/demos/code-segment/红绿灯.html)
