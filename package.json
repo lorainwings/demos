@@ -27,7 +27,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "node gen-links.js && lint-staged",
+      "pre-commit": "node gen-links.js && git add -A && lint-staged",
       "pre-push": "git push origin HEAD:gh-pages --no-verify"
     }
   },
