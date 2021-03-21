@@ -24,6 +24,12 @@
         return arr;
     }
 
+    const filterReduce = (arr, conds) => {
+        return Object.keys(conds).reduce((r, c) => {
+            return r.filter(it => it[c] === conds[c]);
+        }, arr);
+    }
+
     // 测试代码
 
     const students = [
@@ -72,6 +78,11 @@
     ]
 
     console.log(filterAdvance(students, {
+        gender: '女',
+        class: '二班'
+    }))
+
+    console.log(filterReduce(students, {
         gender: '女',
         class: '二班'
     }))

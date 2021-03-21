@@ -160,7 +160,9 @@
                 .functional-area-left.sticky-top.d-none.d-xl-flex,
                 .col-12.col-xl-auto,
                 #fixedTools,
-                #___control_btn{
+                #___control_btn,
+                #footer,
+                .recommend-list-wrap{
                     display: none !important;
                 }
             </style>`;
