@@ -38,14 +38,11 @@
     }
 
     // 5.reduce层级控制(加法)
-    const flattenLayer2 = (arr, n) => {
-        const subFlat = (origin, i = 0) => {
-            if (i === n) return origin.slice();
-            return origin.reduce((prev, item, index) => {
-                return prev.concat(Array.isArray(item) ? subFlat(item, i + 1) : item);
-            }, []);
-        }
-        return subFlat(arr);
+    const flattenLayer2 = (arr, n, i = 0) => {
+        if (i === n) return arr.slice();
+        return arr.reduce((prev, item, index) => {
+            return prev.concat(Array.isArray(item) ? flattenLayer2(item, n, i + 1) : item);
+        }, []);
     }
 
     // 测试代码
