@@ -52,9 +52,13 @@
 
 [location](https://lorainwings.github.io/demos/code-segment/location.html)
 
+[memery-leak](https://lorainwings.github.io/demos/code-segment/memery-leak.html)
+
 [sort-algrom](https://lorainwings.github.io/demos/code-segment/sort-algrom.html)
 
 [svga-web-player](https://lorainwings.github.io/demos/code-segment/svga-web-player.html)
+
+[t](https://lorainwings.github.io/demos/code-segment/t.html)
 
 [table溢出父元素](https://lorainwings.github.io/demos/code-segment/table溢出父元素.html)
 
@@ -63,6 +67,8 @@
 [video-stream](https://lorainwings.github.io/demos/code-segment/video-stream.html)
 
 [vue-$attrs-$listeners](https://lorainwings.github.io/demos/code-segment/vue-$attrs-$listeners.html)
+
+[vue-runtime-with-compiler调试](https://lorainwings.github.io/demos/code-segment/vue-runtime-with-compiler调试.html)
 
 [vue-异步更新队列](https://lorainwings.github.io/demos/code-segment/vue-异步更新队列.html)
 
@@ -82,7 +88,11 @@
 
 [事件捕获和冒泡](https://lorainwings.github.io/demos/code-segment/事件捕获和冒泡.html)
 
+[交换元素](https://lorainwings.github.io/demos/code-segment/交换元素.html)
+
 [依赖注入](https://lorainwings.github.io/demos/code-segment/依赖注入.html)
+
+[保留三位小数](https://lorainwings.github.io/demos/code-segment/保留三位小数.html)
 
 [全局异常捕获](https://lorainwings.github.io/demos/code-segment/全局异常捕获.html)
 

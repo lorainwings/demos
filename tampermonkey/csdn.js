@@ -15,6 +15,7 @@
 // @match        *://zhuanlan.zhihu.com/p/*
 // @match        *://www.zhihu.com/question/*
 // @match        *://wizardforcel.gitbooks.io/*
+// @match        *://stackoverflow.com/questions/*
 // @match        *://medium.com/javascript-in-plain-english/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
 // @grant        none
@@ -255,6 +256,17 @@
                 position: static;
             }
             .fa.fa-angle-right,.fa.fa-angle-left, .book .book-header{
+                display:none;
+            }
+            </style>`
+            addSavePlugin(style);
+        })()
+
+        const stackoverflow = (() => {
+            if (!/stackoverflow/gi.test(location.href)) return;
+            const style = `
+            <style>
+            header.top-bar, #left-sidebar, #sidebar, #post-form, .site-footer--container, .aside-cta{
                 display:none;
             }
             </style>`

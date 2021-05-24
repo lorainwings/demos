@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://lib.baomitu.com/vue/2.6.12/vue.js"></script>
+    <style>
+        .div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="handle1">button1</button>
+        <button @click="handle2">button2</button>
+        <button @click="handle3">button3</button>
+        <test v-if="show" class="div1"></test>
+    </div>
+    <script>
+        Vue.component('test', {
+            template: '<div>A custom component!</div>',
+            created() {
+                console.log('=======created=========')
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                show: true
+            },
+            methods: {
+                handle1() {
+                    this.show = false
+                    this.show = true
+                },
+                handle2() {
+                    this.show = false
+                    setTimeout(() => { this.show = true }, 0)
+                },
+                handle3() {
+                    this.show = false
+                    this.$nextTick(() => { this.show = true })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

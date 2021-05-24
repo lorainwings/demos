@@ -13,6 +13,12 @@
     <script>
         const obj = { a: { c: new Date() } }
 
+
+        // 1. window.name
+        window.name = obj;
+        window.location.href = "http://172.20.31.6:8080/a.html?111=32141"
+
+        // 2. postmessage
         window.addEventListener('message', function (e) {
             console.log('b 收到消息: ', e.data);
             e.source.postMessage(obj, '*');
