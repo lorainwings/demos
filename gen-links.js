@@ -12,7 +12,7 @@ const promisify = (fn) => (...args) => new Promise((resolve, reject) => {
 });
 
 const writeCtx = async (name) => {
-  const target = path.resolve(__dirname, './README.md');
+  const target = path.resolve(__dirname, './code-snippets/README.md');
   const wstream = fs.createWriteStream(target);
   const buf = Buffer.from(name, 'utf-8');
   return new Promise((rs, rj) => {
