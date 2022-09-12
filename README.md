@@ -4,12 +4,12 @@
 
 ## 分类
 
-- [构建工具相关](https://github.com/lorainwings/demos/blob/f36dbd26408bffbd8b8d3558549665fb261cdc41/build-tools/)
+- [构建工具相关](https://github.com/lorainwings/demos/tree/master/build-tools/)
 
-- [代码片段HTML](https://github.com/lorainwings/demos/blob/f36dbd26408bffbd8b8d3558549665fb261cdc41/code-snippets/)
+- [代码片段HTML](https://github.com/lorainwings/demos/tree/master/code-snippets/)
 
-- [数据库相关](https://github.com/lorainwings/demos/blob/f36dbd26408bffbd8b8d3558549665fb261cdc41/database/)
+- [数据库相关](https://github.com/lorainwings/demos/tree/master/database/)
 
-- [Node相关](https://github.com/lorainwings/demos/blob/f36dbd26408bffbd8b8d3558549665fb261cdc41/node/)
+- [Node相关](https://github.com/lorainwings/demos/tree/master/node/)
 
-- [第三方脚本-油候 | Autojs](https://github.com/lorainwings/demos/blob/f36dbd26408bffbd8b8d3558549665fb261cdc41/third-scripts/)
+- [第三方脚本-油候 & Autojs](https://github.com/lorainwings/demos/tree/master/third-scripts/)

@@ -23,15 +23,15 @@ const writeCtx = async (name) => {
 
 const dirList = async () => {
   let ctx = "";
-  const fullpath = path.resolve(__dirname, './code-snippets');
+  const fullpath = path.resolve(__dirname, './code-snippets/htmls');
   const readdirAsync = promisify(fs.readdir);
   const list = await readdirAsync(fullpath);
-  const head = `# Demos\n\r该库是平时所写的一些代码片段集合, 包含了平时常见需求的简单实现;\n\r## 预览链接\n\r`
+  const head = `# HTMLS\n\r该目录是一些HTML集合, 包含了平时常见需求的简单实现, 可以打开控制台查看代码;\n\r## 预览链接\n\r`
   for (const item of list) {
     const n = item.indexOf('.');
     const stat = fs.statSync(path.resolve(fullpath, item));
     if (stat.isDirectory() || !~item.indexOf('.html') || ~item.indexOf('ignore')) continue;
-    ctx += `[${item.slice(0, n)}](https://lorainwings.github.io/demos/code-segment/${item})\n\r`
+    ctx += `- [${item.slice(0, n)}](https://lorainwings.github.io/demos/code-segment/${item})\r`
   }
   await writeCtx(head + ctx);
   process.exit(0);
