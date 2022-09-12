@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Test</title>
+</head>
+
+<body>
+  <button onclick="handleClick()">播放音频</button>
+  <br>
+  <div>
+    <audio id="musicRef" preload="auto" loop controls>
+      <source type="audio/ogg"  src="" />
+      <source type="audio/mpeg"src="" />
+      <source type="audio/wav"src="" />
+    </audio>
+  </div>
+  <script>
+    let paused = true, audioEvent = null;
+    const handleClick = async () => {
+      const audio = musicRef
+      if (audio.paused) {
+        paused = false
+        return (audioEvent = audio.play())
+      }
+      await audioEvent?.catch((e) => e)
+      audio.pause()
+      paused = true
+    }
+  </script>
+</body>
+
+</html>

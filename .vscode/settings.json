@@ -1,0 +1,25 @@
+{
+  "cSpell.enabled": false,
+  "cSpell.words": [
+    "readstream"
+  ],
+  "cSpell.userWords": [
+    "alloc",
+    "contextified",
+    "extname",
+    "Libuv",
+    "Macrotask",
+    "Microtask",
+    "mkdir",
+    "preare",
+    "readdir",
+    "subarray",
+    "unpipe",
+    "USERPROFILE"
+  ],
+  // typescrpt相关vscode配置
+  // "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  // "typescript.inlayHints.parameterNames.enabled": "all",
+  // "typescript.inlayHints.parameterTypes.enabled": true,
+  // "typescript.inlayHints.variableTypes.enabled": true
+}

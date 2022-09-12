@@ -1,0 +1,44 @@
+<script>
+  //控制反转容器
+  const IOC = {
+    phone(modal) {
+      return `手机Ipx${modal}`;
+    },
+    coat(modal) {
+      return `格子衫${modal}`;
+    },
+    computer() {
+      return "电脑";
+    }
+  };
+
+  //目标函数(注册了其他依赖)
+  const programmer = (phone, coat) => {
+    console.log(`喜欢玩${phone("s Max")}`);
+    console.log(`喜欢穿${coat("jacks")}`);
+  };
+
+  // 解析目标函数的依赖项
+  const parseDI = targetFn => {
+    const paraList = (
+      targetFn.toString().match(/\(([^())]*)\)\s*(?==>)/im)[1] || ""
+    )
+      .replace(/\s/gi, "")
+      .split(",");
+
+    return paraList;
+  };
+
+  // 查询所需依赖
+  const queryDI = list => list.map(item => IOC[item]);
+
+  // 依赖注入器(为目标函数注入依赖)
+  const injector = (targetFn, scope) => {
+    const DI = queryDI(parseDI(targetFn)); // 所有实际依赖组成的数组
+    return targetFn.bind(scope || {}, ...DI);
+  };
+
+  //测试代码
+  const newProgrammer = injector(programmer);
+  newProgrammer();
+</script>

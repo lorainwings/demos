@@ -1,0 +1,94 @@
+<div>
+    <button id="debounceBtn">debounce1</button>
+    <button id="throttleBtn">throttle1</button>
+</div>
+
+<script>
+    /**=========防抖============**/
+
+    // 第一次不执行
+    const debounce = (fn, delay, context) => {
+        let timer = null;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                fn.apply(context, args);
+            }, delay);
+        }
+    }
+
+    // 修复版
+    // flag:第一次是否执行
+    const debounce1 = (fn, delay, context, flag) => {
+        let timer = null;
+        return (...args) => {
+            clearTimeout(timer);
+            if (flag && !timer) {
+                fn.apply(context, args)
+                return (timer = -1)
+            }
+            timer = setTimeout(() => {
+                fn.apply(context, args);
+                timer = null;
+            }, delay);
+        }
+    }
+
+
+    /**=========节流============**/
+
+    // 第一次肯定执行,最后一次不一定执行
+    const throttle = (fn, time, context) => {
+        let pre = 0;
+        return (...args) => {
+            if (Date.now() - pre > time) {
+                pre = Date.now();
+                fn.apply(context, args);
+            }
+        }
+    }
+
+    // 第一次不执行,最后一次肯定执行
+    const throttle1 = (fn, time, context) => {
+        let timer = null;
+        return (...args) => {
+            if (!timer) {
+                timer = setTimeout(() => {
+                    timer = null;
+                    fn.apply(context, args);
+                }, time);
+            }
+        }
+    }
+
+    // 完整修复版
+    const throttle2 = (fn, time, context) => {
+        let timer = null, pre = 0;
+        return (...args) => {
+            if (Date.now() - pre > time) {
+                timer = null;
+                pre = Date.now();
+                clearTimeout(timer);
+                fn.apply(context, args);
+            } else if (!timer) {
+                timer = setTimeout(() => {
+                    fn.apply(context, args);
+                }, time);
+            }
+        }
+    }
+
+
+
+
+</script>
+
+<script>
+    // 测试代码
+    const fn = () => { console.log("点击了"); }
+    // const debounceClk = debounce1(fn, 1000, this, true);
+    // debounceBtn.onclick = debounceClk;
+
+    const throttle1Click = throttle2(fn, 1000, this);
+    throttleBtn.onclick = throttle1Click;
+</script>

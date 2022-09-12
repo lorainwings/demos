@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+  <div id="app"></div>
+
+  <script>
+    var ButtonCounter = Vue.component('button-counter', {
+      template: `<div>
+                          <hr>
+                          <div>这是最下级后代组件</div>
+                          <div>$attrs: {{$attrs}}</div>
+                          <div>$listeners: {{$listeners}}</div>
+                          <button @click="sentMsg">展示$listeners</button>
+                      </div>`,
+      data() {
+        return {
+          count: 199,
+        };
+      },
+      methods: {
+        sentMsg() {
+          console.log('父元素的未声明的属性:', this.$attrs);
+          console.log('父元素的所有事件监听器为:', this.$listeners);
+          // this.$emit('showTime', this.count);
+          this.$listeners.showTime("222222");
+        },
+      },
+    });
+
+
+
+    // 中间层设置inheritAttrs:false后, 子组件及后代组件都可以拿到父组件的所有的未声明属性及监听的事件
+    // $attrs:  没有被子组件继承的所有的父组件属性, 即子组件没在props声明的所有父组件属性
+    // $listeners:  包含了父作用域中的(不含.native修饰器的)v-on事件监听器
+
+    var MiddleLayer = Vue.component('middle-layer', {
+      inheritAttrs: false, //默认true
+      template: `<div>
+                          <hr>
+                          <div>这是中间组件</div>
+                          <div>$attrs:{{$attrs}}</div>
+                          <div>$listeners:{{$listeners}}</div>
+
+                          <h3 style="background-color:#1ab394" @click="showHidden">点击查看$attrs和$listeners</h3>
+
+                          <button-counter
+                            v-bind="$attrs"
+                            v-on="$listeners"
+                          ></button-counter>
+                      </div>`,
+      components: {
+        'middle-layer': ButtonCounter,
+      },
+      methods: {
+        showHidden() {
+          console.log('中间层$attrs:', this.$attrs)
+          console.log('中间层$listeners:', this.$listeners)
+        }
+      },
+    });
+
+
+
+    var App = Vue.component('app', {
+      inheritAttrs: false,
+      template: `<div>
+            <middle-layer :msg="msg" :mes="mes" v-on:showTime="showMeTime" @touch="touchEv" />
+           </div>`,
+      components: {
+        'middle-layer': MiddleLayer,
+      },
+      data() {
+        return {
+          msg: 'Hello Vue!',
+          mes: 'Hello Vue!',
+        };
+      },
+      methods: {
+        showMeTime(val) {
+          console.log('这是父元素中的函数,通过子组件来触发!', val);
+        },
+        touchEv() {
+          console.log("我是原生事件")
+        }
+      },
+    });
+
+    new Vue({
+      render: h => h(App),
+    }).$mount('#app');
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:8081",
+      "webRoot": "${workspaceFolder}/build-tools/wds-html/src",
+      // "preLaunchTask": "debug", // 添加的配置，在执行之前需要启动项目，这个是启动项目用的任务。
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///src/*": "${webRoot}/*",
+        "webpack:///./src/*": "${webRoot}/*",
+        "webpack:///*": "*",
+        "webpack:///./~/*": "${webRoot}/node_modules/*",
+      }, // 添加的配置，为了找到打包文件和源代码之间的关联，使断点生效。
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Node调试",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "skipFiles": []
+    },
+    {
+      "name": "Npm调试",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "debug"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [],
+      "type": "node"
+    }
+  ]
+}

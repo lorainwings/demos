@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>B页面</title>
+</head>
+
+<body>
+    <h1>B页面</h1>
+    <script>
+        const obj = { a: { c: new Date() } }
+
+
+        // 1. window.name
+        window.name = obj;
+        window.location.href = "http://172.20.31.6:8080/a.html?111=32141"
+
+        // 2. postmessage
+        window.addEventListener('message', function (e) {
+            console.log('b 收到消息: ', e.data);
+            e.source.postMessage(obj, '*');
+        }, false)
+    </script>
+</body>
+
+</html>

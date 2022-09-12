@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mobile HLS video</title>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>PC HLS video</title>
+        <link href="http://cdn.bootcss.com/video.js/6.0.0-RC.5/alt/video-js-cdn.min.css" rel="stylesheet">
+    </head>
+
+<body>
+
+    <h1>PC 端播放 HLS(<code>.m3u8</code>) 视频</h1>
+    <p>借助 video.js 和 videojs-contrib-hls</p>
+    <p>由于 videojs-contrib-hls 需要通过 XHR 来获取解析 m3u8 文件, 因此会遭遇跨域问题, 请设置浏览器运行跨域</p>
+
+
+    <h3>videojs播放</h3>
+    <video id="hls-video" width="300" height="200" class="video-js vjs-default-skin" playsinline webkit-playsinline
+        autoplay controls preload="auto" x-webkit-airplay="true" x5-video-player-fullscreen="true"
+        x5-video-player-typ="h5">
+        <!-- 直播的视频源 -->
+        <source src="http://play.flqin.com/live/test.m3u8" type="application/x-mpegURL">
+        <!-- 点播的视频源 -->
+        <!--<source src="http://devstreaming.apple.com/videos/wwdc/2015/413eflf3lrh1tyo/413/hls_vod_mvp.m3u8" type="application/x-mpegURL">-->
+    </video>
+    <script src="http://cdn.bootcss.com/video.js/6.0.0-RC.5/video.js"></script>
+    <!-- PC 端浏览器不支持播放 hls 文件(m3u8), 需要 videojs-contrib-hls 来给我们解码 -->
+    <script src="http://cdn.bootcss.com/videojs-contrib-hls/5.3.3/videojs-contrib-hls.js"></script>
+    <script>
+        // XMLHttpRequest cannot load http://xxx/video.m3u8. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://192.168.198.98:8000' is therefore not allowed access.
+        // 由于 videojs-contrib-hls 需要通过 XHR 来获取解析 m3u8 文件, 因此会遭遇跨域问题, 请设置浏览器运行跨域
+        var player = videojs('hls-video');
+        player.play();
+    </script>
+
+
+    <hr>
+    <h3>js media-source播放</h3>
+    <video id="ms-hls"  type="application/x-mpegURL" src="http://play.flqin.com/live/test.m3u8"></video>
+    <!-- <script>
+        const video = document.querySelector('video');
+        //视频资源存放路径，假设下面有5个分段视频 video1.mp4 ~ video5.mp4，第一个段为初始化视频init.mp4
+        const assetURL = "http://www.demo.com";
+        //视频格式和编码信息，主要为判断浏览器是否支持视频格式，但如果信息和视频不符可能会报错
+        const mimeCodec = 'application/x-mpegURL;';
+        if ('MediaSource' in window && MediaSource.isTypeSupported(mimeCodec)) {
+            const mediaSource = new MediaSource();
+            video.src = URL.createObjectURL(mediaSource); //将video与MediaSource绑定，此处生成一个Blob URL
+            mediaSource.addEventListener('sourceopen', sourceOpen); //可以理解为容器打开
+        } else {
+            //浏览器不支持该视频格式
+            console.error('Unsupported MIME type or codec: ', mimeCodec);
+        }
+
+        function sourceOpen() {
+            const mediaSource = this;
+            const sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
+            let i = 1;
+            function getNextVideo(url) {
+                //ajax代码实现翻看上文，数据请求类型为arraybuffer
+                ajax(url, function (buf) {
+                    //往容器中添加请求到的数据，不会影响当下的视频播放。
+                    sourceBuffer.appendBuffer(buf);
+                });
+            }
+            //每次appendBuffer数据更新完之后就会触发
+            sourceBuffer.addEventListener("updateend", function () {
+                if (i === 1) {
+                    //第一个初始化视频加载完就开始播放
+                    video.play();
+                }
+                if (i < 6) {
+                    //一段视频加载完成后，请求下一段视频
+                    getNextVideo(`${assetURL}/video${i}.mp4`);
+                }
+                if (i === 6) {
+                    //全部视频片段加载完关闭容器
+                    mediaSource.endOfStream();
+                    URL.revokeObjectURL(video.src); //Blob URL已经使用并加载，不需要再次使用的话可以释放掉。
+                }
+                i++;
+            });
+            //加载初始视频
+            getNextVideo(`${assetURL}/init.mp4`);
+        };
+
+    </script> -->
+
+</body>
+
+</html>

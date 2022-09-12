@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+  <!-- <script src="./maiaH5.js"></script> -->
+  <script type="text/javascript" src="https://lch.longfor.com/jsbridge3.0/lxjsSdk.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <button onclick="toCrypt()">test</button>
+  </div>
+
+  <script type="module">
+    import './maiaH5.js'
+
+    const getParamKey = (data = '', terminal = 'h5') => {
+      let result1 = ''
+      let result2 = ''
+      let start = ''
+      let middle = ''
+      let end = ''
+      let uuid = ''
+      let datetime = ''
+      let header = ''
+      datetime = new Date().getTime() + '' // length 13
+      uuid = uuidv4().replace(/-/g, '') // length 32
+      data = JSON.stringify(data)
+      // step 1
+      result1 = md5(data)
+      // step 2
+      result2 = md5(result1 + uuid + datetime)
+      // step 3
+      start = result2.substring(0, 10) // length 10
+      middle = result2.substring(10, result2.length - 10) // length 12
+      end = result2.substring(result2.length - 10, result2.length) // length 10
+      terminal === 'h5' ? header = end + uuid + middle + datetime + start : header = start + uuid + middle + datetime + end // length 77
+
+      return {
+        header, datetime, uuid, data, result1, result2, start, middle, end, header
+      }
+    }
+
+    const getInfo = () => {
+      const data = {
+        "sendPersonName": "沈*",
+        "sendPerson": "shenying1",
+        "revPerson": [{
+          "emplNo": "100118633",
+          "emplOaAccount": "liushuo1",
+          "emplNameDisplay": "刘硕",
+          "deptDescr": "赋能平台-空间智能研发中心-Halo中心",
+          "labelDescr": "今天生日",
+          "temoType": 2, "joinBless": false,
+          "birthdayBless": false,
+          "anniversaryBless": false,
+          "birthday": true,
+          "anniversary": false,
+          "join": false,
+          "bless": false,
+          "criticalDayType": 1,
+          "amount": "99.9"
+        }],
+        "source": "wohoo"
+      }
+
+      return fetch("https://api-uat.longfor.com/wohoo-global-gateway/wohoo-api/global-config-centre/v1/app/message/batchReward", {
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "zh-CN,zh;q=0.9",
+          "content-type": "application/json;charset=UTF-8",
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "cross-site",
+          "x-gaia-api-key": "fe404219-dc6c-4d41-924b-eb33fc4847bb",
+          "x-header-key": getParamKey({ token: "TGT-701-gXEflglecmvjNmmarzIEmNVZlvoUqfI4BbaDbh7uT5KvCI0C55jq3mkllayUgcbVPIw-longhu" }).header,
+          "x-longchat-token": "TGT-701-gXEflglecmvjNmmarzIEmNVZlvoUqfI4BbaDbh7uT5KvCI0C55jq3mkllayUgcbVPIw-longhu",
+          "x-param-key": getParamKey(data).header
+        },
+        "referrer": "http://localhost:8080/",
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        body: JSON.stringify(data),
+        "method": "POST",
+        "mode": "cors",
+        "credentials": "omit"
+      }).then(res => res.json());
+    }
+
+    const awakeDialog = (params) => {
+      // const url = 'longfor://pay/payauth/?tradeNo=e1bb6133038b455ab51e4568a636ac5f&token=TGT-82539-Bpc6uuGrXhSl8QZESFPIax-epzvo9rqHW1-5NKP5EQ1ggJ-WkfTxYPhUYiOs8dha8ko-longhu&systype=LONGCOIN'
+      // const url = `longfor://pay/payauth/?tradeNo=${params.tradeNo}&token=${params.token}&systype=${params.systype}`
+      // const cbName = `cb${Math.random().toString(36).slice(-6)}`
+      /* return new Promise((resolve, reject) => {
+        alert('开始调用')
+        window[cbName] = (postr) => {
+          alert(JSON.stringify(postr))
+          console.log('cbName: ' + cbName, postr)
+          const pos = JSON.parse(postr)
+          pos.status == '0' ? resolve(pos) : reject(pos)
+          // const pos = JSON.parse(postr)
+        }
+        console.log(maiaH5.createExtension);
+        maiaH5.createExtension(url, {
+          callback: window[cbName]
+        })
+      }) */
+      return new Promise((resolve, reject) => {
+        try {
+          alert('开始调用')
+          const cbName = `cb${Math.random().toString(36).slice(-6)}`
+          window[cbName] = (postr) => {
+            console.log(postr);
+            alert('调用完成')
+            alert(JSON.stringify(postr))
+            const pos = JSON.parse(postr)
+            pos.status == '0' ? resolve(pos) : reject(pos)
+          }
+          // const url = `longfor://pay/payauth/?tradeNo=${params.tradeNo}&token=${params.token}&systype=${params.systype}&callback=${cbName}`
+          const url = `longfor://pay/payauth?tradeNo=${encodeURIComponent(params.tradeNo)}&token=${encodeURIComponent(params.token)}&systype=${encodeURIComponent('LONGCOIN')}&callback=${cbName}`
+          if (/iphone/gi.test(this.UA)) {
+            window.location.href = url
+          } else {
+            const iframe = document.createElement('iframe')
+            iframe.src = url
+            iframe.style.cssText = 'display:none;padding:0;margin:0;border:0'
+            document.body.appendChild(iframe)
+          }
+        } catch (e) {
+          reject(e)
+        }
+      })
+    }
+
+    const toCrypt = window.toCrypt = async () => {
+      const { data: { tradeNo } } = await getInfo().catch(e => e)
+      // const res = await awakeDialog({ tradeNo: 'OT23KYguzVyJSmyQXraPlABZKqeXkv1UacZE+Et0oMOSSMpkQv5VG6XGI0dbGs66', token: 'TGT-701-gXEflglecmvjNmmarzIEmNVZlvoUqfI4BbaDbh7uT5KvCI0C55jq3mkllayUgcbVPIw-longhu' })
+      maiaH5.payAuth({
+        tradeNo: 'OT23KYguzVyJSmyQXraPlABZKqeXkv1UacZE+Et0oMOSSMpkQv5VG6XGI0dbGs66',
+        token: 'TGT-701-gXEflglecmvjNmmarzIEmNVZlvoUqfI4BbaDbh7uT5KvCI0C55jq3mkllayUgcbVPIw-longhu',
+        systype: 'LONGCOIN',
+        callback: function callback(res) {
+          console.log(new Date().getTime(), 'payAuth callback---->', res)
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

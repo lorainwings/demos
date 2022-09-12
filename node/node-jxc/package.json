@@ -1,0 +1,19 @@
+{
+  "name": "jxc-download",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "bin": {
+    "jxc-do": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.4",
+    "puppeteer": "^16.2.0"
+  }
+}

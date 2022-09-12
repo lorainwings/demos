@@ -1,0 +1,20 @@
+<h1>b.html</h1>
+
+<script>
+  // 接收domain1的数据
+  window.addEventListener(
+    'message',
+    function (e) {
+      console.log('data from a.html ---> ', e.data);
+
+      var data = JSON.parse(e.data);
+      if (data) {
+        data.number = 16;
+
+        // 处理后再发回domain1
+        window.parent.postMessage(JSON.stringify(data), '*');
+      }
+    },
+    false
+  );
+</script>

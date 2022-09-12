@@ -1,0 +1,79 @@
+<!DO CTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>测试云图梭设置标题栏按钮</title>
+    </head>
+
+    <body>
+        <h1>云图梭设置标题栏</h1>
+        <div style="position: fixed; top: 0; left: 0; right: 0;">
+            点击设置导航栏之后, 需要去下一个页面看效果, 即点击去百度看导航栏按钮
+        </div>
+        <br>
+        <button onclick="handleClick()">设置为: 返回 退出</button>
+        <button onclick="handleClickAgain()">设置为: 返回 关闭</button>
+        <button onclick="handleClickBack()">设置为: 只剩返回</button>
+        <button><a href="http://www.baidu.com">去百度</a></button>
+        <button onclick="handleReload()">刷新</button>
+        <script>
+            const setAppNavi = (scheme) => {
+                alert(`调用一次${scheme}`)
+                if (/iphone/gi.test(navigator.userAgent)) {
+                    window.location.href = scheme;
+                } else {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = scheme;
+                    iframe.style.cssText = 'display:none;padding:0;margin:0;border:0';
+                    document.body.appendChild(iframe);
+                }
+            }
+
+            const handleClick = () => {
+                alert('设置导航栏为: 返回 退出')
+                setAppNavi(encodeURI(`longfor://navBar/buttons?left=[{"action":"backclose",title:'返回~~~'},{"action":"close",title:"退出"}]`))
+            }
+            const handleClickAgain = () => {
+                alert('设置导航栏为: 返回 关闭')
+                setAppNavi(encodeURI(`longfor://navBar/buttons?left=[{"action":"backclose",title:'返回'},{"action":"close",title:"关闭"}]`))
+            }
+
+            // 现在需要设置为这种样子
+            const handleClickBack = () => {
+                alert('设置导航栏为: 只剩返回')
+                               longfor://browser/setTheme?page=0&textColor=FFFFFF
+                const apis = [`longfor://browser/setTheme?textColor=000000&page=0`, `longfor://navBar/buttons?left=%5B%7B%22action%22%3A%22back%22%2C%22title%22%3A%22%E8%BF%94%E5%9B%9E%22%7D%5D`]
+                apis.forEach((u) => setTimeout(() => setAppNavi(u)), 1000)
+            }
+
+            const handleReload = () => {
+                window.location.reload()
+            }
+
+            alert(navigator.userAgent)
+
+
+        </script>
+        <div>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat aliquam culpa nemo harum assumenda corporis id, officia commodi cumque, voluptatibus rem ipsam quaerat quae. Non maiores tempora repudiandae velit est.
+        </div>
+    </body>
+
+    </html>

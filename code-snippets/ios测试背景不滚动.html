@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 1000px;
+            background-color:blanchedalmond;
+        }
+    </style>
+</head>
+<body>
+    <h1>ios背景不滚动</h1>
+    <button onclick="clock()">点击锁定</button>
+    <div class="box"></div>
+
+    <script>
+        function clock(){
+            document.documentElement.style.overflow = hidden;
+            document.body.style.overflow = hidden;
+        }
+    </script>
+</body>
+</html>

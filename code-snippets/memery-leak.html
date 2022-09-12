@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>memery leak</title>
+</head>
+
+<body>
+    <h1>内存泄露测试</h1>
+    <h4>请打开performance和memery panel进行分析</h4>
+    <script>
+        var t = null;
+        var replaceThing = function () {
+            var o = t
+            var unused = function () {
+                if (o) {
+                    console.log("hi")
+                }
+            }
+
+            t = {
+                longStr: new Array(100000).fill('*'),
+                someMethod: function () {
+                    console.log(1)
+                }
+            }
+        }
+        setInterval(replaceThing, 1000)
+    </script>
+</body>
+
+</html>

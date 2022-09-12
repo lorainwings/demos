@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="clickFn()">点击debounce测试</button>
+    <script>
+        const debounce1 = (fn, delay, context, flag) => {
+            let timer = null;
+            return (...args) => {
+                clearTimeout(timer);
+                if (flag && !timer) {
+                    fn.apply(context, args)
+                    return (timer = 1)
+                }
+                timer = setTimeout(() => {
+                    fn.apply(context, args);
+                }, delay);
+            }
+        }
+
+        const fn = () => {
+            console.log("debound测试===");
+        }
+
+        const clickFn = debounce1(fn, 1000, this, true);
+
+    </script>
+</body>
+
+</html>

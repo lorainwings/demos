@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:37.5px">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maia SDK 测试</title>
+  <script src="https://s.longfor.com/public/js/maiaH5.min.js"></script>
+  <script type="text/javascript" src="https://lch.longfor.com/jsbridge3.0/lxjsSdk.js"></script>
+  <style>
+    * {
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <h3>base64</h3>
+    <input type="text"
+      value="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAgqADAAQAAAABAAAAggAAAAD/wAARCACCAIIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9sAQwACAgICAgIDAgIDBQMDAwUGBQUFBQYIBgYGBgYICggICAgICAoKCgoKCgoKDAwMDAwMDg4ODg4PDw8PDw8PDw8P/9sAQwECAgIEBAQHBAQHEAsJCxAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQ/90ABAAJ/9oADAMBAAIRAxEAPwD778T/ABOvLvxXrGveDZZtRi0Ke200WUdzLGl1JY3rrqTCMlY1eP5oQXCh2ChmZXhI/nt/4KVSRTftq/ESaBxJHINHZWU5DKdIsyCCOoNfOd18efi7ff2n9u8Sz3B1p1kvzKkTm7dHMitOWQmQh2LAvk7iT15rlfiD8QfF/wAU/Fl5458d3/8Aaet36W8c1x5UUG5bWBLeIeXCiRjbFGi8KM4yckknjw1KpGcnNqz/AK/r0PWzDFUZwjGknp3t/mzjKKKK7DyQooooAKKKKACiiigAooooAKKKKACiiigAooooA//Q/n/ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0f5/6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9L+f+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/T/n/ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/1P5/6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9X+f+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/W/n/ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/1/5/6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9k="
+      id="baseRef" style="width: 80%;">
+    <br>
+    <hr>
+    <button onclick="save()">点击保存</button>
+  </div>
+  <hr>
+  <div>
+    <h3>selectContacts</h3>
+    <button onclick="call()">createExtension</button>
+    <button onclick="dirCall()">location</button>
+    <button onclick="lxCall()">createIfm</button>
+  </div>
+  <script>
+    const save = () => {
+      const v = baseRef.value
+      console.log(v);
+      maiaH5.saveImageToAlbum({
+        base64: v,
+        callback: function callback(res) {
+          const tips = {
+            0: '图片保存成功',
+            1001: '无法获取保存权限，请在设置中开启',
+            1002: '无法获取保存权限，请在设置中开启'
+          }
+          alert(tips[res.status] ?? res.message)
+        }
+      })
+    }
+
+
+    const call = () => {
+      maiaH5.createExtension('longfor://selectContacts/pickerStaff?callback=selectContactsCallLiyichogntu&limit=25&includeSelf=0&systemSource=declare')
+    }
+
+    const dirCall = () => {
+      location.href = "longfor://selectContacts/pickerStaff?callback=selectContactsCallLiyichogntu&limit=25&includeSelf=0&systemSource=declare"
+    }
+
+    const lxCall = () => {
+      createIfm(
+        "selectContacts",
+        "limit=25&includeSelf=0&systemSource=declare",
+        "selectContactsCallLiyichogntu"
+      );
+    }
+  </script>
+</body>
+
+</html>
