@@ -10,11 +10,12 @@
 
 <body>
   <% for( let index=0; index < list.length; index++ ) { %>
-    <p>
-      <a href="<%= list[index] %>">
-        <%= list[index] %>
-      </a>
-    </p><% } %>
+    <% if (list[index].includes('html')) { %>
+      <p>
+        <a href="https://lorainwings.github.io/demos/<%= list[index] %>">
+          <%= list[index] %>
+        </a>
+      </p><% } %><% } %>
 </body>
 
 </html>
