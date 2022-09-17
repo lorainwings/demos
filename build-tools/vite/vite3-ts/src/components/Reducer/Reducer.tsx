@@ -1,22 +1,22 @@
-import { useReducer } from 'react';
+import { useReducer } from 'react'
 
-const initialState = { count: 0 };
+const initialState = { count: 0 }
 
 type Actions =
   | {
-      type: 'inc';
-      payload: {
-        count: number;
-        max?: number;
-      };
-    }
-  | {
-      type: 'dec';
-      payload: {
-        count: number;
-        min?: number;
-      };
+    type: 'inc';
+    payload: {
+      count: number;
+      max?: number;
     };
+  }
+  | {
+    type: 'dec';
+    payload: {
+      count: number;
+      min?: number;
+    };
+  }
 
 function reducer(state: typeof initialState, action: Actions) {
   switch (action.type) {
@@ -25,20 +25,20 @@ function reducer(state: typeof initialState, action: Actions) {
         count: action.payload.max
           ? Math.min(state.count + action.payload.count, action.payload.max)
           : state.count + action.payload.count,
-      };
+      }
     case 'dec':
       return {
         count: action.payload.min
           ? Math.max(state.count + action.payload.count, action.payload.min)
           : state.count - action.payload.count,
-      };
+      }
     default:
-      throw new Error('Unexpected Action Received.');
+      throw new Error('Unexpected Action Received.')
   }
 }
 
 const Counter: React.FC = ()=> {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <div style={{width: '80vw'}}>
       Count: {state.count}
@@ -63,7 +63,7 @@ const Counter: React.FC = ()=> {
         +(max: 599)
       </button>
     </div>
-  );
+  )
 }
 
-export default Counter;
+export default Counter

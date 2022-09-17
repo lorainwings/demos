@@ -671,6 +671,9 @@ type CamelCase<K extends string> = CamelCaseStringArray<
 type sdTest = CamelCase<'a-bv-de-ops'>
 
 
+const user = 'dm'
+const arr: Array<string> = ['w', 'a', 'c']
+
 
 
 ///
