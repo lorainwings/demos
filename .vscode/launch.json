@@ -24,6 +24,9 @@
       "request": "launch",
       "name": "Node调试",
       "program": "${file}",
+      /* "args": [
+        "-l https://juejin.cn/book/7070324244772716556/section/7148818133343158286"
+      ], */
       "cwd": "${workspaceFolder}",
       "skipFiles": []
     },

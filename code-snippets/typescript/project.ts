@@ -229,4 +229,20 @@ type FlattenDepth<
   ? [...FlattenArray<F, D>, ...FlattenDepth<R, D>]
   : T
 
-  type s = [] extends never[] ? 1 : 2
+type s = [] extends never[] ? 1 : 2
+
+
+type tu = (string | undefined) & {}
+
+interface Data {
+  id: string;
+  src: string;
+  exist: boolean
+}
+
+const images: Array<Data> = []
+const item = {} as Data
+const index = images.findIndex(image => image.id === item.id)
+
+
+

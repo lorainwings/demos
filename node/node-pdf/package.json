@@ -1,10 +1,10 @@
 {
-  "name": "jxc-download",
+  "name": "pdf-download",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "bin": {
-    "jxc-do": "bin/index.js"
+    "pdf-do": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
