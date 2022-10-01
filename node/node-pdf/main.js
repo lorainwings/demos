@@ -6,6 +6,9 @@
  * @FilePath: /demos/node/node-juejin/main.js
  * @Description: 小册下载器
  */
+
+// Puppeteer API Docs
+// https://pptr.dev/api/puppeteer.waitforoptions.waituntil/
 const path = require('path')
 const { launch } = require('puppeteer');
 const { series } = require('async')
