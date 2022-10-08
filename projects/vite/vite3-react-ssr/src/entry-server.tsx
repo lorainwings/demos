@@ -3,8 +3,13 @@
 import App from "./App";
 import "./index.css";
 
-function ServerEntry(props: any) {
-  return <App />;
+
+function ServerEntry(props: { data: Window['__SSR_DATA__'] }) {
+  return <App data={props.data} />;
 }
 
-export { ServerEntry };
+async function fetchData() {
+  return { user: "lorain", date: `2022年10月08日23:20:12` };
+}
+
+export { ServerEntry, fetchData };

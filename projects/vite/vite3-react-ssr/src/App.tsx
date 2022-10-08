@@ -2,11 +2,19 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+interface IAppProps {
+  data?: typeof window.__SSR_DATA__;
+}
+
+const App: React.FC<IAppProps> = (props) => {
+  const { data } = props;
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
+      <h5>hydrate数据</h5>
+      <div>user: {data?.user} </div>
+      <div>date: {data?.date} </div>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
@@ -28,7 +36,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
-}
+  );
+};
 
 export default App
