@@ -6,7 +6,6 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@longfor/maia-h5": "^2.0.30",
     "vue": "^3.0.5"
   },
   "devDependencies": {

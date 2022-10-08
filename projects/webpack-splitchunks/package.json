@@ -20,7 +20,6 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@longfor/maia-h5": "^2.2.0-beta.1",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
