@@ -246,3 +246,29 @@ const index = images.findIndex(image => image.id === item.id)
 
 
 
+type Chainable1<T = {}> = {
+  option<K extends string, V extends unknown>(k: K extends keyof T ? never : K, v: V): Chainable1<
+    (K extends keyof T
+      ? Omit<T, K>
+      : T)
+    & { [P in K]: V }
+  >
+  get(): T
+}
+
+declare const config: Chainable1
+
+const result = config
+  .option('foo', 123)
+  .option('name', 'type-challenges')
+  .option('bar', { value: 'Hello World' })
+  .get()
+
+// 期望 result 的类型是：
+interface Result {
+  foo: number
+  name: string
+  bar: {
+    value: string
+  }
+}
