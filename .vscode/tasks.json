@@ -20,6 +20,11 @@
       "detail": "webpack-dev-server --config webpack.dev.config.js",
       // 必须添加的配置,指示Task是否在后台运行，必须为true，告诉VSCode可以在Task运行时启动调试会话，具体的启动时机由后面的background.endsPattern指定
       "isBackground": true
+    },
+    {
+      "label": "launch-chrome",
+      "type": "shell",
+      "command": "/Applications/Google\\ Chrome\\ Canary.app/Contents/MacOS/Google\\ Chrome\\ Canary --remote-debugging-port=9222 --pinned-tab-count=2 http://localhost:3000 http://localhost:3001"
     }
   ]
 }

@@ -9,7 +9,7 @@
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:8081",
-      "webRoot": "${workspaceFolder}/build-tools/wds-html/src",
+      "webRoot": "${workspaceFolder}/projects/wds-html/src",
       // "preLaunchTask": "debug", // 添加的配置，在执行之前需要启动项目，这个是启动项目用的任务。
       "sourceMapPathOverrides": {
         "webpack:///./*": "${webRoot}/*",
@@ -23,10 +23,12 @@
       "type": "node",
       "request": "launch",
       "name": "Node调试",
+      // 这里配置脚本位置(package.json->main)
       "program": "${file}",
-      /* "args": [
-        "-l https://juejin.cn/book/7070324244772716556/section/7148818133343158286"
-      ], */
+      // 传给program的参数
+      // "args": [
+      //   "-l https://juejin.cn/book/7070324244772716556/section/7148818133343158286"
+      // ],
       "cwd": "${workspaceFolder}",
       "skipFiles": []
     },
@@ -40,6 +42,23 @@
       "runtimeExecutable": "npm",
       "skipFiles": [],
       "type": "node"
+    },
+    {
+      // 可以调试多个项目, 先自己在浏览器打开相应的页面
+      "type": "chrome",
+      "request": "attach",
+      "name": "Vite 模块联邦",
+      "port": 9222,
+      // "preLaunchTask": "launch-chrome",
+      "webRoot": "${workspaceFolder}/projects/module-federation/",
+      "skipFiles": [],
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///src/*": "${webRoot}/*",
+        "webpack:///./src/*": "${webRoot}/*",
+        "webpack:///*": "*",
+        "webpack:///./~/*": "${webRoot}/node_modules/*"
+      }
     }
   ]
 }
