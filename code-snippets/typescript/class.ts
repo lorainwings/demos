@@ -33,4 +33,30 @@ class Login {
 }
 
 
+class Property {
+  // 一般來說習慣將 private 的屬性加上_，標示為 private
+  private _age: number;
 
+  constructor() {
+    this._age = 18;
+  }
+
+  get get_age() {
+    return this._age;
+  }
+}
+
+const propertyInstance = new Property();
+/*
+// Property '_age' does not exist on type 'typeof Property'
+console.log(Property._age);
+
+// Error!! Property '_age' is private and only accessible within class 'Property'.
+console.log(propertyInstance._age);
+
+// Property 'get_age' does not exist on type 'typeof Property'
+console.log(Property.get_age)
+*/
+
+// 18
+console.log(propertyInstance.get_age);
