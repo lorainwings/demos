@@ -1,5 +1,5 @@
 {
-  "name": "pdf-download",
+  "name": "@projects/pdf-download",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",

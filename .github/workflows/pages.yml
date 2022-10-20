@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v2-beta
         with:
           node-version: "12"
-          registry-url: "https://registry.npm.taobao.org"
+          registry-url: "https://registry.npmmirror.com"
           check-latest: true
 
       - name: Cache node modules

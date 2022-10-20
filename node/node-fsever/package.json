@@ -1,5 +1,5 @@
 {
-  "name": "fsever",
+  "name": "@projects/fsever",
   "version": "1.0.0",
   "description": "node实现的静态文件服务器",
   "main": "main.js",
