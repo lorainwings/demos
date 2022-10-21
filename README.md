@@ -57,5 +57,5 @@ pnpm --filter "./projects/vite/vite3-ts" build
 - 安装内部依赖(项目间相互引用)
 
 ```sh
-pnpm i @projects/node-pdf --filter @projects/node-server
+pnpm i @node/node-pdf --filter @node/node-server
 ```
