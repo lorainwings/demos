@@ -1,5 +1,5 @@
 {
-  "name": "@node/node-express",
+  "name": "@node/express-simple",
   "version": "0.0.0",
   "private": true,
   "scripts": {
