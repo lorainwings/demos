@@ -27,8 +27,8 @@ Express 是一个路由和中间件的 Web 框架, 它本身的功能非常少
 
 主要两种应用方式:
 
-- (app | router).use
-- (app | router).methods
+- (app | router).use(middware)
+- (app | router).methods([args],middware)
 
 其中 methods 指 get、post 等等实例中的 api:
 
@@ -40,3 +40,16 @@ Express 是一个路由和中间件的 Web 框架, 它本身的功能非常少
 - patch
 - options
 - head
+
+## 源码流程整理
+
+源码大致流程梳理, 主要搞清楚以下几个问题:
+
+1. 调用 express()创建了什么
+2. app.listen() 启动服务器流程
+   - 如何可以结合原生启动服务器
+   - express -> http.createServer.listen
+3. app.use(middware) 内部执行流程
+4. 用户发送请求, 中间件是如何被回调
+5. next 后为何会执行下一个中间件
+

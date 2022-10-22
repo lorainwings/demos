@@ -22,3 +22,7 @@
 ::1 - - [22/Oct/2022:03:11:13 +0000] "POST /register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.29.2"
 ::1 - - [22/Oct/2022:03:11:16 +0000] "POST /register HTTP/1.1" 200 15 "-" "PostmanRuntime/7.29.2"
 ::1 - - [22/Oct/2022:03:11:18 +0000] "POST /register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Oct/2022:14:25:44 +0000] "POST /register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Oct/2022:14:26:57 +0000] "POST /register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Oct/2022:14:27:03 +0000] "POST /register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.29.2"
+::1 - - [22/Oct/2022:14:27:14 +0000] "POST /register HTTP/1.1" 400 43 "-" "PostmanRuntime/7.29.2"

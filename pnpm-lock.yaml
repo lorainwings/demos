@@ -81,9 +81,11 @@ importers:
   node/node-pdf:
     specifiers:
       async: ^3.2.4
+      commander: ^9.4.0
       puppeteer: ^16.2.0
     dependencies:
       async: 3.2.4
+      commander: 9.4.1
       puppeteer: 16.2.0
 
   node/node-server:
