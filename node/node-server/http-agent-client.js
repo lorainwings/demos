@@ -26,7 +26,6 @@ const options = {
 // 表单数据处理
 /* client.end("name=客户端&function=proxy") */
 
-
 const cserver = http.createServer((req, res) => {
   res.writeHead(200, {
     'Content-Type': 'application/json;charset=utf-8',
@@ -42,14 +41,14 @@ const cserver = http.createServer((req, res) => {
     const body = Buffer.concat(serverData)
 
     // 请求真实服务逻辑
-    const client = http.request(options, cres => {
+    const client = http.request(options, (cres) => {
       const data = []
       cres.on('data', (chunk) => {
         data.push(chunk)
       })
       cres.on('end', () => {
         const ret = Buffer.concat(data)
-        console.log('响应数据:', ret.toString());
+        console.log('响应数据:', ret.toString())
         res.end(ret)
       })
     })
@@ -60,5 +59,5 @@ const cserver = http.createServer((req, res) => {
 })
 
 cserver.listen(1000, () => {
-  console.log("代理客户端已开启");
+  console.log('代理客户端已开启')
 })

@@ -47,7 +47,6 @@ class CustomDataTransform {
   }
 }
 
-
 // 测试代码
 /* const trans = new CustomDataTransform()
 const str = '这是一段测试文本'
@@ -60,6 +59,5 @@ console.log('解码后的数据包', deRes)
 
 const lens = trans.getPackageLen(enRes)
 console.log('数据包长度', lens) */
-
 
 module.exports = CustomDataTransform

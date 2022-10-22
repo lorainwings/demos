@@ -9,23 +9,24 @@ const client = net.createConnection({
   host: `localhost`
 })
 
-const datas = [`2. hello, i am client!`, `3. hello, i am client!`, `4. hello, i am client!`]
-
+const datas = [
+  `2. hello, i am client!`,
+  `3. hello, i am client!`,
+  `4. hello, i am client!`
+]
 
 /* 解决方案: 数据通过封包来解决粘包*/
 client.on('data', (chunk) => {
-
   if (overageBuf) {
     chunk = Buffer.concat([overageBuf, chunk])
   }
   let packageLen = 0
-  while (packageLen = ts.getPackageLen(chunk)) {
+  while ((packageLen = ts.getPackageLen(chunk))) {
     const packageData = chunk.slice(0, packageLen)
     chunk = chunk.slice(packageLen)
 
     const ret = ts.decode(packageData)
-    console.log(ret);
-
+    console.log(ret)
   }
 
   overageBuf = chunk
@@ -42,5 +43,5 @@ client.write(ts.encode('测试文本77'))
 client.on('error', console.log)
 
 client.on('close', () => {
-  console.log('客户端断开连接');
+  console.log('客户端断开连接')
 })

@@ -6,12 +6,12 @@ const Server = require('../main.js')
 
 const options = {
   '-p, --port <num>': {
-    'description': 'init server port',
-    'example': 'fsever -p 3306'
+    description: 'init server port',
+    example: 'fsever -p 3306'
   },
   '-d, --directory <dir>': {
-    'description': 'init server directory',
-    'example': 'fsever -d ~/example'
+    description: 'init server directory',
+    example: 'fsever -d ~/example'
   }
 }
 
@@ -26,18 +26,15 @@ formatConf(options, (cmd, val) => {
 })
 
 program.on('--help', () => {
-  console.log("\nExample:");
+  console.log('\nExample:')
   formatConf(options, (_, val) => {
-    console.log(`\xa0\xa0${val.example}`);
+    console.log(`\xa0\xa0${val.example}`)
   })
 })
 
-
 /* 启动解析 */
-program
-  .name('fsever')
-  .version(version)
-if (!process.argv.slice(2).length) program.help();
+program.name('fsever').version(version)
+if (!process.argv.slice(2).length) program.help()
 program.parse()
 
 /* 开启服务 */

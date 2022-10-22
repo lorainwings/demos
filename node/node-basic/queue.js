@@ -1,4 +1,3 @@
-
 /* 链表元素 */
 class Node {
   constructor(element, next) {
@@ -36,7 +35,6 @@ class LinkedList {
     }
 
     if (index < 0 || index > this.size) return new Error('cross boundary')
-
 
     if (index === 0) {
       const h = this.head
@@ -78,9 +76,7 @@ class LinkedList {
     this.head = null
     this.size = 0
   }
-
 }
-
 
 module.exports = class Queue {
   constructor() {

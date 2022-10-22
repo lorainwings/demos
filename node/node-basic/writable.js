@@ -13,4 +13,3 @@ console.log(flag)
 
 flag = ws.write('4')
 console.log(flag)
-

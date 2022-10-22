@@ -5,7 +5,11 @@ const client = net.createConnection({
   host: `localhost`
 })
 
-const datas = [`2. hello, i am client!`, `3. hello, i am client!`, `4. hello, i am client!`]
+const datas = [
+  `2. hello, i am client!`,
+  `3. hello, i am client!`,
+  `4. hello, i am client!`
+]
 
 client.on('connect', (rs) => {
   /*  多条数据一起发送会出现粘包问题 */
@@ -23,16 +27,14 @@ client.on('connect', (rs) => {
     }, 1000 * (i + 1))
     // })(datas[i], i)
   }
-
 })
 
-
 client.on('data', (chunk) => {
-  console.log(`客户端: 数据已收到, 内容是->${chunk.toString()}`);
+  console.log(`客户端: 数据已收到, 内容是->${chunk.toString()}`)
 })
 
 client.on('error', console.log)
 
 client.on('close', () => {
-  console.log('客户端断开连接');
+  console.log('客户端断开连接')
 })

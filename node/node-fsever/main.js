@@ -15,7 +15,6 @@ const { createReadStream } = require('fs')
 const { promisify } = require('util')
 const ejs = require('ejs')
 
-
 module.exports = class Server {
   constructor(config) {
     this.config = {
@@ -33,7 +32,7 @@ module.exports = class Server {
 
   async directoryHandle(req, res, absPath, decPath) {
     const info = await fs.readdir(absPath)
-    const dirs = info.map(item => {
+    const dirs = info.map((item) => {
       const tp = path.join(decPath, item)
       return {
         isFile: Boolean(~path.extname(tp).indexOf('.')),
@@ -57,7 +56,7 @@ module.exports = class Server {
   }
 
   errorHandle(req, res, err) {
-    console.log('err:', err);
+    console.log('err:', err)
     res.statusCode = 404
     res.setHeader('Content-Type', 'text/html;charset=utf-8')
     res.end('Oops! </br> Not Fount~')
@@ -67,7 +66,7 @@ module.exports = class Server {
     const { pathname } = url.parse(req.url)
     const decPath = decodeURIComponent(pathname)
     const absPath = path.join(this.config.directory, decPath)
-    console.log(absPath);
+    console.log(absPath)
     try {
       const info = await fs.stat(absPath)
       if (info.isFile()) {

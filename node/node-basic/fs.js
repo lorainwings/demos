@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 const writeFile = () => {
   const buf = Buffer.from('123abcdefg34123412342dlfka;fkdsa;f;dsak;f1')
@@ -12,7 +12,7 @@ const writeFile = () => {
       fs.write(fd, buf, p, 2, offset, (e, writeLen, buffer) => {
         p += 2
         offset += writeLen
-        console.log('本次写入长度及内容', writeLen, buffer.toString());
+        console.log('本次写入长度及内容', writeLen, buffer.toString())
         next()
       })
     }
@@ -21,10 +21,9 @@ const writeFile = () => {
   })
 }
 
-
 const myRmdir = (dirPath, cb) => {
   fs.stat(dirPath, (err, info) => {
-    if (err) return;
+    if (err) return
 
     // 该路径是文件
     if (!info.isDirectory()) {
@@ -35,7 +34,7 @@ const myRmdir = (dirPath, cb) => {
     fs.readdir(dirPath, (err, files) => {
       if (err) return
 
-      const paths = files.map(f => path.join(dirPath, f))
+      const paths = files.map((f) => path.join(dirPath, f))
       let index = 0
 
       const next = () => {
@@ -44,16 +43,13 @@ const myRmdir = (dirPath, cb) => {
         myRmdir(current, next)
       }
 
-      next();
-    });
+      next()
+    })
   })
 }
-
 
 /* myRmdir('a', () => {
   console.log("删除完成");
 }) */
-
-
 
 writeFile()

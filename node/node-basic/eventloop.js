@@ -110,17 +110,13 @@ sm2->p
 
 */
 
-
-
-
 // 案例二
 //
 
-
 setTimeout(() => {
   console.log('settimeout')
-});
+})
 
 setImmediate(() => {
   console.log('setImmediate')
-});
+})

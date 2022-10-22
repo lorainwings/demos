@@ -11,7 +11,6 @@ const http = require('http')
 
 /* req请求是可读流  res是可写流 */
 const server = http.createServer((req, res) => {
-
   // 设置响应头
   res.setHeader('Content-Type', 'application/json;charset=utf-8')
 
@@ -19,19 +18,22 @@ const server = http.createServer((req, res) => {
   res.statusCode = 200
 
   // 设置响应体
-  res.end(JSON.stringify({
-    data: [
-      {
-        name: 'lizhenzhong',
-        age: 32
-      },
-      {
-        name: 'dengchao',
-        age: 29
-      }]
-  }))
+  res.end(
+    JSON.stringify({
+      data: [
+        {
+          name: 'lizhenzhong',
+          age: 32
+        },
+        {
+          name: 'dengchao',
+          age: 29
+        }
+      ]
+    })
+  )
 })
 
 server.listen(1234, () => {
-  console.log('服务已经开启, 端口1234');
+  console.log('服务已经开启, 端口1234')
 })

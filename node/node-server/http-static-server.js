@@ -44,5 +44,5 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(1234, () => {
-  console.log('静态服务已开启');
+  console.log('静态服务已开启')
 })

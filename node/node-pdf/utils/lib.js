@@ -11,10 +11,9 @@ const cookieToJson = (cookie) => {
   const carrs = cookie.split(';')
   return carrs.reduce((o, item) => {
     const [k, v] = item.split('=')
-    return o[k.trim()] = v.trim(), o
+    return (o[k.trim()] = v.trim()), o
   }, {})
 }
-
 
 module.exports = {
   cookieToJson

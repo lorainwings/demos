@@ -3,14 +3,17 @@ const EventEmitter = require('events')
 const Queue = require('./queue')
 
 class CustomWriteStream extends EventEmitter {
-  constructor(path, {
-    flags = 'w',
-    mode = 0O666,
-    autoClose = true,
-    start = 0,
-    encoding = 'utf8',
-    highWaterMark = 16 * 1024
-  } = {}) {
+  constructor(
+    path,
+    {
+      flags = 'w',
+      mode = 0o666,
+      autoClose = true,
+      start = 0,
+      encoding = 'utf8',
+      highWaterMark = 16 * 1024
+    } = {}
+  ) {
     super()
     this.path = path
     this.flags = flags
@@ -31,7 +34,7 @@ class CustomWriteStream extends EventEmitter {
   }
 
   open() {
-    console.log('open');
+    console.log('open')
     fs.open(this.path, this.flags, (err, fd) => {
       if (err) return this.emit('error', err)
       this.fd = fd
@@ -45,12 +48,19 @@ class CustomWriteStream extends EventEmitter {
     if (typeof this.fd !== 'number') {
       return this.once('open', () => this._write(chunk, encoding, cb))
     }
-    fs.write(this.fd, chunk, this.start, chunk.length, this.writeOffset, (err, writtenBytes) => {
-      this.writeOffset += writtenBytes // 偏移量移动
-      this.writeLen -= writtenBytes
+    fs.write(
+      this.fd,
+      chunk,
+      this.start,
+      chunk.length,
+      this.writeOffset,
+      (err, writtenBytes) => {
+        this.writeOffset += writtenBytes // 偏移量移动
+        this.writeLen -= writtenBytes
 
-      cb && cb()
-    })
+        cb && cb()
+      }
+    )
   }
 
   _clearBuffer() {
@@ -68,7 +78,7 @@ class CustomWriteStream extends EventEmitter {
     }
   }
 
-  write(chunk, encoding, cb = () => { }) {
+  write(chunk, encoding, cb = () => {}) {
     chunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
     // 调用多次write会积压writeLen, 生产速度远大于消费速度
     this.writeLen += chunk.length
@@ -113,18 +123,15 @@ flag = ws.write('11111', 'utf8', () => {
   console.log('ok2');
 }) */
 
-
 /* flag = ws.write('3', 'utf8', () => {
   console.log('ok3');
 })
 
 console.log(flag); */
 
-
 /* ws.on('error', (e) => {
   console.log('---', e);
 })
  */
-
 
 module.exports = CustomWriteStream

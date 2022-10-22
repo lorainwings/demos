@@ -1,4 +1,4 @@
-const express = require("express")
+const express = require('express')
 
 const app = express()
 
@@ -6,12 +6,12 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res, next) => {
   res.writeHead(200, { 'Content-Type': 'text/html' })
-  res.end("<h2>Express Server Get<h2>")
+  res.end('<h2>Express Server Get<h2>')
 })
 
 app.post('/', (req, res, next) => {
   res.writeHead(200, { 'Content-Type': 'text/html' })
-  res.end("<h2>Express Server Get<h2>")
+  res.end('<h2>Express Server Get<h2>')
 })
 
 app.get('/login', (req, res, next) => {
@@ -48,11 +48,11 @@ app.post('/submit', (req, res, next) => {
     const r = Buffer.concat(buf)
     console.log(r.toString());
   }) */
-  console.log(req.body);
+  console.log(req.body)
   res.writeHead(200, { 'Content-Type': 'text/html;charset=utf8' })
-  res.end("登录成功!!")
+  res.end('登录成功!!')
 })
 
 app.listen(8088, () => {
-  console.log("express服务已开启, 端口8088");
+  console.log('express服务已开启, 端口8088')
 })

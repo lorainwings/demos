@@ -10,7 +10,7 @@
 // Puppeteer API Docs
 // https://pptr.dev/api/puppeteer.waitforoptions.waituntil/
 const path = require('path')
-const { launch } = require('puppeteer');
+const { launch } = require('puppeteer')
 const { series } = require('async')
 const { promises: fs } = require('fs')
 const defaultConfig = require('./jxc.config')
@@ -32,7 +32,7 @@ module.exports = class Downloader {
     this.page = null
     this.pdfOpts = {
       preferCSSPageSize: true,
-      printBackground: true,
+      printBackground: true
       // displayHeaderFooter: true
     }
   }
@@ -40,7 +40,8 @@ module.exports = class Downloader {
   load(options) {
     const { config } = options
     if (config) {
-      if (typeof config === 'string') return require(`${process.cwd()}/${config}`)
+      if (typeof config === 'string')
+        return require(`${process.cwd()}/${config}`)
       return require(process.cwd() + '/jxc.config.js')
     }
     return defaultConfig
@@ -63,13 +64,15 @@ module.exports = class Downloader {
       executablePath: this.config.browserDirectory
     }
 
-    const opts = this.config.openDebug ? {
-      devtools: true, // 调试选项: 开启调试
-      dumpio: true, // 调试选项: 输出到控制台
-      defaultViewport: { width: 1680, height: 1050 }
-    } : { headless: true }
+    const opts = this.config.openDebug
+      ? {
+          devtools: true, // 调试选项: 开启调试
+          dumpio: true, // 调试选项: 输出到控制台
+          defaultViewport: { width: 1680, height: 1050 }
+        }
+      : { headless: true }
 
-    this.browser = await launch({ ...dop, ...opts });
+    this.browser = await launch({ ...dop, ...opts })
     this.page = await this.browser.newPage()
   }
 
@@ -89,16 +92,16 @@ module.exports = class Downloader {
 
   async debug() {
     if (!this.config.openDebug) return
-    this.page.on('console', msg => console.log('PAGE LOG:', msg.text()));
-    await this.page.evaluate(() => console.log(`url is ${location.href}`));
+    this.page.on('console', (msg) => console.log('PAGE LOG:', msg.text()))
+    await this.page.evaluate(() => console.log(`url is ${location.href}`))
   }
 
   async intercept() {
     if (!(this.config.blocklist ?? []).length) return
     this.page.on('request', async (request) => {
       const url = request.url()
-      if (url.some(u => this.config.blocklist.includes(u))) {
-        console.log("监测到阻止文件:", url);
+      if (url.some((u) => this.config.blocklist.includes(u))) {
+        console.log('监测到阻止文件:', url)
         request.abort()
       } else {
         request.continue()
@@ -109,7 +112,9 @@ module.exports = class Downloader {
   async getName(elem, index) {
     const sn = index + 1
     const selector = `${this.config.selectors.sectionList}:nth-child(${sn}) ${this.config.selectors.titleText}`
-    const title = await elem.$eval(selector, el => el.innerText.replace(/\s+/g, '\\$&'));
+    const title = await elem.$eval(selector, (el) =>
+      el.innerText.replace(/\s+/g, '\\$&')
+    )
     return `${sn}.${title}`
   }
 
@@ -120,20 +125,22 @@ module.exports = class Downloader {
       const handle = async (elem, inx, next) => {
         try {
           const name = await this.getName(elem, inx)
-          await elem.evaluate(b => b.click());
+          await elem.evaluate((b) => b.click())
           await Promise.allSettled([
             this.page.waitForNavigation({ timeout: 1000 }),
             this.page.waitForNetworkIdle({ idleTime: 500 }),
-            this.page.waitForSelector(this.config.selectors.waitFor, { timeout: 500 }).catch(e => e)
+            this.page
+              .waitForSelector(this.config.selectors.waitFor, { timeout: 500 })
+              .catch((e) => e)
           ])
-          await this.page.emulateMediaType('screen');
+          await this.page.emulateMediaType('screen')
           await this.page.pdf({
             ...this.pdfOpts,
             path: `${path.join(this.config.saveDirectory)}/${name}.pdf`
           })
-          console.log("打印完成:", name);
+          console.log('打印完成:', name)
         } catch (e) {
-          console.log("发生错误:", e);
+          console.log('发生错误:', e)
         }
         next()
       }
@@ -160,5 +167,4 @@ module.exports = class Downloader {
     await this.download()
     await this.close()
   }
-
 }

@@ -15,21 +15,22 @@ const Server = require('../main.js')
 
 const options = {
   '-l, --link [link]': {
-    'description': 'resource download link',
-    'example': 'pdf-do -l https://juejin.cn/book/7086408430491172901/section/7086440845053788196'
+    description: 'resource download link',
+    example:
+      'pdf-do -l https://juejin.cn/book/7086408430491172901/section/7086440845053788196'
   },
   '-r, --range <page>': {
-    'description': 'resource download page range',
-    'example': 'pdf-do -r 5-10'
+    description: 'resource download page range',
+    example: 'pdf-do -r 5-10'
   },
   '-c, --config [config]': {
-    'description': 'customize the configuration file',
-    'example': 'pdf-do -c pdf.config.js'
+    description: 'customize the configuration file',
+    example: 'pdf-do -c pdf.config.js'
   },
   '-d, --openDebug [openDebug]': {
-    'description': 'whether to turn on browser debugging',
-    'example': 'pdf-do -d'
-  },
+    description: 'whether to turn on browser debugging',
+    example: 'pdf-do -d'
+  }
 }
 
 const formatConf = (conf, cb) => {
@@ -43,18 +44,15 @@ formatConf(options, (cmd, val) => {
 })
 
 program.on('--help', () => {
-  console.log("\nExample:");
+  console.log('\nExample:')
   formatConf(options, (_, val) => {
-    console.log(`\xa0\xa0${val.example}`);
+    console.log(`\xa0\xa0${val.example}`)
   })
 })
 
-
 /* 启动解析 */
-program
-  .name('pdf-do')
-  .version(version)
-if (!process.argv.slice(2).length) program.help();
+program.name('pdf-do').version(version)
+if (!process.argv.slice(2).length) program.help()
 program.parse()
 
 /* 开启服务 */
