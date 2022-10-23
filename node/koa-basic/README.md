@@ -67,3 +67,198 @@ body 可以设置以下类型的值:
 - Array 数组
 - null 不输出内容(此时默认状态码为 204)
 
+其实可以直接使用`ctx.body`来完成相应数据设置, 因为`ctx` 对 `body` 做了代理, 而且**ctx.query 和 ctx.params 也类似**
+
+源码中, 以下对象的属性做了代理:
+
+```js
+/**
+ * Response delegation.
+ */
+delegate(proto, 'response')
+  .method('attachment')
+  .method('redirect')
+  .method('remove')
+  .method('vary')
+  .method('has')
+  .method('set')
+  .method('append')
+  .method('flushHeaders')
+  .access('status')
+  .access('message')
+  .access('body')
+  .access('length')
+  .access('type')
+  .access('lastModified')
+  .access('etag')
+  .getter('headerSent')
+  .getter('writable')
+
+/**
+ * Request delegation.
+ */
+
+delegate(proto, 'request')
+  .method('acceptsLanguages')
+  .method('acceptsEncodings')
+  .method('acceptsCharsets')
+  .method('accepts')
+  .method('get')
+  .method('is')
+  .access('querystring')
+  .access('idempotent')
+  .access('socket')
+  .access('search')
+  .access('method')
+  .access('query')
+  .access('path')
+  .access('url')
+  .access('accept')
+  .getter('origin')
+  .getter('href')
+  .getter('subdomains')
+  .getter('protocol')
+  .getter('host')
+  .getter('hostname')
+  .getter('URL')
+  .getter('header')
+  .getter('headers')
+  .getter('secure')
+  .getter('stale')
+  .getter('fresh')
+  .getter('ips')
+  .getter('ip')
+```
+
+## 洋葱模型源码流程
+
+Koa 使用洋葱模型的原因:
+
+> 假如不是洋葱模型，我们中间件依赖于其他中间件的逻辑的话，我们要怎么处理？
+>
+> 比如，我们需要知道一个请求或者操作 db 的耗时是多少，而且想获取其他中间件的信息。在 koa 中，我们可以使用 async await 的方式结合洋葱模型做到。
+
+在执行`new koa()`生成的实例对象中, 有一个实例属性`this.middware`, 用于保存中间件列表
+
+```js
+module.exports = class Application extends Emitter {
+  constructor(options) {
+    super()
+    options = options || {}
+    this.proxy = options.proxy || false
+    this.subdomainOffset = options.subdomainOffset || 2
+    this.proxyIpHeader = options.proxyIpHeader || 'X-Forwarded-For'
+    this.maxIpsCount = options.maxIpsCount || 0
+    this.env = options.env || process.env.NODE_ENV || 'development'
+    if (options.keys) this.keys = options.keys
+    this.middleware = []
+    this.context = Object.create(context)
+    this.request = Object.create(request)
+    this.response = Object.create(response)
+    // util.inspect.custom support for node 6+
+    /* istanbul ignore else */
+    if (util.inspect.custom) {
+      this[util.inspect.custom] = this.inspect
+    }
+  }
+  use(fn) {
+    if (typeof fn !== 'function')
+      throw new TypeError('middleware must be a function!')
+    if (isGeneratorFunction(fn)) {
+      deprecate(
+        'Support for generators will be removed in v3. ' +
+          'See the documentation for examples of how to convert old middleware ' +
+          'https://github.com/koajs/koa/blob/master/docs/migration.md'
+      )
+      fn = convert(fn)
+    }
+    debug('use %s', fn._name || fn.name || '-')
+    this.middleware.push(fn)
+    return this
+  }
+}
+```
+
+调用`Koa`实例的`use`方法后, 会将传入的中间件函数进行包装转换后, 推入中间件数组中
+
+当客户端发起请求时, 会触发服务端的处理函数, `Koa`底层是使用 Node 内置`http`模块来完成;
+
+源码如下:
+
+```js
+module.exports = class Application extends Emitter {
+  // ...其他代码省略
+  callback() {
+    const fn = compose(this.middleware)
+    if (!this.listenerCount('error')) this.on('error', this.onerror)
+    const handleRequest = (req, res) => {
+      const ctx = this.createContext(req, res)
+      return this.handleRequest(ctx, fn)
+    }
+    return handleRequest
+  }
+
+  handleRequest(ctx, fnMiddleware) {
+    const res = ctx.res
+    res.statusCode = 404
+    const onerror = (err) => ctx.onerror(err)
+    const handleResponse = () => respond(ctx)
+    onFinished(res, onerror)
+    return fnMiddleware(ctx).then(handleResponse).catch(onerror)
+  }
+
+  listen(...args) {
+    debug('listen')
+    const server = http.createServer(this.callback())
+    return server.listen(...args)
+  }
+}
+```
+
+请求来临时, 即进入了`http.createServer(fn)`中的回调函数, 也就是执行了`this.callback()`返回的函数`handleRequest`
+
+`handleRequest`中调用`this.createContext`对`req`和`res`进行统一包装和处理
+
+最后再执行`this.handleRequest(ctx, fn)`, 返回`fnMiddleware(ctx).then(handleResponse).catch(onerror)`作为中间件的返回值
+
+注意上面的`fnMiddleware`函数, 是经过`compose(this.middleware)`得到的一个函数
+
+`compose`是第三方库`koa-compose`实现的, 它的内部实现如下:
+
+```js
+function compose(middleware) {
+  if (!Array.isArray(middleware))
+    throw new TypeError('Middleware stack must be an array!')
+  for (const fn of middleware) {
+    if (typeof fn !== 'function')
+      throw new TypeError('Middleware must be composed of functions!')
+  }
+  /**
+   * @param {Object} context
+   * @return {Promise}
+   * @api public
+   */
+  return function (context, next) {
+    // last called middleware #
+    let index = -1
+    return dispatch(0)
+
+    function dispatch(i) {
+      if (i <= index)
+        return Promise.reject(new Error('next() called multiple times'))
+      index = i
+      let fn = middleware[i]
+      if (i === middleware.length) fn = next
+      if (!fn) return Promise.resolve()
+      try {
+        return Promise.resolve(fn(context, dispatch.bind(null, i + 1)))
+      } catch (err) {
+        return Promise.reject(err)
+      }
+    }
+  }
+}
+```
+
+1:52
+
