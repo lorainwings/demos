@@ -154,7 +154,8 @@
       }
     },
     {
-      // nodemon --inspect-brk=9229 xxx.js
+      // nodemon --inspect-brk=9229 x.js
+      // nodemon --inspect=9229 x.js
       "name": "Server附加调试",
       "port": 9229,
       "request": "attach",
