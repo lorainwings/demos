@@ -395,38 +395,3 @@ const flow2 = async () => {
 }
 ```
 
-## 一个小栗子
-
-```js
-/**
- * flow1的执行流程
- * begin->r1->end
- */
-const flow1 = async () => {
-  console.log('begin')
-  await new Promise((r) => {
-    setTimeout(() => r(1000), 1000)
-  }).then((v) => {
-    console.log('r1', v)
-  })
-  console.log('end')
-}
-
-/**
- * flow2的执行流程
- * begin->r2->end
- */
-const flow2 = async () => {
-  console.log('begin')
-  await Promise.resolve(1000).then((v) => {
-    return new Promise((rs) => {
-      setTimeout(() => {
-        console.log('r2', v)
-        rs()
-      }, v)
-    })
-  })
-  console.log('end')
-}
-```
-
