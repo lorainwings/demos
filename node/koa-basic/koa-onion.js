@@ -47,21 +47,85 @@ const KoaOnion = class {
 }
 
 const app = new KoaOnion()
-app.use(async (ctx, next) => {
+/* app.use(async (ctx, next) => {
   console.log('第一个开始')
   next()
   console.log('第一个结束')
 })
-app.use(async (ctx, next) => {
-  console.log('第二个开始')
+app.use(async function (ctx, next) {
+  console.log('next前，打印时间戳:', new Date().getTime())
   await next()
-  console.log('第二个结束')
+  console.log('next后，打印时间戳:', new Date().getTime())
 })
+app.use(async function (ctx, next) {
+  console.log('next前，打印url:', ctx.url)
+  await next()
+  console.log('next后，打印url:', ctx.url)
+}) */
+
+// 异步中间件, 结果依旧是洋葱模型的执行流程
 app.use(async (ctx, next) => {
-  console.log('第三个开始')
-  next()
-  console.log('第三个结束')
+  console.log('第一个中间件开始')
+  const start = Date.now()
+  await next()
+  const ms = Date.now() - start
+  console.log(`第一个中间件结束, X-Response-Time: ${ms}`)
+})
+
+app.use(async (ctx, next) => {
+  console.log('第二个中间件开始')
+  const start = Date.now()
+  let pro = {}
+  await next()
+  const ms = Date.now() - start
+  await new Promise((rs) => {
+    setTimeout(() => {
+      console.log(`第二个中间件结束, X-Response-Time: ${ms}`)
+      rs()
+    }, 4000)
+  })
+})
+
+app.use(() => {
+  return new Promise((rs) => {
+    console.log('第三个中间件开始')
+    setTimeout(() => {
+      console.log('第三个中间件结束, Hello World')
+      rs()
+    }, 3000)
+  })
 })
 
 app.listen()
+
+/**
+ * flow1的执行流程
+ * begin->r1->end
+ */
+const flow1 = async () => {
+  console.log('begin')
+  await new Promise((r) => {
+    setTimeout(() => r(1000), 1000)
+  }).then((v) => {
+    console.log('r1', v)
+  })
+  console.log('end')
+}
+
+/**
+ * flow2的执行流程
+ * begin->r2->end
+ */
+const flow2 = async () => {
+  console.log('begin')
+  await Promise.resolve(1000).then((v) => {
+    return new Promise((rs) => {
+      setTimeout(() => {
+        console.log('r2', v)
+        rs()
+      }, v)
+    })
+  })
+  console.log('end')
+}
 
