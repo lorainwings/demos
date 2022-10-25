@@ -85,7 +85,7 @@ app.listen(8088, () => {
 
 征对上述的案例, `express`源码中主要未对 `next` 的结果进行返回处理, 导致`await`后面是 undefined, 所以无法进行异步处理
 
-**下面对源码打补丁, 仅提供一个支持异步中间件打补丁的方向, 未对边界和其他情况下仔细 `hack`**
+**下面对源码打补丁, 仅提供一个支持异步中间件打补丁的方向, 未对边界和其他情况下进行 `hack` 处理**
 
 针对源码进行的修改, 本文使用的是express@4.18.2版本
 
@@ -145,9 +145,9 @@ Layer.prototype.handle_request = function handle(req, res, next) {
 
 - 补丁前
 
-![补丁前](./core/bugfix-pre.jpg)
+<img src="./core/bugfix-pre.jpg" style="width:360px">
 
 - 补丁后
 
-![源码修改](./core/bugfix-after.jpg)
+<img src="./core/bugfix-after.jpg" style="width:360px">
 
