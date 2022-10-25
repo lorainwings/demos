@@ -145,9 +145,9 @@ Layer.prototype.handle_request = function handle(req, res, next) {
 
 - 补丁前
 
-<img src="./core/bugfix-pre.jpg" style="width:360px">
+<img src="./core/bugfix-pre.jpg" style="width:60vw">
 
 - 补丁后
 
-<img src="./core/bugfix-after.jpg" style="width:360px">
+<img src="./core/bugfix-after.jpg" style="width:60vw">
 
