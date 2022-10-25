@@ -64,7 +64,7 @@ app.use(async function (ctx, next) {
 }) */
 
 // 异步中间件, 结果依旧是洋葱模型的执行流程
-app.use(async (ctx, next) => {
+/* app.use(async (ctx, next) => {
   console.log('第一个中间件开始')
   const start = Date.now()
   await next()
@@ -93,6 +93,26 @@ app.use(() => {
       console.log('第三个中间件结束, Hello World')
       rs()
     }, 3000)
+  })
+})
+*/
+
+app.use(async (ctx, next) => {
+  this.res = 'aaa'
+  await next()
+  console.log('res', this.res)
+})
+app.use(async (ctx, next) => {
+  this.res += 'bbb'
+  await next()
+})
+app.use(async (ctx, next) => {
+  // next()
+  await new Promise((rs) => {
+    setTimeout(() => {
+      this.res += 'ccc'
+      rs()
+    }, 2000)
   })
 })
 
