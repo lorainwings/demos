@@ -22,7 +22,7 @@ chunks 都是由文件拆分而来, 在 webpack 中主要是三类 chunks
 >
 > 一个`chunk`包含一个或多个`module`
 >
-> 一个`bundle`一把包含一个`chunk`, `chunk`经过压缩各种处理后得到`bundle`
+> 一个`bundle`一般包含一个`chunk`, `chunk`经过压缩各种处理后得到`bundle`
 
 ### 分包后的 chunks 怎么理解
 
