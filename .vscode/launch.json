@@ -68,23 +68,22 @@
     {
       "name": "Pnpm调试",
       "request": "launch",
-      // "cwd": "${workspaceFolder}",
+      // "cwd": "${workspaceFolder}/projects/webpack-splitchunks",
       "env": {
         "ENV_VAR": "1123"
       },
       // "envFile":"...",
       "runtimeArgs": [
         "run-script",
-        "start"
+        "build"
       ],
       "runtimeExecutable": "pnpm",
       "skipFiles": [],
       "type": "node",
       "resolveSourceMapLocations": [
-        "${workspaceFolder}/**",
-        // 默认排除node_modules下面的sourcemap
-        // "!**/node_modules/**"
-      ]
+        "${workspaceFolder}/**"
+      ],
+      "stopOnEntry": true
     },
     {
       "name": "Typescript调试",

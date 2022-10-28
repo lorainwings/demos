@@ -39,6 +39,7 @@ const upload = multer({ storage })
  * 路由处理中间件
  */
 app.use(userRouter.routes())
+/* 用于响应OPTIONS请求(带有Allow methods标头的请求)，以及在适当时使用405 Method Not Allowed和响应。501 Not Implemented */
 app.use(userRouter.allowedMethods())
 
 /**

@@ -6,10 +6,10 @@ import OrgChart from './assets/orgchart'
 const App = () => {
   let Page1 = null
 
-  import(/* webpackChunkName: "page1" */'./routes/page1').then(comp => {
+  import(/* webpackChunkName: "page1" */ './routes/page1').then((comp) => {
     Page1 = comp
   })
-  console.log($)
+  console.log($, OrgChart)
   return (
     <div>
       <Page1></Page1>
@@ -18,3 +18,4 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
+

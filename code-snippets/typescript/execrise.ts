@@ -29,3 +29,6 @@ interface UserRequiredNameAndAge {
 type nr = RequiredByKeys2<User, 'name'>
 type nr1 = RequiredByKeys2<User, 'name' | 'unknown'>
 type nr2 = RequiredByKeys2<User, 'name' | 'age'>
+
+type Test<T> = T extends true ? 1 : 2;
+type res = Test<boolean>;
