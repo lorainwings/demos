@@ -1,4 +1,4 @@
-# 总结部分知识点
+# Webpack-SplitChunks 分包策略
 
 ## 问题清单
 
