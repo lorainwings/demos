@@ -34,7 +34,7 @@ const cssLoader = (isModule, preprocessor) =>
 const config = {
   mode: 'production',
   target: 'web',
-  devtool:'source-map',
+  devtool: 'source-map',
   output: {
     publicPath: `${cdn}`,
     path: resolve('./build/'),
@@ -141,6 +141,7 @@ const config = {
           priority: 80,
         },
         custom: {
+          chunks: 'initial',
           priority: 20,
         },
       },

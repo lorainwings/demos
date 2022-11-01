@@ -68,14 +68,14 @@
     {
       "name": "Pnpm调试",
       "request": "launch",
-      // "cwd": "${workspaceFolder}/projects/webpack-splitchunks",
+      "cwd": "${workspaceFolder}/projects/webpack-error-test",
       "env": {
         "ENV_VAR": "1123"
       },
       // "envFile":"...",
       "runtimeArgs": [
         "run-script",
-        "build"
+        "build-dev"
       ],
       "runtimeExecutable": "pnpm",
       "skipFiles": [],
@@ -90,7 +90,7 @@
       "program": "${file}",
       "request": "launch",
       // 默认是 node, 从 PATH 的环境变量中查找对应名字的 runtime 启动
-      "runtimeExecutable": "ts-node",
+      "runtimeExecutable": "esno", // ts-node也可以, 执行效率没有esno快
       "skipFiles": [
         "<node_internals>/**"
       ],
