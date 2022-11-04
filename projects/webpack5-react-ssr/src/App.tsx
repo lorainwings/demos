@@ -10,10 +10,13 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <h3 className={`main ${1 ? 'activate' : 'deactivate'}`}>Hello World</h3>
+      <h3 className={`main ${isActivity ? 'activate' : 'deactivate'}`}>
+        Hello World
+      </h3>
       <button onClick={handleClick}>Toggle</button>
     </div>
   )
 }
 
 export default App
+

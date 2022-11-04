@@ -35,5 +35,5 @@ server.get('/', (req, res) => {
 server.use(express.static('./dist'))
 
 server.listen(3000, () => {
-  console.log('ready')
+  console.log('react ssr server is ready...')
 })

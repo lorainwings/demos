@@ -1,14 +1,14 @@
 module.exports = {
   presets: [
     [
-      '@babel/env',
+      '@babel/preset-env',
       {
         targets: {
-          browsers: ['last 1 Chrome versions'],
+          browsers: ['last 1 Chrome versions']
         },
         useBuiltIns: 'usage',
-        corejs: 3,
-      },
+        corejs: 3
+      }
     ],
     '@babel/preset-react',
     [
@@ -16,9 +16,9 @@ module.exports = {
       {
         isTSX: true,
         allExtensions: true,
-        optimizeConstEnums: true,
-      },
-    ],
+        optimizeConstEnums: true
+      }
+    ]
   ],
   plugins: [
     ['@babel/plugin-proposal-decorators', { legacy: true }],
@@ -26,8 +26,9 @@ module.exports = {
       '@babel/plugin-transform-runtime',
       {
         corejs: false,
-        regenerator: false,
-      },
-    ],
-  ],
-};
+        regenerator: false
+      }
+    ]
+  ]
+}
+

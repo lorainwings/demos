@@ -1,21 +1,19 @@
-import path from 'path'
-import { merge } from 'webpack-merge'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
-import base from './webpack.base.js'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+const { merge } = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
+const base = require('./webpack.base.js')
 
 // 继承自 `webpack.base.js`
-export default merge(base, {
+module.exports = merge(base, {
   entry: {
     // 入口指向 `entry-client.js` 文件
     client: path.join(__dirname, './src/entry-client.tsx')
   },
   output: {
+    clean: false,
     filename: 'index.js',
     publicPath: '/'
   },

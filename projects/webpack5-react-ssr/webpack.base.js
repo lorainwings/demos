@@ -1,12 +1,9 @@
-import path from 'path'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { fileURLToPath } from 'url'
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 const __DEV__ = process.env.NODE_ENV === 'development'
 
-export default {
+module.exports = {
   mode: __DEV__ ? 'development' : 'production',
   output: {
     clean: true,
@@ -18,33 +15,17 @@ export default {
   },
   resolve: {
     alias: {
-      '@': resolve('./src')
+      '@': path.resolve('./src')
     },
     extensions: ['.ts', '.js', '.tsx', 'jsx', '.json']
   },
   module: {
     rules: [
       {
-        test: /\.[jt]s[x]?$/,
+        test: /\.[jt]sx$/,
         loader: 'babel-loader'
-      },
-      {
-        test: /\.(c|le|s[ac])ss$/,
-        use: [
-          __DEV__ ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'less-loader'
-        ]
       }
     ]
-  },
-  plugins: [
-    new MiniCssExtractPlugin({
-      ignoreOrder: true,
-      filename: 'css/[name].[contenthash:16].css',
-      chunkFilename: 'css/[name].[contenthash:16].css'
-    })
-  ]
+  }
 }
 

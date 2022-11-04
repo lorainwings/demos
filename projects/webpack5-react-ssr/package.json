@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "browser": "src/entry-client.tsx",
   "scripts": {
     "build:client": "NODE_ENV='production' webpack --config ./webpack.client.js",
     "build:server": "NODE_ENV='production' webpack --config ./webpack.server.js",
-    "build": "rm -rf ./dist && npm run build:client && npm run build:server"
+    "build:all": "rm -rf dist && pnpm build:client && pnpm build:server",
+    "server": "pnpm build:all && node ./dist/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.19.4",
+    "@babel/plugin-transform-arrow-functions": "^7.18.6",
+    "@babel/plugin-transform-async-to-generator": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.17.12",
@@ -31,6 +35,7 @@
     "@typescript-eslint/parser": "^5.37.0",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.2.5",
+    "concurrently": "^7.5.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
