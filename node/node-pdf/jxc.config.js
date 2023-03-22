@@ -12,7 +12,7 @@ module.exports = {
     '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   userDataDirectory: '.puppeteer_cache/user_data',
   // 要下载小册的阅读链接
-  link: 'https://juejin.cn/book/7070324244772716556/section/7148818133343158286',
+  link: '',
   customStyle: `
     @page {
       size: A4 portrait;
@@ -42,3 +42,4 @@ module.exports = {
   // 阻止的请求列表
   blocklist: []
 }
+

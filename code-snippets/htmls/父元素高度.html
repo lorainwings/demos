@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 无padding和border, 父元素的高度取子元素的上边框到下边框的距离,无边框取上下内边距之间的距离 不会包含子元素的外边距 */
+        ul {
+            margin: 0;
+            list-style: none;
+            background-color: aquamarine;
+        }
+
+        /* 设置padding和border, 父元素的高度将是从子元素的上外边距到下外边距 */
+        /* 或者设置padding也行 */
+        ul {
+            border: 1px solid blue;
+            /* or */
+            padding: 1px initial;
+        }
+
+        ul li {
+            margin: 5px 0;
+            padding: 5px 0;
+            height: 50px;
+            width: 50px;
+            background-color: red;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</body>
+
+</html>

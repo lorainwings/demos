@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        // 我们的数据对象
+        const App = Vue.component('app', {
+            template:
+                `<div>
+                    <h2>{{items.name}}</h2>
+                    <div>这是info的值: {{items.info}}</div>
+                </div>`,
+            data() {
+                return {
+                    items: {
+                        name: '测试项目',
+                        info: '----'
+                    }
+                }
+            },
+            created() {
+                console.log('%c------>[LOG:]', 'color: fuchsia', "created")
+                this.items.info = {
+                    x: 1111, y: 2222
+                }
+                console.log('info', this.items);
+                setTimeout(() => {
+                    this.items.info.x = {
+                        point: 'aaaa'
+                    }
+                    this.items.info.y = 9999
+                }, 2000);
+                setTimeout(() => {
+                    this.items.info.x.point = 'bbbb';
+                    this.items.info.y = 9999
+                }, 4000);
+            }
+        })
+
+
+        new Vue({
+            render: h => h(App),
+        }).$mount('#app');
+    </script>
+</body>
+
+</html>

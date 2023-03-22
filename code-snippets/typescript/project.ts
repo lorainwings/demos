@@ -196,6 +196,8 @@ interface UserRequiredNameAndAge {
   address?: string
 }
 
+type ku = keyof User & 'name'
+
 type _t1 = RequiredByKeys<User, 'name'>
 type _t11 = RequiredByKeys1<User, 'name'>
 type _t2 = RequiredByKeys<User, 'name' | 'unknown'>

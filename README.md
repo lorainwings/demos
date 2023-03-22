@@ -26,10 +26,10 @@
 
 ```yaml
 packages:
-  - "projects/**"
-  - "node/**"
-  - "third-scripts/**"
-  - "code-snippets/**"
+  - 'projects/**'
+  - 'node/**'
+  - 'third-scripts/**'
+  - 'code-snippets/**'
 ```
 
 ### 常用命令
@@ -59,3 +59,11 @@ pnpm --filter "./projects/vite/vite3-ts" build
 ```sh
 pnpm i @node/node-pdf --filter @node/node-server
 ```
+
+- 安装共享依赖
+
+```sh
+# 安装到 workspace 中
+pnpm i vite -w
+```
+

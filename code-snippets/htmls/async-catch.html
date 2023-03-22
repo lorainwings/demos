@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const apis = {
+            receiveUserBadge(r) {
+                return Promise.resolve(r)
+            },
+            error() {
+                eval('hello dfas')
+            }
+        }
+
+        const test = async () => {
+            try {
+                apis
+                    .receiveUserBadge({ badgeType: 1 })
+                    .then((res) => {
+                        apis
+                            .addHealthyRecord(res)
+                            .then(() => {
+                                console.log(1);
+                            })
+                            .catch(() => {
+                                console.log(2);
+                            });
+                    })
+                // .catch(() => {
+                //     console.log(3);
+                // });
+            } catch (error) {
+                console.log(4);
+            }
+        }
+
+        /* test() */
+
+        /* const testTry = () => {
+            try {
+                var p134 1 = 3241234
+            } catch (e) {
+                console.log('e', 111);
+            }
+        } */
+
+        const testApiTry = () => {
+            try {
+                apis.error()
+            } catch (e) {
+                console.log('e', 11);
+            }
+        }
+        const testEvalTry = () => {
+            try {
+                eval('hldfal ')
+            } catch (e) {
+                console.log('e', 11);
+            }
+        }
+
+        testApiTry()
+    </script>
+</body>
+
+</html>
