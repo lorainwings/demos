@@ -47,3 +47,23 @@ interface Iperson {
 type TNoReadonly<T extends Record<string, any>> = T extends Readonly<infer O> ? O : never
 
 type TestTNR = Required<TNoReadonly<Iperson>>
+
+export enum cloneType {
+  Object = "Object",
+  Array = "Array",
+  Date = "Date",
+  RegExp = "RegExp",
+  Function = "Function",
+  String = "String",
+  Number = "Number",
+  Boolean = "Boolean",
+  Undefined = "Undefined",
+  Null = "Null",
+  Symbol = "Symbol",
+  Set = "Set",
+  Map = "Map",
+  WeakSet = "WeakSet",
+  WeakMap = "WeakMap"
+}
+
+type ExcludeByKeyTest = Omit<cloneType, Exclude<cloneType, cloneType.Symbol | cloneType.WeakMap>>

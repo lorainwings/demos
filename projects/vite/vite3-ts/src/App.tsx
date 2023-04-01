@@ -5,6 +5,7 @@ import Reducer from './components/Reducer/Reducer'
 import Imperative from './components/Imperative/Parent'
 import Event from './components/Event/Event'
 import Style from './components/Style/Style'
+import Template from './components/Template'
 import './App.css'
 
 function App() {
@@ -36,6 +37,10 @@ function App() {
 
       <Block>
         <Style style={{ color: 'red' }}></Style>
+      </Block>
+
+      <Block>
+        <Template />
       </Block>
     </div>
   )

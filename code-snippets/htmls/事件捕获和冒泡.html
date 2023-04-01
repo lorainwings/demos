@@ -9,19 +9,27 @@
     // 1. 非target节点, 先捕获在冒泡
     // 2. 对于target节点, 事件先注册先执行, 不论是冒泡还是捕获
 
+    // 经实测, 以上结论只征对chrome@90以下的版本
+    // 最新的chrome严格按照
+    // s1捕获->s2捕获->s2冒泡->s1冒泡
+
     s1.addEventListener("click", function (e) {
-        console.log("s1 冒泡事件",e);
+        console.log("s1 冒泡事件", e);
+        alert("s1 冒泡事件");
     }, false);
     s2.addEventListener("click", function (e) {
-        console.log("s2 冒泡事件",e);
+        console.log("s2 冒泡事件", e);
+        alert("s2 冒泡事件");
     }, false);
 
     s1.addEventListener("click", function (e) {
-        console.log("s1 捕获事件",e);
+        console.log("s1 捕获事件", e);
+        alert("s1 捕获事件");
     }, true);
 
     s2.addEventListener("click", function (e) {
-        console.log("s2 捕获事件",e);
+        console.log("s2 捕获事件", e);
+        alert("s2 捕获事件");
     }, true);
 
 </script>

@@ -9,16 +9,24 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <div id="template">
+            <h2>{{items.name}}</h2>
+            <div>这是info的值: {{items.info}}</div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- <script type="x-template" id="template">
+        <div>
+            <h2>{{items.name}}</h2>
+            <div>这是info的值: {{items.info}}</div>
+        </div>
+    </script> -->
     <script>
         // 我们的数据对象
         const App = Vue.component('app', {
-            template:
-                `<div>
-                    <h2>{{items.name}}</h2>
-                    <div>这是info的值: {{items.info}}</div>
-                </div>`,
+            el: "#template",
+            // template: `#template`,
             data() {
                 return {
                     items: {
@@ -50,6 +58,18 @@
         new Vue({
             render: h => h(App),
         }).$mount('#app');
+    </script>
+
+    <script type="module">
+        function a() {
+            console.log('global', this);
+            a.test = 341234
+        }
+        a()
+        // 严格模式无法使用未声明的变量
+        b = 111
+        // console.log('读取未声明的变量', b);
+
     </script>
 </body>
 
