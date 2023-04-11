@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仿chatGPT显示效果</title>
+  <style>
+    :root {
+      --border-color: #ddd;
+      --background-color: rgb(243, 243, 243);
+    }
+
+    .area {
+      margin: 20px auto;
+      border: 1px solid #e5e5e5;
+      width: 500px;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .textarea,
+    .tombstone {
+      box-sizing: border-box;
+      outline: none;
+      width: 100%;
+      resize: none;
+      padding: 0;
+      min-height: 40px;
+      font-size: 20px;
+      overflow: hidden;
+    }
+
+    .tombstone {
+      visibility: hidden;
+      opacity: 0;
+      z-index: -1000;
+      position: absolute;
+    }
+
+    .view {
+      padding: 10px;
+    }
+
+    .view .content {
+      padding: 10px;
+      border-radius: 5px;
+      min-height: 100px;
+      font-size: 20px;
+      border: 1px solid var(--border-color);
+      background-color: var(--background-color);
+    }
+
+    .cursor {
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 20px;
+      background: #898d8d;
+      animation: toggle 0.6s infinite;
+      opacity: 0;
+      transform: translateY(3px);
+      display: none;
+    }
+
+    @keyframes toggle {
+      30% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div>主要实现两种效果:</div>
+    <div>1. 文本光标跟随</div>
+    <div>2. 输入区域自适应高度</div>
+    <div class="area">
+      <div class="view">
+        <!-- <h4>下面是展示区</h4> -->
+        <div class="content">此处作为显示区域</div>
+        <div class="cursor"></div>
+      </div>
+      <textarea rows="1" class="textarea" oninput="onInput(this, type, event)" placeholder="此处输入文本查看效果..."></textarea>
+
+      <!-- 也可以使用墓碑元素的方案, 给墓碑元素设置value来计算scrollHeight -->
+      <!-- <textarea rows="1" class="tombstone"></textarea> -->
+    </div>
+  </div>
+
+  <script>
+    function onInput(t) {
+      t.style.height = 'auto' // 先触发高度计算
+      const sh = t.scrollHeight
+      console.log('sh', sh);
+      t.style.height = `${sh}px`
+      const ct = document.querySelector('.content')
+      ct.innerText = t.value
+      createCursor(ct)
+    }
+
+    function createCursor(ct) {
+      const textNode = document.createTextNode('\u200b') // 创建零宽字符节点
+      if (ct) ct.appendChild(textNode)
+      const range = document.createRange()
+      range.setStart(textNode, 0)
+      range.setEnd(textNode, 0)
+      const rect = range.getBoundingClientRect()
+      const domRect = ct.getBoundingClientRect()
+      const x = rect.left - domRect.left + 10 // 需要排除掉padding的部分
+      const y = rect.top - domRect.top + 10
+      setPos(x, y)
+    }
+
+    function setPos(x, y) {
+      const cursor = document.querySelector('.cursor')
+      cursor.style.left = `${x}px`
+      cursor.style.top = `${y}px`
+      cursor.style.display = 'block'
+    }
+  </script>
+</body>
+
+</html>

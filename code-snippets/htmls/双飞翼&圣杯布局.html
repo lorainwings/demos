@@ -2,120 +2,128 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>双飞翼&圣杯布局</title>
-    <style>
-        :root {
-            --b-cl: #1ab394;
-            --r-cl: red;
-            --u-cl: blue;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>双飞翼&圣杯布局</title>
+  <style>
+    :root {
+      --b-cl: #1ab394;
+      --r-cl: red;
+      --u-cl: blue;
+    }
 
-        html,
-        body,
-        h4 {
-            padding: 0;
-            margin: 0;
-        }
-    </style>
+    html,
+    body,
+    h4 {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
 </head>
 
 <body>
-    <a href="https://www.jianshu.com/p/f9bcddb0e8b4">文章参考链接----简书</a>
-    <div>
-        <style>
-            /* 圣杯布局 */
-            .shb {
-                overflow: hidden;
-                padding: 0 300px 0 200px;
-            }
+  <a href="https://www.jianshu.com/p/f9bcddb0e8b4">文章参考链接----简书</a>
+  <div>
+    <style>
+      /* 圣杯布局 */
+      .shb {
+        overflow: hidden;
+        padding: 0 300px 0 200px;
+      }
 
-            .shb .col {
-                float: left;
-                height: 200px;
-            }
+      .shb .col {
+        float: left;
+        height: 200px;
+      }
 
-            .shb .middle {
-                width: 100%;
-            }
+      .shb .middle {
+        width: 100%;
+      }
 
-            .shb .left {
-                width: 200px;
-                position: relative;
-                left: -200px;
-                margin-left: -100%;
-            }
+      .shb .left {
+        width: 200px;
+        margin-left: -100%;
+        position: relative;
+        /* left: -200px; */
+        right: 200px;
+      }
 
-            .shb .right {
-                width: 300px;
-                position: relative;
-                right: -300px;
-                margin-left: -300px;
-            }
-        </style>
-        <h1>圣杯布局(缺陷是在窄屏下圣杯会破碎)</h1>
-        <div class="shb">
-            <div class="middle col" style="background-color:var(--u-cl);">
-                <h4>中间弹性区</h4>
-            </div>
-            <div class="left col" style="background-color: var(--b-cl);opacity:0.7">
-                <h4>左边固定栏</h4>
-            </div>
-            <div class="right col" style="background-color: var(--r-cl);opacity:0.7">
-                <h4>右边固定栏</h4>
-            </div>
-        </div>
+      .shb .right {
+        width: 300px;
+        /*  position: relative;
+        right: -300px;
+        margin-left: -300px; */
+
+        /* 如何理解:
+         * margin-right负值表示后面的元素向左移动, 而自身不动
+         * margin-right的负数数值, 会被后面元素理解为左边元素宽度小了多少
+         * 此处margin-right: -300px, 后边元素认为左边元素宽度为0, 加上整体式浮动的, 所以就附着于右侧了
+        */
+        margin-right: -300px;
+      }
+    </style>
+    <h1>圣杯布局(缺陷是在窄屏下圣杯会破碎)</h1>
+    <div class="shb">
+      <div class="middle col" style="background-color:var(--u-cl);">
+        <h4>中间弹性区</h4>
+      </div>
+      <div class="left col" style="background-color: var(--b-cl);opacity:0.7">
+        <h4>左边固定栏</h4>
+      </div>
+      <div class="right col" style="background-color: var(--r-cl);opacity:0.7">
+        <h4>右边固定栏</h4>
+      </div>
     </div>
+  </div>
 
-    <hr>
+  <hr>
 
-    <div>
-        <style>
-            /* 圣杯布局 */
-            .sfy {
-                overflow: hidden;
-            }
+  <div>
+    <style>
+      /* 双飞翼布局 */
+      .sfy {
+        overflow: hidden;
+      }
 
-            .sfy .col {
-                float: left;
-                height: 200px;
-            }
+      .sfy .col {
+        float: left;
+        height: 200px;
+      }
 
-            .sfy .mid-container {
-                width: 100%;
-            }
+      .sfy .mid-container {
+        width: 100%;
+      }
 
-            .sfy .middle {
-                margin: 0 300px 0 200px;
-                height: 200px;
-            }
+      .sfy .middle {
+        margin: 0 300px 0 200px;
+        height: 200px;
+      }
 
-            .sfy .left {
-                width: 200px;
-                margin-left: -100%;
-            }
+      .sfy .left {
+        width: 200px;
+        margin-left: -100%;
+      }
 
-            .sfy .right {
-                width: 300px;
-                margin-left: -300px;
-            }
-        </style>
-        <h1>双飞翼布局(完美解决)</h1>
-        <div class="sfy">
-            <div class="mid-container col">
-                <div class="middle" style="background-color:var(--u-cl);">
-                    <h4>中间弹性区</h4>
-                </div>
-            </div>
-            <div class="left col" style="background-color: var(--b-cl);opacity:0.7">
-                <h4>左边固定栏</h4>
-            </div>
-            <div class="right col" style="background-color: var(--r-cl);opacity:0.7">
-                <h4>右边固定栏</h4>
-            </div>
+      .sfy .right {
+        width: 300px;
+        margin-left: -300px;
+      }
+    </style>
+    <h1>双飞翼布局(完美解决)</h1>
+    <div class="sfy">
+      <div class="mid-container col">
+        <div class="middle" style="background-color:var(--u-cl);">
+          <h4>中间弹性区</h4>
         </div>
+      </div>
+      <div class="left col" style="background-color: var(--b-cl);opacity:0.7">
+        <h4>左边固定栏</h4>
+      </div>
+      <div class="right col" style="background-color: var(--r-cl);opacity:0.7">
+        <h4>右边固定栏</h4>
+      </div>
     </div>
+  </div>
 
 </body>
 

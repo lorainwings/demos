@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      border: 1px solid #ccc;
+      margin: 10px;
+      padding: 10px;
+      height: 200px;
+    }
+
+    .item {
+      background-color: #ccc;
+    }
+
+    /* 行内元素 */
+    .container-1 {
+      text-align: center;
+      height: 200px;
+      line-height: 200px;
+    }
+
+    .container-2 {
+      position: relative;
+    }
+
+    /* 这种方案需要知道元素的宽度大小 */
+    .container-2 .item {
+      width: 300px;
+      height: 100px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -150px;
+      margin-top: -50px;
+    }
+
+    .container-3 {
+      position: relative;
+    }
+
+    /* 这种方案css3, 不需要知道元素大小, 不是兼容所有场景, ios9以下不支持 */
+    .container-3 .item {
+      width: 300px;
+      height: 100px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container-4 {
+      position: relative;
+    }
+
+    /* 完美方案 */
+    .container-4 .item {
+      width: 300px;
+      height: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto
+    }
+
+    /* Flex方案 */
+    .container-5 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-5 .item {
+      width: 300px;
+      height: 100px;
+    }
+
+    /* Grid方案 */
+    .container-6 {
+      display: grid;
+      /* 控制容器中的所有项目中的单元格的内容对齐方式 */
+      /* justify-items: center;
+      align-items: center; */
+      /* place-items: center; */
+    }
+
+    .container-6 .item {
+      width: 300px;
+      height: 100px;
+      /* 由于只有一个单元格, 也可以使用align-self */
+      /* justify-self: center;
+      align-self: center; */
+      place-self: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container container-1">
+    <span>
+      行内元素的居中
+    </span>
+  </div>
+
+  <div class="container container-2">
+    <div class="item">
+      margin负值方案, 需要知道自己的大小尺寸
+    </div>
+  </div>
+
+  <div class="container container-3">
+    <div class="item">
+      CSS3实现方案, 兼容性尚可, 如果非常早期的老项目, 不推荐
+    </div>
+  </div>
+
+  <div class="container container-4">
+    <div class="item">
+      兼容性完美方案
+    </div>
+  </div>
+
+  <div class="container container-5">
+    <div class="item">
+      flex方案
+    </div>
+  </div>
+
+  <div class="container container-6">
+    <div class="item">
+      Grid方案
+    </div>
+  </div>
+
+</body>
+
+</html>

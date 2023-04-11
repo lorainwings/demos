@@ -3,11 +3,12 @@ import { ViteDevServer } from 'vite';
 import path from 'path';
 import React from 'react';
 import fs from 'fs';
-import { renderToString } from 'react-dom/server';
 import { createServer } from 'vite'
 
 const isProd = process.env.NODE_ENV === 'production';
 const cwd = process.cwd();
+const templatePath = isProd ? path.join(cwd, 'dist/client/index.html') : path.join(cwd, 'index.html');
+let template = await fs.readFileSync(templatePath, 'utf-8');
 
 const loadSsrEntryModule = async (vite: ViteDevServer | null) => {
   // 生产模式下直接 require 打包后的产物
@@ -24,8 +25,6 @@ const loadSsrEntryModule = async (vite: ViteDevServer | null) => {
 
 
 const htmlParse = async (vite: ViteDevServer | null, appHtml: string, url: string, data: Record<keyof any, unknown>) => {
-  const templatePath = isProd ? path.join(cwd, 'dist/client/index.html') : path.join(cwd, 'index.html');
-  let template = await fs.readFileSync(templatePath, 'utf-8');
   // 开发模式下需要注入 HMR、环境变量相关的代码，因此需要调用 vite.transformIndexHtml
   if (!isProd && vite) {
     template = await vite.transformIndexHtml(url, template);
@@ -60,11 +59,11 @@ export default async function createSsrMiddleware(app: Express): Promise<Request
     const url = req.originalUrl;
     // SSR 的逻辑
     // 1. 加载服务端入口模块
-    const { ServerEntry, fetchData } = await loadSsrEntryModule(vite)
+    const { renderServerEntry, fetchData } = await loadSsrEntryModule(vite)
     // 2. 数据预取
     const data = await fetchData();
     // 3. 「核心」渲染组件
-    const appHtml = renderToString(React.createElement(ServerEntry, { data }));
+    const appHtml = renderServerEntry(req.url, data);
     // 4. 拼接 HTML，返回响应
     const html = await htmlParse(vite, appHtml, url, data)
     res.status(200).setHeader('Content-Type', 'text/html').end(html);

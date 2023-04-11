@@ -20,12 +20,19 @@
                           <div>$attrs: {{$attrs}}</div>
                           <div>$listeners: {{$listeners}}</div>
                           <button @click="sentMsg">展示$listeners</button>
+
+                          <div style="background-color:pink">
+                            <div>测试provide/inject</div>
+                            <div>{{noReactive}}</div>
+                            <div>{{reactive}}</div>
+                          </div>
                       </div>`,
       data() {
         return {
           count: 199,
         };
       },
+      inject: ['noReactive', 'reactive'],
       methods: {
         sentMsg() {
           console.log('父元素的未声明的属性:', this.$attrs);
@@ -74,6 +81,7 @@
       inheritAttrs: false,
       template: `<div>
             <middle-layer :msg="msg" :mes="mes" v-on:showTime="showMeTime" @touch="touchEv" />
+            <button @click="modifyProvide">修改provide数据</button>
            </div>`,
       components: {
         'middle-layer': MiddleLayer,
@@ -82,7 +90,17 @@
         return {
           msg: 'Hello Vue!',
           mes: 'Hello Vue!',
+          reactiveMsg: {
+            name: `张三`,
+            age: 28
+          }
         };
+      },
+      provide() {
+        return {
+          noReactive: this.msg,
+          reactive: this.reactiveMsg //如果需要子组件的数据是响应式, 需要传递<响应式对象obj>, 不能是普通原始类型
+        }
       },
       methods: {
         showMeTime(val) {
@@ -90,6 +108,11 @@
         },
         touchEv() {
           console.log("我是原生事件")
+        },
+        modifyProvide() {
+          this.msg = "修改provide原始值"
+          this.reactiveMsg.name = '李四'
+          this.reactiveMsg.age = 30
         }
       },
     });

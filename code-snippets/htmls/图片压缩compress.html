@@ -2,61 +2,95 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>图片压缩测试</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图片压缩测试</title>
+  <style>
+    .item {
+      height: 30px;
+      padding: 10px;
+    }
+
+    input {
+      min-width: 200px;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="item">
+    <label for="scale">裁剪比率:</label>
+    <input type="number" id="scale" placeholder="默认宽高不裁剪">
+  </div>
+  <div class="item">
+    <label for="quality">压缩比率:</label>
+    <input type="number" id="quality" placeholder="默认压缩率为1(不压缩)">
+  </div>
+  <div class="item">
+    <label for="imgFile">上传压缩:</label>
     <input type="file" name="" id="imgFile" accept='image/*' onchange="change(this)">
-    <script>
-        const input = document.getElementById('imgFile');
+  </div>
 
-        const compress = async ({ file, ratio, quality = 1 }) => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const { type } = file;
-            const { width, height, img } = await getImgAttr(file);
-            const cWidth = canvas.width = parseInt(width * ratio);
-            const cHeight = canvas.height = parseInt(height * ratio);
-            ctx.drawImage(img, 0, 0, cWidth, cHeight);
+  <div>
+    <button id="sumbit" onclick="submit(this, type, event)">开始压缩</button>
+  </div>
 
-            // 压缩完成,开始图片显示或下载 (可以使用toDataUrl和toBlob来生成本地图片)
-            // toDataUrl的quality参数对png图像无效
-            canvas.toBlob(async (blob) => {
-                const { width: compWidth, height: compHeight, img: nImg } = await getImgAttr(blob);
-                download(blob, type);
-            }, type, quality)
+  <script>
+    const input = document.getElementById('imgFile');
+
+    const compress = async ({ file, ratio, quality = 1 }) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const { type } = file;
+      const { width, height, img } = await getImgAttr(file);
+      const cWidth = canvas.width = parseInt(width * ratio);
+      const cHeight = canvas.height = parseInt(height * ratio);
+      ctx.drawImage(img, 0, 0, cWidth, cHeight);
+
+      // 压缩完成,开始图片显示或下载 (可以使用toDataUrl和toBlob来生成本地图片)
+      // toDataUrl的quality参数对png图像无效
+      canvas.toBlob(async (blob) => {
+        const { width: compWidth, height: compHeight, img: nImg } = await getImgAttr(blob);
+        download(blob, type);
+      }, type, quality)
+    }
+
+    const getImgAttr = async (file) => {
+      const img = new Image();
+      const path = URL.createObjectURL(file);
+      img.src = path;
+      return new Promise((rs, rj) => {
+        img.onload = () => {
+          const { naturalWidth, naturalHeight } = img;
+          rs({ width: naturalWidth, height: naturalHeight, img });
         }
+      });
+    }
 
-        const getImgAttr = async (file) => {
-            const img = new Image();
-            const path = URL.createObjectURL(file);
-            img.src = path;
-            return new Promise((rs, rj) => {
-                img.onload = () => {
-                    const { naturalWidth, naturalHeight } = img;
-                    rs({ width: naturalWidth, height: naturalHeight, img });
-                }
-            });
-        }
+    const download = (blob, type) => {
+      const path = URL.createObjectURL(blob);
+      const aElem = document.createElement('a');
+      aElem.href = path;
+      const format = type.split('/')[1];
+      aElem.setAttribute('download', `dload.${format}`);
+      aElem.click();
+    }
 
-        const download = (blob, type) => {
-            const path = URL.createObjectURL(blob);
-            const aElem = document.createElement('a');
-            aElem.href = path;
-            const format = type.split('/')[1];
-            aElem.setAttribute('download', `dload.${format}`);
-            aElem.click();
-        }
+    const change = async (e) => {
+      const file = e.files[0];
+      console.log(file)
+    }
 
-        const change = async (e) => {
-            const file = e.files[0];
-            console.log(file)
-            compress({ file, ratio: 0.5, quality: 1 });
-        }
-    </script>
+    const submit = (e) => {
+      const [file] = document.querySelector('#imgFile').files
+      const quality = document.querySelector('#quality').value || 1
+      const scale = document.querySelector('#scale').value || 1
+      if (!file) return alert('文件不存在')
+      if (quality > 1 || quality < 0 || scale > 1 || scale < 0) return alert('范围为0~1')
+      compress({ file, ratio: +scale, quality: +quality });
+    }
+  </script>
 </body>
 
 </html>

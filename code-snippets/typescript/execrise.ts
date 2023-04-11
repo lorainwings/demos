@@ -33,7 +33,7 @@ type nr2 = RequiredByKeys2<User, 'name' | 'age'>
 type Test<T> = T extends true ? 1 : 2;
 type res = Test<boolean>;
 
-type robj = { readonly[key: string]: string };
+type robj = { readonly [key: string]: string };
 type robj1 = Readonly<Record<string, unknown>>
 
 type trobj = robj extends robj1 ? 1 : 2
@@ -67,3 +67,12 @@ export enum cloneType {
 }
 
 type ExcludeByKeyTest = Omit<cloneType, Exclude<cloneType, cloneType.Symbol | cloneType.WeakMap>>
+
+/**
+ *
+ * @param x 可以是任意类型, 但不能是Date类型
+ */
+function log<T>(x: Exclude<T, Date>) {
+  console.log(x)
+}
+// log(new Date())

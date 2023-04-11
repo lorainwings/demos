@@ -1,15 +1,26 @@
 // entry-server.ts
 // 导出 SSR 组件入口
-import App from "./App";
-import "./index.css";
+import './index.css'
+import { App } from './App'
+import { renderToString } from 'react-dom/server'
+import { StaticRouter } from 'react-router-dom/server'
 
-
-function ServerEntry(props: { data: Window['__SSR_DATA__'] }) {
-  return <App data={props.data} />;
+export interface IResponse {
+  user: string
+  date: string
 }
 
-async function fetchData() {
-  return { user: "lorain", date: `2022年10月08日23:20:12` };
+function renderServerEntry(url: string, data: IResponse) {
+  return renderToString(
+    <StaticRouter location={url}>
+      <App data={data} />
+    </StaticRouter>
+  )
 }
 
-export { ServerEntry, fetchData };
+async function fetchData(): Promise<IResponse> {
+  return { user: 'lorain', date: `2022年10月08日23:20:12` }
+}
+
+export { renderServerEntry, fetchData }
+
