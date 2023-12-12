@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <style>
+      body {
+        margin: 0;
+        height: 1000px;
+      }
+
+      #demo {
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+        border: 20px solid #ddd;
+        margin: 30px;
+        background-color: red;
+      }
+    </style>
+    <div id="demo">123456789 123456789</div>
+
+    <script>
+      const dom = document.getElementById('demo')
+
+      console.group('screen')
+      console.log('screen.width', screen.width) // 屏幕的宽
+      console.log('screen.height', screen.height) // 屏幕的高
+      console.log('screen.availWidth', screen.availWidth) // 屏幕可用宽度   屏幕的像素高度减去系统部件高度之后的值
+      console.log('screen.availHeight', screen.availHeight) // 屏幕可用高度   屏幕的像素宽度减去系统部件宽度之后的值
+      console.groupEnd()
+
+      console.group('window')
+      console.log('window.screenTop', window.screenTop) //窗口顶部距屏幕顶部的距离
+      console.log('window.screenLeft', window.screenLeft) //窗口左侧距屏幕左侧的距离
+      console.log('window.innerWidth', window.innerWidth) //窗口中可视区域(viewpoint)的宽度
+      console.log('window.innerHeight', window.innerHeight) //窗口中可视区域(viewpoint)的高度  该值与浏览器是否显示菜单栏等因素有关
+      console.log('window.outerWidth', window.outerWidth) //浏览器窗口本身的宽度(可视区域宽度+浏览器边框宽度)
+      console.log('window.outerHeight', window.outerHeight) //浏览器窗口本身的高度
+      console.groupEnd()
+
+      console.group('dom')
+      console.log('dom.clientWidth', dom.clientWidth) // 在页面上返回元素的可视宽度（不包括边框，边距或滚动条）
+      console.log('dom.clientHeight', dom.clientHeight) // 在页面上返回元素的可视高度（不包括边框，边距或滚动条）
+      console.log('dom.offsetWidth', dom.offsetWidth) // 返回元素的宽度包括边框和填充，但不包括边距
+      console.log('dom.offsetHeight', dom.offsetHeight) // 返回元素的高度包括边框和填充，但不包括边距
+      console.log('dom.offsetLeft', dom.offsetLeft) // 获取对象相对于版面或由 offsetLeft属性指定的父坐标的计算左侧位置
+      console.log('dom.offsetTop', dom.offsetTop) // 获取对象相对于版面或由 offsetTop属性指定的父坐标的计算顶端位置
+      console.groupEnd()
+
+      console.group('body')
+      console.log('document.body.scrollWidth', document.body.scrollWidth) // 返回元素的整个宽度（包括带滚动条的隐蔽的地方）
+      console.log('document.body.scrollHeight', document.body.scrollHeight) // 返回整个元素的高度（包括带滚动条的隐蔽的地方）
+      console.log('dom.body.scrollTop', document.body.scrollTop) // 向下滑动滚动块时元素隐藏内容的高度。不设置时默认为0，其值随着滚动块滚动而变化
+      console.log('dom.body.scrollLeft', document.body.scrollLeft) // 向右滑动滚动块时元素隐藏内容的宽度。不设置时默认为0，其值随着滚动块滚动而变化
+      console.groupEnd()
+    </script>
+  </body>
+</html>

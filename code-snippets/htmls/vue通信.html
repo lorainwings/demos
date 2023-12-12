@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>Hello bus!</h1>
+      <p>{{i}}</p>
+      <!-- <p>
+            <router-link to="/demo1">demo1</router-link>
+            <router-link to="/demo2">demo2</router-link>
+        </p>
+        <router-view></router-view> -->
+      <demo1></demo1>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+      const bus = new Vue({
+        data() {
+          return {
+            val1: 0,
+            msg: '',
+            msg2: '',
+            msg1: ''
+          }
+        },
+        created() {
+          this.$on('update1', (val) => {
+            this.val1 = val
+          })
+
+          this.$on('app-send', (msg) => {
+            console.log('bus中收到app-send')
+            this.msg = msg
+          })
+
+          this.$on('send-to-demo2', (msg) => {
+            this.msg2 = msg
+          })
+
+          this.$on('send-to-demo1', (msg) => {
+            this.msg1 = msg
+          })
+        }
+      })
+
+      const Demo2 = Vue.component('demo2', {
+        template: `<div>
+                        <h1>demo2</h1>
+                        <div>{{val1}}</div>
+                        <div>{{msg}}</div>
+                        <div>{{msg2}}</div>
+                        <div @click="sendMsgToDemo1">sendMsgToDemo1</div>
+                    </div>`,
+        computed: {
+          val1() {
+            return bus.val1
+          },
+          msg() {
+            return bus.msg
+          },
+          msg2() {
+            return bus.msg2
+          }
+        },
+        methods: {
+          sendMsgToDemo1() {
+            bus.$emit('send-to-demo1', '这是我发给父组件demo1的')
+          }
+        }
+      })
+
+      const Demo1 = Vue.component('demo1', {
+        template: `<div>
+                            <h1>demo1</h1>
+                            <div>{{val}}</div>
+                            <div>{{msg1}}</div>
+                            <div @click="sendMsgToDemo2">sendMsgToDemo2</div>
+                            <demo2></demo2>
+                      </div>`,
+        components: {
+          Demo2
+        },
+        computed: {
+          val() {
+            return bus.val1
+          },
+          msg1() {
+            return bus.msg1
+          }
+        },
+        methods: {
+          sendMsgToDemo2() {
+            bus.$emit('send-to-demo2', '这是我发给子组件demo2的')
+          }
+        }
+      })
+
+      // router
+      const routes = [
+        { path: '/demo1', component: Demo1 },
+        { path: '/demo2', component: Demo2 }
+      ]
+
+      const router = new VueRouter({
+        routes
+      })
+
+      // app
+      const app = new Vue({
+        data() {
+          return {
+            i: 0
+          }
+        },
+        components: {
+          Demo1
+        },
+        // router,
+        created() {
+          // setInterval(() => {
+          //     bus.$emit('update1', this.i++)
+          // }, 100)
+          bus.$emit('app-send', 'this is app send msg')
+        }
+      }).$mount('#app')
+    </script>
+  </body>
+</html>

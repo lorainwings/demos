@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      // 传统promise
+      const renderPromise = (st) => {
+        return new Promise((rs, rj) => {
+          setTimeout(() => {
+            st ? rs(st) : rj('st is not transmit!')
+          }, 1000)
+        })
+      }
+
+      // async取代
+      const renderAsync = async (st) => {
+        let res = 999
+        await setTimeout(() => {
+          console.log('renderAsync macroTask!')
+          st && (res = st * 2)
+        }, 1000)
+        console.log('renderAsync microTask!')
+        return st ? res : `st is not exist!`
+      }
+    </script>
+
+    <script>
+      //test
+      const st = '1111'
+
+      // renderPromise().then(console.log, console.log);
+      renderAsync(st).then(
+        (v) => {
+          console.log('resolve', v)
+        },
+        (v) => {
+          console.log('===', v)
+        }
+      )
+    </script>
+  </body>
+</html>

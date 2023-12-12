@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>使用CSS实现滚轮横向滚动页面</title>
+    <style>
+      /* 以下的为辅助CSS, 用于美化或者调试 */
+      h1,
+      h3 {
+        width: 100%;
+        text-align: center;
+      }
+
+      .vertical-scroll {
+        background-color: #ccc;
+        box-shadow: -20px 15px 5px black;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      .content {
+        border: 1px solid red;
+      }
+    </style>
+    <style>
+      /* 页面需要实现一个可以横向滚动的容器, 宽度为90vw, 高度为70vh */
+      /* 所有主要的CSS如下: */
+      :root {
+        --c-width: 100vw;
+        --c-height: 650px;
+        --x-center: 0 auto;
+      }
+
+      .container {
+        width: var(--c-width);
+        height: var(--c-height);
+        margin: var(--x-center);
+      }
+
+      .vertical-scroll {
+        /* 此处应该反着来 */
+        width: var(--c-height);
+        height: var(--c-width);
+        overflow: auto;
+        position: relative;
+        transform-origin: left top;
+        transform: translateY(var(--c-height)) rotate(-90deg);
+      }
+
+      /**
+     * 实际放置子元素的容器, 因为子元素直接绝对定位撑满父元素vertical-scroll-container
+     * 因此, 需要将子元素高度也设置为父元素的高度
+     */
+      .content {
+        display: flex;
+        height: var(--c-height);
+        /*  position: absolute;
+      top: 0;
+      left: var(--c-height); */
+        /* transform-origin: left top; */
+        transform: rotate(90deg);
+      }
+
+      .item {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>使用CSS实现滚轮横向滚动页面</h1>
+      <h3>页面需要实现一个可以横向滚动的容器, 宽度为100vw, 高度为650px</h3>
+    </header>
+
+    <div class="container">
+      <div class="vertical-scroll">
+        <div class="content">
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum0/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum1/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum2/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum3/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum4/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum5/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum6/650/650" alt="" />
+          </div>
+          <div class="item">
+            <img src="https://picsum.photos/seed/picsum7/650/650" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

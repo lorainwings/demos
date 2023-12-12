@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>测试客户端location api</h1>
+    <script>
+      const getCurrentLocation = () => {
+        return new Promise((resolve, reject) => {
+          if (window.bridge) {
+            try {
+              window.poscb = function (pos) {
+                alert('回调被调用!')
+                alert(pos)
+                pos.success ? resolve(pos) : reject(pos)
+              }
+              window.bridge.getCurrentLocation('poscb')
+              alert('22')
+            } catch (e) {
+              alert(e)
+              reject(e)
+            }
+          } else reject(new Error('bridge property not exist on window!'))
+        })
+      }
+
+      getCurrentLocation().then((pos) => {
+        alert(pos)
+      })
+    </script>
+  </body>
+</html>

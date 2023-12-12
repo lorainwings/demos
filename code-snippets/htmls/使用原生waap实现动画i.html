@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        max-width: 100vw;
+        min-height: 90vh;
+      }
+
+      button {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-font-smoothing: antialiased;
+        font: inherit;
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        height: 44px;
+        margin: 0;
+        line-height: 1.2;
+        text-align: center;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        border: 1px solid #07c160;
+        background-color: #fff;
+        padding: 0 15px;
+        font-size: 14px;
+        color: #07c160;
+        margin-right: 16px;
+      }
+
+      .button-group {
+        margin: 0 auto;
+        width: 80vw;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      button:active {
+        color: #fff;
+        background-color: #07c160;
+      }
+
+      h4 {
+        text-align: center;
+      }
+
+      .gap {
+        border: 2px dotted black;
+        height: 40px;
+        margin: 40vw auto 0;
+        overflow: hidden;
+      }
+
+      .container {
+        border: 1px solid #ddd;
+        transform-origin: center;
+        transition: all 1s linear;
+        position: relative;
+        z-index: -1;
+      }
+
+      .item {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: -1;
+      }
+
+      .item:first-child {
+        background-color: antiquewhite;
+      }
+
+      .item:nth-child(2) {
+        background-color: aquamarine;
+      }
+
+      .item:nth-child(3) {
+        background-color: cadetblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h4>使用原生WA(Web Animation) API实现动画</h4>
+    <div class="button-group">
+      <button onclick="useTimer()">使用定时器启动</button>
+      <button onclick="useWaApi()">使用WA API启动</button>
+    </div>
+    <div class="gap">
+      <div class="container">
+        <div class="item">第一个</div>
+        <div class="item">第二个</div>
+        <div class="item">第三个</div>
+      </div>
+    </div>
+
+    <script>
+      const container = document.querySelector('.container')
+      const height = 40
+      const duration = 1500
+      const count = container.children.length
+      const [firstSwipeItem] = container.children
+
+      /**
+       * 方式一: 使用JS定时器实现
+       *
+       */
+      const useTimer = (() => {
+        let index = 0
+        let timer = null
+        return () => {
+          clearInterval(timer)
+          timer = setInterval(() => {
+            index++
+            if (index >= count) {
+              firstSwipeItem.style.transform = `translateY(${index * height}px)`
+              // 第一个滚动结束后, 整个container位置重置
+              setTimeout(() => {
+                container.style.transition = 'none'
+                firstSwipeItem.style.transform = ''
+                container.style.transform = ''
+                container.clientTop
+              }, 1000)
+            }
+            container.style.transform = `translateY(-${index * height}px)`
+            container.style.transition = `all linear 1s`
+            index = index % count
+          }, 1500)
+        }
+
+        window.onunload = () => {
+          clearInterval(timer)
+        }
+      })()
+
+      /**
+       * 方式二: 使用Web Animation API实现动画
+       */
+      const useWaApi = () => {
+        container.getAnimations().forEach((a) => a.cancel())
+        let index = 0
+        const run = () => {
+          index++
+          container.animate(
+            [
+              {
+                transform: `translateY(-${index * height}px)`
+              }
+            ],
+            {
+              duration: 1500,
+              fill: 'forwards'
+            }
+          )
+        }
+        run()
+      }
+    </script>
+  </body>
+</html>

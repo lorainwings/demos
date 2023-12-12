@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <p>
+      另一方面，ECMA-262（JavaScript标准）定义了一些不同的字符串：根据 7.8.4
+      String
+      Literals,，一个字符串可以包含任何东西，只要它不是一个引号，一个反斜线或一个行终止符.
+    </p>
+
+    <p>那么,什么事行终止符呢? 让我们看一下7.3 Line Terminators:</p>
+
+    <p>下面的字符被认为是行终止符:</p>
+
+    <p>\u000A - Line Feed</p>
+    <p>\u000D - Carriage Return</p>
+    <p>\u2028 - Line separator</p>
+    <p>\u2029 - Paragraph separator</p>
+    <p>然而,JavaScript里没有字符串可以包括U+2028和U+2029字符.</p>
+
+    <script>
+      var a = '\u2028'
+      var b = '\u2029'
+      var c = { JSON: 'ro cks!' }
+      console.log('======a', a)
+      console.log('======b', b)
+      console.log('======b', c)
+      console.log('======Promise', Promise)
+    </script>
+  </body>
+</html>

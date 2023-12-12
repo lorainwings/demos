@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>大文件分片</title>
+    <link rel="icon" href="data:;base64," />
+  </head>
+
+  <body>
+    <h1>使用WebWork多线程处理大文件分片问题</h1>
+    <input type="file" id="file" />
+
+    <script type="module">
+      const dom = document.querySelector('#file')
+      const CHUNK_SIZE = 1024 * 1024 * 5 // 将每个分片切割为5MB
+      const threadsNum = navigator.hardwareConcurrency // 创建CPU核心数个线程
+      dom.addEventListener('change', start)
+
+      function start() {
+        return new Promise((resolve) => {
+          const file = dom?.files?.[0]
+          const result = []
+          // 分片总数
+          const chunkCount = Math.ceil(file.size / CHUNK_SIZE)
+          // 每个线程需要处理的分片数
+          const workerChunkCount = Math.ceil(chunkCount / threadsNum)
+          // 已完成的线程计数
+          let finishThreadCount = 0
+
+          for (let i = 0; i < threadsNum; i++) {
+            // 每个worker处理的分片下标开始和结束
+            const tilingStart = i * workerChunkCount
+            const lastOne = tilingStart + workerChunkCount
+            const tilingEnd = lastOne > chunkCount ? chunkCount : lastOne
+
+            // 每次创建一个新的webworker线程
+            const worker = new Worker('./webworker/worker.js', {
+              type: 'module',
+              name: `${i}-worker`
+            })
+
+            worker.postMessage({
+              file,
+              startIndex: tilingStart,
+              endIndex: tilingEnd,
+              chunkSize: CHUNK_SIZE
+            })
+
+            worker.onmessage = (e) => {
+              // e.data是返回当前worker处理后的结果数组
+              for (let i = tilingStart; i < tilingEnd; i++) {
+                result[i] = e.data[i - tilingStart]
+              }
+              worker.terminate()
+              finishThreadCount++
+              if (finishThreadCount === threadsNum) {
+                resolve(result)
+                console.log('---总数据', result)
+              }
+            }
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

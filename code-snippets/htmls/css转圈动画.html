@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes rotateLoading {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        50% {
+          transform: rotate(180deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .logo {
+        animation: rotateLoading 10s linear infinite;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="logo">
+      <a
+        href="https://www.google.com/webhp?hl=zh-CN&amp;sa=X&amp;ved=0ahUKEwjY87-ajf_uAhV6yosBHUvADmEQPAgI"
+        title="Google 首页"
+        id="logo"
+        data-hveid="8"
+      >
+        <img
+          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
+          alt="Google"
+          height="30"
+          width="92"
+          data-atf="1"
+        />
+      </a>
+    </div>
+  </body>
+</html>

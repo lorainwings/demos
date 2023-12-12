@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .ct {
+        display: flex;
+        width: 100%;
+        height: 300px;
+      }
+
+      .div1 {
+        width: 70%;
+        margin-right: 10px;
+        background-color: #1ab384;
+        display: flex;
+      }
+
+      .div2 {
+        width: 30%;
+        border: 1px solid #e43937;
+      }
+
+      .c1,
+      .c2 {
+        width: 50%;
+        height: 100%;
+      }
+
+      .c1 {
+        margin-right: 10px;
+      }
+
+      table {
+        width: 100%;
+
+        /* 表格会溢出父元素的宽度,导致内容跑出元素外, 使用下面方式解决 */
+        table-layout: fixed;
+        word-break: break-all;
+      }
+
+      td {
+        width: 10%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ct">
+      <div class="div1">
+        <div class="c1"></div>
+        <div class="c2">
+          <table>
+            <tr>
+              <td>班级</td>
+              <td>人数</td>
+              <td>班主任</td>
+              <td>班级</td>
+              <td>人数</td>
+              <td>班主任</td>
+            </tr>
+            <tr>
+              <td>7-4</td>
+              <td>31</td>
+              <td>sellea</td>
+              <td>5-11</td>
+              <td>131</td>
+              <td>catalina</td>
+            </tr>
+            <tr>
+              <td>7-4</td>
+              <td>31</td>
+              <td>sellea</td>
+              <td>5-11</td>
+              <td>131</td>
+              <td>catalina</td>
+            </tr>
+            <tr>
+              <td>7-4</td>
+              <td>31</td>
+              <td>sellea</td>
+              <td>5-11</td>
+              <td>131</td>
+              <td>catalina</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="div2"></div>
+    </div>
+  </body>
+</html>

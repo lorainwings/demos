@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://lib.baomitu.com/vue/2.6.12/vue.js"></script>
+    <style>
+      :root {
+        --green--color: rgb(113, 132, 113);
+        --pink--color: pink;
+      }
+
+      .child,
+      .parent {
+        min-width: 100px;
+        min-height: 200px;
+        border: 1px solid #ddd;
+      }
+
+      .child {
+        background-color: var(--green--color);
+      }
+
+      .parent {
+        background-color: var(--pink--color);
+      }
+
+      button {
+        height: 50px;
+        background-color: aqua;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script id="child" type="x-template">
+      <div class="child">
+        <p>我是子组件</p>
+      </div>
+    </script>
+
+    <script id="parent" type="x-template">
+      <div class="parent">
+        <button @click="handleRefs">[不推荐]父组件调用-通过$refs</button>
+        <button @click="handleWatchProp">[不推荐]父组件调用-通过WatchProp</button>
+        <button @click="handleBus">[推荐]父组件调用-通过事件总线</button>
+        <button @click="handleEmit">[推荐]父组件调用-通过缓存通知</button>
+        <Child ref="child" @onRegister="onRegister" :trigger="trigger"></Child>
+      </div>
+    </script>
+
+    <script>
+      const Child = Vue.component('child', {
+        template: '#child',
+        props: ['trigger'],
+        methods: {
+          childMethod(data) {
+            console.log('子组件方法被调用', data)
+          }
+        },
+        watch: {
+          trigger: {
+            handler(n, o) {
+              this.childMethod(n.data)
+            }
+          }
+        },
+        mounted() {
+          this.$nextTick(function () {
+            this.$on('bus', function (data) {
+              console.log('子组件方法被调用', data)
+            })
+          })
+
+          this.$emit('onRegister', {
+            childMethod: this.childMethod
+          })
+        }
+      })
+
+      const Parent = Vue.component('parent', {
+        template: '#parent',
+        components: { Child },
+        data() {
+          return {
+            trigger: {},
+            childCaches: {}
+          }
+        },
+        methods: {
+          handleRefs() {
+            this.$refs.child.childMethod(`使用$refs`)
+          },
+          handleBus() {
+            this.$refs.child.$emit('bus', `使用bus`)
+          },
+          onRegister(methods) {
+            this.childCaches = methods
+          },
+          handleEmit() {
+            this.childCaches.childMethod(`使用缓存通知`)
+          },
+          handleWatchProp() {
+            this.trigger = { time: +new Date(), data: `使用WatchProp` }
+          }
+        }
+      })
+
+      new Vue({
+        render: (h) => h(Parent)
+      }).$mount('#app')
+    </script>
+  </body>
+</html>

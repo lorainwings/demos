@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>H5流式下载</title>
+    <style>
+      body {
+        padding: 20px;
+      }
+
+      .container {
+        display: flex;
+        min-height: 50vh;
+      }
+
+      .item {
+        padding: 10px;
+        border: 1px solid #ccc;
+        flex: 1;
+        margin-right: 20px;
+      }
+
+      .item:last-child {
+        margin-right: 0;
+      }
+
+      .desc-row {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .desc-row div {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>流式下载大文件</h1>
+    <p>
+      在浏览器端将服务器的可读流通过流式写入到本地文件中是一个挑战性的任务，因为浏览器的安全性和沙盒环境会限制对本地文件系统的直接访问。通常情况下，你需要将服务器的数据流先缓存到内存中，然后再将其写入本地文件
+    </p>
+
+    <p>
+      因此, 相应的 API
+      createObjectURL、readAsDataURL必须传入整个文件数据才能进行下载，是不支持流的。也就是说一旦文件数据到了
+      JS 手中，想要下载，就必须把数据堆在内存中，直到拿到完整数据才能开始下载。
+      所以当我们从服务器下载文件时，应该尽量避免使用 Ajax ，直接使用
+      页面跳转类的 API 让下载线程进行流式下载。
+    </p>
+
+    <h2>下载分为两类</h2>
+
+    <div class="container">
+      <div class="item">
+        <h2>第一类: 带有跳转行为</h2>
+        <div>
+          远端服务器将通过下载线程与本地文件形成文件流管道,
+          不会占用浏览器的内存,
+          响应数据直接由下载线程接管，可以进行流式下载，一边接收数据一边往本地写文件。
+        </div>
+        <hr />
+        <div>
+          <div class="desc-row">
+            <div>- 使用a标签下载:</div>
+            <a
+              download="JS高级程序设计(第四版).pdf"
+              href="https://raw.githubusercontent.com/Mrrabbitan/learningMaterials/master/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89.pdf"
+            >
+              点击下载大文件
+            </a>
+          </div>
+
+          <div class="desc-row">
+            <div>- 使用form + iframe下载:</div>
+            <iframe id="downloadFrame" style="display: none"></iframe>
+            <form
+              action="http://localhost:9229/stream-dmg"
+              target="downloadFrame"
+              method="get"
+            >
+              <button type="submit">点击下载大文件</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <h2>第二类: 使用ajax</h2>
+        <div>
+          如果使用JS请求文件, 得到blob, 然后在createObjectURL,
+          通过动态创建a元素, 调用click会占用浏览器大量内存(不推荐), 由 JS
+          线程接管响应数据，使用 API 将文件数据创建成 url 触发下载
+        </div>
+        <hr />
+        <p>
+          使用js流式下载:
+          <button onclick="getResponse()">JS流式下载</button>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const url = `https://raw.githubusercontent.com/Mrrabbitan/learningMaterials/master/JavaScript%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%EF%BC%88%E7%AC%AC4%E7%89%88%EF%BC%89.pdf`
+      const ws = new WritableStream()
+      const next = (reader) => {
+        return reader.read().then(({ done, value }) => {
+          if (done) {
+            ws.getWriter().close()
+            return
+          }
+          ws.getWriter().write(value)
+          return next(reader)
+        })
+      }
+
+      const download = () => {
+        const blob = new Blob([value], { type: 'application/octet-stream' })
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(blob)
+        a.download = 'JS高级程序设计(第四版).pdf'
+        a.click()
+        URL.revokeObjectURL(a.href)
+      }
+
+      async function getResponse() {
+        const res = await fetch(url)
+        // 返回一个流式读取器
+        const reader = res.body.getReader()
+        return next(reader)
+      }
+    </script>
+  </body>
+</html>

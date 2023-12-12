@@ -1,0 +1,33 @@
+<button class="button">点击事件</button>
+<button class="other-buttom">其他按钮</button>
+<script>
+  // 补全getElement函数, 使后续程序能顺利执行
+  function getElement(selector) {
+    const dom = document.querySelector(selector)
+    return new Proxy(dom, {
+      get(target, prop) {
+        if (!prop.startsWith('wait')) return target[prop]
+
+        return new Promise((resolve) => {
+          const event = prop.replace('wait', '').toLowerCase()
+          target.addEventListener(event, resolve, { once: true })
+        })
+      }
+    })
+  }
+
+  /* 这种写法有缺陷, 即使await让出了主线程, 但是等待这个微任务完成, 下次又只会进入该while, 导致页面不停的注册btn.waitClick */
+  ;(async () => {
+    const btn = getElement('button')
+    while (1) {
+      await btn.waitClick
+      console.log(`waitClick被执行了`)
+    }
+  })()
+
+  document.querySelector('.other-buttom').addEventListener('click', () => {
+    console.log('其他按钮触发点击')
+  })
+
+  console.log('-------------主线程')
+</script>

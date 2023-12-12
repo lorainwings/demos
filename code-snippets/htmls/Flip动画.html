@@ -1,0 +1,112 @@
+<style>
+  ul {
+    padding: 20px;
+    border: 1px solid #a12d02;
+    width: fit-content;
+  }
+
+  li {
+    list-style: none;
+    height: 30px;
+    width: 200px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aquamarine;
+    margin: 10px 0;
+  }
+</style>
+
+<button class="first-begin">第一个元素播放FLIP</button>
+<button class="full-sort-begin">全体元素排序播放FLIP</button>
+
+<ul class="list">
+  <li
+    class="list-item"
+    style="background: #e75723; border-color: #a12d02"
+    order="7"
+  >
+    7. HTML + CSS
+  </li>
+  <li class="list-item" order="6">6. Javascript</li>
+  <li class="list-item" order="1">1. 网络</li>
+  <li class="list-item" order="3">3. 工程化</li>
+  <li class="list-item" order="5">5. 框架</li>
+  <li class="list-item" order="4">4. 移动端</li>
+  <li class="list-item" order="2">2. Nodejs</li>
+</ul>
+
+<script>
+  // 公共元素和函数
+  const list = document.querySelector('.list')
+
+  function getLocation(elem) {
+    const rect = elem.getBoundingClientRect()
+    return rect.top
+  }
+
+  function raf(cb) {
+    requestAnimationFrame(cb)
+  }
+</script>
+
+<script>
+  // 处理第一个元素的FLIP动画
+  ~(function handleFirstFLIP() {
+    const btn = document.querySelector('.first-begin')
+    const firstItem = document.querySelector('.list-item:first-child')
+    const lastItem = document.querySelector('.list-item:last-child')
+    const start = getLocation(firstItem)
+    console.log('first', start)
+    btn.onclick = () => {
+      // 该行操作并不会立即绘制到浏览器, 而是等待下一个事件循环进行绘制
+      list.insertBefore(firstItem, null)
+      const end = getLocation(firstItem)
+      console.log('end', end)
+
+      const distance = start - end
+      firstItem.style.transform = `translateY(${distance}px)`
+      console.log('invert', distance)
+
+      raf(() => {
+        firstItem.style.transition = `transform 1s`
+        firstItem.style.removeProperty('transform')
+        console.log('play')
+      })
+    }
+  })()
+</script>
+
+<script>
+  // 实现全体元素的FLIP排序动画
+  const beginBtn = document.querySelector('.full-sort-begin')
+  beginBtn.onclick = () => {
+    const map = Array.from(list.children).reduce((o, c, n) => {
+      const index = c.getAttribute('order')
+      o[index] = {
+        order: index,
+        el: c,
+        start: getLocation(c),
+        end: -1,
+        dis: 0
+      }
+      return o
+    }, {})
+
+    const orderList = Object.values(map).sort((a, b) => b.order - a.order)
+    let prev = null
+    orderList.forEach((item) => {
+      list.insertBefore(item.el, prev)
+      prev = item.el
+      item.end = getLocation(item.el)
+      item.dis = item.start - item.end
+      item.el.style.transform = `translateY(${item.dis}px)`
+
+      raf(() => {
+        item.el.style.transition = `transform 1s`
+        item.el.style.removeProperty('transform')
+      })
+    })
+  }
+</script>

@@ -1,0 +1,92 @@
+<script>
+  // 实现instanceof
+  const instanceofFake = (target, ctor) => {
+    let proto = target.__proto__
+    if (proto) {
+      if (proto === ctor.prototype) {
+        return true
+      } else {
+        return instanceofFake(proto, ctor)
+      }
+    } else {
+      return false
+    }
+  }
+
+  // 实现多重filter
+  const filterAdvance = (arr, opts) => {
+    const singleFilter = (array, key, val) =>
+      array.filter((item) => item[key] === val)
+    for (const key in opts) {
+      arr = singleFilter(arr, key, opts[key])
+    }
+    return arr
+  }
+
+  const filterReduce = (arr, conds) => {
+    return Object.keys(conds).reduce((r, c) => {
+      return r.filter((it) => it[c] === conds[c])
+    }, arr)
+  }
+
+  // 测试代码
+
+  const students = [
+    {
+      age: 11,
+      gender: '男',
+      name: '张三',
+      class: '一班'
+    },
+    {
+      age: 11,
+      gender: '女',
+      name: '张三',
+      class: '一班'
+    },
+    {
+      age: 11,
+      gender: '男',
+      name: '张四',
+      class: '二班'
+    },
+    {
+      age: 11,
+      gender: '女',
+      name: '张四',
+      class: '一班'
+    },
+    {
+      age: 11,
+      gender: '女',
+      name: '张四',
+      class: '三班'
+    },
+    {
+      age: 11,
+      gender: '女',
+      name: '张四',
+      class: '二班'
+    },
+    {
+      age: 10,
+      gender: '女',
+      name: '刘五',
+      class: '二班'
+    }
+  ]
+
+  console.log(
+    filterAdvance(students, {
+      gender: '女',
+      class: '二班'
+    })
+  )
+
+  console.log(
+    filterReduce(students, {
+      gender: '女',
+      class: '二班'
+    })
+  )
+</script>

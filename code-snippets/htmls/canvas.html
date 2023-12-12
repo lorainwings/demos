@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .middleCircle {
+        background-color: #1ab394;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="middleCircle">
+      <canvas id="canvas" width="260" height="260">
+        您的浏览器不支持html5dcanvas元素
+      </canvas>
+    </div>
+    <script>
+      var canvas = document.getElementById('canvas')
+      var ctx = canvas.getContext('2d')
+      var deg = Math.PI / 180
+      //雷达的中心坐标
+      var centerX = 341
+      var centerY = 235
+      //雷达扫描效果
+      function darwLeiDa() {
+        ctx.clearRect(0, 0, 988, 463)
+        var now = new Date()
+        var sec = now.getSeconds()
+        if (sec <= 30) {
+          sec = sec
+        } else {
+          sec = sec - 30
+        }
+        var rate = sec
+
+        //在第一个扇形上画第i个扇形
+        for (var i = 1; i < 60; ) {
+          ctx.save()
+          // 开始一条新路径
+          ctx.beginPath()
+          // 位移到圆心，方便绘制
+          ctx.translate(centerX, centerY)
+          // 移动到圆心
+          ctx.moveTo(0, 0)
+          ctx.rotate(rate * 12 * deg)
+          // 绘制圆弧
+          ctx.arc(0, 0, 208, (60 - i) * deg, 60 * deg, false)
+          // 闭合路径
+          ctx.closePath()
+          ctx.fillStyle = 'rgba(225,225,225,0.08)'
+          ctx.fill()
+          ctx.restore()
+          i += 2
+        }
+      }
+
+      darwLeiDa()
+
+      setInterval(darwLeiDa, 1000)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      // 组合多个小函数,一层一层的执行
+      // args 就是一个个的小函数
+      const compose = (...args) => {
+        let i = args.length - 1 //[0,1,2]
+        return (...agments) => {
+          let index = i
+          let result = args[index].call(this, ...agments)
+          while (~--i) {
+            // ~-1 等于 0
+            result = args[i].call(this, result)
+          }
+          return result
+        }
+      }
+
+      // 测试代码
+
+      var greet = function (name) {
+        return ('hello ' + name).toUpperCase()
+      }
+
+      // pointfree
+      // 先定义基本运算，这些可以封装起来复用
+      var toUpperCase = function (x) {
+        return x.toUpperCase()
+      }
+      var hello = function (x) {
+        return 'HELLO, ' + x
+      }
+      var toLog = function (x) {
+        return '  Merry chriscams!  ' + x
+      }
+
+      var greet = compose(toLog, hello, toUpperCase)
+      console.log(greet('kevin'))
+    </script>
+  </body>
+</html>

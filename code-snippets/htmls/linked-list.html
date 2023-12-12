@@ -1,0 +1,29 @@
+<script>
+  class LinkedNode {
+    constructor(el) {
+      this.element = el
+      this.next = null
+    }
+  }
+
+  class LinkedList {
+    count = 0
+    push(el) {
+      const node = new LinkedNode(el)
+      let p
+      if (this.head === null) this.head = node
+      else {
+        p = this.head
+        while (p.next !== null) {
+          p = p.next
+        }
+        p.next = node
+      }
+      this.count++
+    }
+    remove(el) {
+      el = el.next
+      el.next = ''
+    }
+  }
+</script>

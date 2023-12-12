@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <user-card></user-card>
+    <!-- 定义web components -->
+    <template id="user-card-template">
+      <style>
+        :host {
+          display: flex;
+          align-items: center;
+          width: 450px;
+          height: 180px;
+          background-color: #d4d4d4;
+          border: 1px solid #d5d5d5;
+          box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+          overflow: hidden;
+          padding: 10px;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .card {
+          display: flex;
+          width: 100%;
+        }
+
+        .image {
+          flex: 0 0 auto;
+          width: 160px;
+          height: 160px;
+          vertical-align: middle;
+          border-radius: 5px;
+        }
+
+        .container {
+          box-sizing: border-box;
+          padding: 20px;
+          height: 160px;
+        }
+
+        /* .container>.name {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1;
+        margin: 0;
+        margin-bottom: 5px;
+      }
+
+      .container>.email {
+        font-size: 12px;
+        opacity: 0.75;
+        line-height: 1;
+        margin: 0;
+        margin-bottom: 15px;
+      }
+
+      .container>.button {
+        padding: 10px 25px;
+        font-size: 12px;
+        border-radius: 5px;
+        text-transform: uppercase;
+      } */
+
+        /* chrome112版本已支持嵌套css */
+        .container {
+          background-color: #fff;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          > .name {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1;
+            margin: 0;
+            margin-bottom: 5px;
+          }
+
+          > .email {
+            font-size: 12px;
+            opacity: 0.75;
+            line-height: 1;
+            margin: 0;
+            margin-bottom: 15px;
+          }
+
+          > .button {
+            padding: 10px 25px;
+            font-size: 12px;
+            border-radius: 5px;
+            text-transform: uppercase;
+          }
+        }
+      </style>
+      <div class="card">
+        <img
+          class="image"
+          src="https://img.win3000.com/m00/68/0f/0e7a7e6bfd9743e88bd61da153e3f48e.jpg"
+        />
+        <div class="container">
+          <p class="name">张三</p>
+          <p class="email">zhangsan@gamil.com</p>
+          <button class="button" onclick="btnEv(this)">Follow John</button>
+        </div>
+      </div>
+      <script>
+        const btnEv = (e) => {
+          console.log(e)
+        }
+      </script>
+    </template>
+
+    <script type="module">
+      class UserCard extends HTMLElement {
+        constructor() {
+          super()
+          const template = document.getElementById('user-card-template')
+          const tempCloneNode = template.content.cloneNode(true)
+          // 创建 shadow root并附加到cust element上
+          // 也可直接使用this.appendChild(tempCloneNode)
+          // 使用shadow, 可以更加灵活的隐藏组件内部代码(mode: closed)
+          const shadow = this.attachShadow({ mode: 'open' })
+          shadow.appendChild(tempCloneNode)
+        }
+      }
+      window.customElements.define('user-card', UserCard)
+    </script>
+  </body>
+</html>

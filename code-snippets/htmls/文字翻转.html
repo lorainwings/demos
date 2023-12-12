@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <textarea name="" id="text-area" cols="30" rows="10"></textarea>
+    <button onclick="transformHandle()">开始转换并复制</button>
+    <script>
+      const dom = document.querySelector('#text-area')
+      const transformHandle = function () {
+        const v = dom.value
+        const varrs = v.split('\n')
+        const result = varrs.map((item) => item.split('').reverse().join(''))
+        const nv = (dom.value = result.join('\n'))
+        navigator.clipboard.writeText(nv)
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<script>
+  setTimeout(() => {
+    const s = document.createElement('script')
+    s.textContent = `
+      const start = performance.now();
+      while (performance.now() - start > 5000) { }
+      console.log(123);
+    `
+    document.head.appendChild(s)
+    console.log('end')
+  }, 2000)
+</script>

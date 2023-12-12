@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>全局异常捕获</title>
+  </head>
+
+  <body>
+    <script>
+      // 普通js异常监听,  1,2,3通过,其余均失败
+      window.onerror = (msg, source, line, row, err) => {
+        console.log('捕获到错误:', msg, source, line, row, err)
+      }
+
+      // 静态资源异常监听, 1-4 通过,其余均失败, 需在捕获阶段获取(请求资源不会冒泡到window)
+      window.addEventListener(
+        'error',
+        (err) => {
+          console.log('捕获到错误:', err)
+        },
+        true
+      )
+
+      // promise异常监听,  5通过, 只能捕获promise没有带catch的异常
+      window.addEventListener('unhandledrejection', function (e) {
+        e.preventDefault()
+        console.log('捕获到异常：', e)
+        return true
+      })
+
+      // Vue异常监听, 7通过, 捕获vue框架的全局错误
+      // Vue.config.errorHandler = (err, vm, info) => {
+      //     console.error('通过vue errorHandler捕获的错误');
+      //     console.error(err);
+      //     console.error(vm);
+      //     console.error(info);
+      // }
+
+      // 崩溃监听, 监听页面是否正常卸载,一般在service worker中监听
+      window.addEventListener('load', function () {
+        sessionStorage.setItem('good_exit', 'pending')
+        setInterval(function () {
+          sessionStorage.setItem('time_before_crash', new Date().toString())
+        }, 1000)
+      })
+
+      window.addEventListener('beforeunload', function () {
+        sessionStorage.setItem('good_exit', 'true')
+      })
+
+      if (
+        sessionStorage.getItem('good_exit') &&
+        sessionStorage.getItem('good_exit') !== 'true'
+      ) {
+        /*
+                insert crash logging code here
+            */
+        alert(
+          'Hey, welcome back from your crash, looks like you crashed on: ' +
+            sessionStorage.getItem('time_before_crash')
+        )
+      }
+    </script>
+
+    <script>
+      //1. 同步错误 ReferenceError
+      // b;
+
+      //2. 语法错误 SyntaxError
+      // var a = 'jj;
+
+      //3. 异步错误
+      // setTimeout(() => {
+      //     Jartto;
+      // });
+
+      //4. 请求错误
+      // var img = new Image();
+      // img.src = './sss.img';
+      // document.body.appendChild(img);
+
+      //5. promise异常
+      // Promise.reject('promise error')
+
+      //6. iframe错误
+      // var ifr = document.createElement('iframe');
+      // ifr.src = './dasfa';
+      // document.body.appendChild(ifr);
+
+      //7. Vue框架错误
+      //...
+
+      // 8. 跨域错误
+      // 在script上设置crossorigin,同时服务器设置跨域响应头(Access-Control-Allow-Origin)
+    </script>
+  </body>
+</html>

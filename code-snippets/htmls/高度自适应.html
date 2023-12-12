@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .page {
+        width: 100vw;
+        display: flex;
+        justify-content: space-evenly;
+        flex: 1 0 0;
+      }
+
+      .page > div {
+        width: 100%;
+        border: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 700px;
+      }
+    </style>
+  </head>
+
+  <h1>展开内容高度自适应过渡效果</h1>
+
+  <body>
+    <div class="page">
+      <div>
+        <h2>📌 方式一: 使用Grid实现</h2>
+        <style>
+          .container {
+            width: 200px;
+          }
+
+          /* 方式一: grid */
+          .content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: 0.5s;
+            overflow: hidden;
+            background-color: pink;
+          }
+
+          .show.content {
+            grid-template-rows: 1fr;
+          }
+
+          .row {
+            /* 0fr时, 元素占用空间由grid的最小尺寸规则决定, 也就是内部的内容大小 */
+            /* 当设置为0时, 才能将元素隐藏 */
+            min-height: 0;
+          }
+        </style>
+        <div class="container">
+          <button class="trigger" onclick="showText()">点击显示内容</button>
+          <div class="content">
+            <div class="row"></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2>📌 方式二: 使用JS动态计算实现</h2>
+        <style>
+          .content2 {
+            overflow: hidden;
+            height: 0;
+            background-color: pink;
+          }
+        </style>
+        <div class="container">
+          <button onclick="showText2()">点击显示内容</button>
+          <div class="content2"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function dynamicText() {
+        return `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae fuga, error tenetur dicta minus quae corrupti
+          officiis sapiente assumenda soluta iure praesentium adipisci reprehenderit nisi odit ex doloribus quos vero.`.repeat(
+          parseInt(Math.random() * 10)
+        )
+      }
+
+      function showText() {
+        const elem = document.querySelector('.content')
+        const content = document.querySelector('.row')
+        content.innerText = dynamicText()
+        elem.classList.toggle('show')
+      }
+
+      let flag = false
+      function showText2() {
+        flag = !flag
+        const elem = document.querySelector('.content2')
+        elem.innerText = dynamicText()
+        if (flag) {
+          elem.style.transition = 'none'
+          elem.style.height = 'auto' // 设置为auto后就能获取高度
+          const h = elem.offsetHeight
+          elem.style.height = 0
+          /*
+        需要强制回流一次, 下面方式均可:
+        - offsetTop、offsetLeft、offsetWidth、offsetHeight
+        - scrollTop、scrollLeft、scrollWidth、scrollHeight
+        - clientTop、clientLeft、clientWidth、clientHeight
+        - getComputedStyle()
+        - getBoundingClientRect
+        */
+          elem.clientTop
+          elem.style.transition = '0.5s'
+          elem.style.height = `${h}px`
+        } else {
+          elem.style.transition = '0.5s'
+          elem.style.height = 0
+        }
+      }
+    </script>
+  </body>
+</html>

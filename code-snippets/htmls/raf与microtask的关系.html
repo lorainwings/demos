@@ -1,0 +1,18 @@
+<h1>rAf与MicroTask之间的联系</h1>
+<script>
+  const maxLoops = 10000000
+  let loopCount = 0
+
+  async function loop() {
+    loopCount += 1
+    if (loopCount >= maxLoops) return 'yes'
+    return Promise.resolve().then(loop)
+  }
+
+  Promise.resolve()
+    .then(() => loop())
+    .then((r) => console.log('done', r))
+    .catch(console.error)
+
+  requestAnimationFrame(() => console.log('animation frame'))
+</script>

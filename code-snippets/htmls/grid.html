@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 37.5px">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      document.documentElement.style.fontSize =
+        (Math.min(
+          screen.width,
+          document.documentElement.getBoundingClientRect().width
+        ) /
+          375) *
+          37.5 +
+        'px'
+    </script>
+  </head>
+
+  <body>
+    <style type="text/css">
+      div[data-v-0a200078] {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        font-family: PingFang SC;
+      }
+
+      .center[data-v-0a200078] {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+
+      .bg-contain[data-v-0a200078] {
+        background-size: 100% 100%;
+      }
+
+      .one-px[data-v-0a200078] {
+        position: relative;
+        width: 100vw;
+      }
+
+      .one-px[data-v-0a200078]::after {
+        content: '';
+        display: block;
+        background: #f5f5f5;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 0.026667rem;
+        -webkit-transform: scale(1, 0.5);
+        transform: scale(1, 0.5);
+      }
+
+      .t-elem[data-v-0a200078] {
+        font-weight: 500;
+        font-size: 0.426667rem;
+        line-height: 0.8rem;
+        color: #ffffff;
+      }
+
+      .t-elem .item[data-v-0a200078] {
+        margin-top: 0.293333rem;
+      }
+
+      .t-elem .item[data-v-0a200078]:first-child {
+        margin-top: 0;
+      }
+
+      .t-elem .item.tips[data-v-0a200078] {
+        font-weight: normal;
+        font-size: 0.373333rem;
+      }
+
+      .t-elem .item .strong[data-v-0a200078] {
+        font-weight: 900;
+        font-size: 0.533333rem;
+        color: #ffdc26;
+        padding: 0 0.08rem;
+      }
+
+      .tc-share[data-v-0a200078] {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        overflow: auto;
+      }
+
+      .tc-share .t-canvas-image[data-v-0a200078] {
+        overflow: auto;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+      }
+
+      .tc-share .t-canvas-image[data-v-0a200078]::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tc-share .t-canvas-image .t-contain[data-v-0a200078] {
+        width: 100%;
+        background-color: #fff;
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-desc[data-v-0a200078] {
+        font-size: 0.453333rem;
+        line-height: 0.8rem;
+        color: #000000;
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-desc .strong[data-v-0a200078] {
+        font-weight: 500;
+        font-size: 0.533333rem;
+        line-height: 0.8rem;
+        color: #ea7000;
+      }
+
+      .tc-share .t-canvas-image .t-contain[data-v-0a200078]::before {
+        background-size: 100% 100%;
+        content: '';
+        display: block;
+        height: 4.853333rem;
+        background-image: url(img/share-top.8a58e408.png);
+      }
+
+      .tc-share .t-canvas-image .t-contain .after[data-v-0a200078] {
+        background-size: 100% 100%;
+        content: '';
+        display: block;
+        height: 4.586667rem;
+        padding: 1.013333rem 0.533333rem 0.586667rem;
+        background-image: url(img/share-bottom.c751f700.png);
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-old[data-v-0a200078] {
+        min-height: 11.733333rem;
+        padding: 0 0.48rem;
+        overflow: auto;
+        /* display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(63px, 1fr));
+          grid-template-rows: repeat(auto-fill, minmax(110px, auto));
+          gap: 8px; */
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        background-color: #fff;
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-old .item[data-v-0a200078] {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 0 25%;
+        -ms-flex: 1 0 25%;
+        flex: 1 0 25%;
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-old .item .icon[data-v-0a200078] {
+        background-size: 100% 100%;
+        width: 2.026667rem;
+        height: 2.026667rem;
+        border-radius: 50%;
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-old .item .text[data-v-0a200078] {
+        margin-top: 0.213333rem;
+        font-size: 0.4rem;
+        line-height: 0.533333rem;
+        color: #333333;
+        text-align: center;
+        white-space: pre-line;
+      }
+
+      .tc-share .t-canvas-image .t-contain .t-new[data-v-0a200078] {
+        margin: 0 auto;
+        background-size: 100% 100%;
+        width: 8.906667rem;
+        height: 12.213333rem;
+        background-image: url(img/conclusion-new-big.095f0fc5.png);
+      }
+    </style>
+
+    <h1>
+      <button style="width: 3rem; font-size: 0.5rem" onclick="refresh()">
+        点击刷新
+      </button>
+    </h1>
+
+    <div data-v-0a200078="" data-v-495ca57f="" class="tc-share">
+      <div data-v-0a200078="" class="t-canvas-image">
+        <div data-v-0a200078="" class="t-contain">
+          <div data-v-0a200078="" class="t-old">
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/1b4351954266138b23b330aa496cd067.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">专业精进</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/bacd578b2152f7c7f18b1182a5bd5027.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">成为 三跨青年</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/fe6711925b1a8d3f33495102a47459da.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">虎虎生威</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/28f2487696dd087a7f5dc7b64bfa0a71.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">保持好奇心</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/fc7b8c41db993de3415de437ece717a2.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">成为龙民</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/33e941bb09a420450ebc75ae01141f7b.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">早日脱单</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/d16b98db790079507fd6267c334bd294.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">天街购物</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/ebd5ed6432e37acfd5eb1dd067415a96.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">拒绝内卷</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/2989a5735ef0c644a12e3ffa5ee72a6c.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">喜添新丁</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/f76418528a36350bedf4c16bf72a5983.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">读10本书</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/682caa0584722507b7a241b820e5be2b.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">培养爱好</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/fee0cea6f8b7f32dd0ff8cb2daadf883.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">努力健身</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/4a34462b427e509a82cb46088dcf40e7.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">团队共赢</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/d5944e66ee79d4bb9676e2bdc79aa70d.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">水逆退散</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/ad552b1738de7f0b91cdaeca0fab3dbf.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">财富自由</div>
+            </div>
+            <div data-v-0a200078="" class="item">
+              <div
+                data-v-0a200078=""
+                class="icon center"
+                style="
+                  background-image: url('https://s1.longfor.com/image/1b87a393c61ff31ce47ce51f5e9e4952.png');
+                "
+              ></div>
+              <div data-v-0a200078="" class="text">投身公益</div>
+            </div>
+          </div>
+          <div data-v-0a200078="" class="after">
+            <div data-v-0a200078="" class="t-desc">
+              <span data-v-0a200078="" class="strong">贾曙光</span
+              ><br data-v-0a200078="" />
+              新的一年，愿你眼藏星辰，心怀山海<br data-v-0a200078="" />
+              我们去往下一个星际，延续故事<br data-v-0a200078="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const refresh = () => {
+        location.reload()
+      }
+    </script>
+  </body>
+</html>

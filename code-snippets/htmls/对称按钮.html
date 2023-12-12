@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .btn-group {
+        background-color: #ddd;
+        border: 1px solid blue;
+        width: 200px;
+        display: flex;
+      }
+
+      .btn-group button {
+        width: 80px;
+        height: 30px;
+      }
+
+      /* 兼容性不好 */
+      /* .btn-group:has(> button:nth-child(1)) {
+      justify-content: center;
+    }
+
+    .btn-group:has(> button:nth-child(2)) {
+      justify-content: space-between;
+    } */
+
+      /* 兼容性好 */
+      .btn:first-child:nth-last-child(1) {
+        margin: auto;
+      }
+
+      .btn:first-child:nth-last-child(2) {
+        margin-right: auto;
+      }
+
+      .btn:first-child:nth-last-child(2) ~ .btn {
+        margin-left: auto;
+      }
+    </style>
+
+    <style>
+      /* 来自chatGPT的答案 */
+      .button-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      .button-container .gpt-btn {
+        padding: 10px 20px;
+      }
+
+      /* 当只有一个按钮显示时，它将居中对齐 */
+      .button-container .gpt-btn:nth-child(1):only-child {
+        margin: auto;
+      }
+
+      /* 当有两个按钮显示时，它们将均匀分布在容器的两侧 */
+      .button-container .gpt-btn:nth-child(n + 2) {
+        margin-left: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <h1>两个按钮均匀分布</h1>
+      <div>
+        <p>- 当只有一个按钮时, 按钮居中</p>
+        <p>- 当有两个按钮时, 按钮左右对称分布</p>
+      </div>
+      <form action="">
+        <p>
+          <input
+            type="radio"
+            name="button-num"
+            value="one"
+            id="only-one"
+            checked="checked"
+          />
+          <label for="only-one">仅一个按钮</label>
+        </p>
+        <p>
+          <input type="radio" name="button-num" value="two" id="only-two" />
+          <label for="only-two">有两个按钮</label>
+        </p>
+      </form>
+      <div class="btn-group">
+        <button class="btn">按钮一</button>
+      </div>
+
+      <script>
+        const one = document.querySelector('#only-one')
+        const two = document.querySelector('#only-two')
+        const btns = document.querySelector('.btn-group')
+
+        one.onchange = function (e) {
+          if (e.target.checked) {
+            btns.removeChild(btns.lastElementChild)
+          }
+        }
+
+        two.onchange = function (e) {
+          if (e.target.checked) {
+            const btn2 = document.createElement('button')
+            btn2.classList.add('btn')
+            btn2.innerText = `按钮二`
+            btns.appendChild(btn2)
+          }
+        }
+      </script>
+    </div>
+    <div>
+      <h2>来自chatGPT的答案</h2>
+      <div class="button-container">
+        <button class="gpt-btn">按钮1</button>
+        <button class="gpt-btn">按钮2</button>
+        <button class="gpt-btn">按钮3</button>
+      </div>
+    </div>
+  </body>
+</html>

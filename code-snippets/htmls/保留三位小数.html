@@ -1,0 +1,16 @@
+<script>
+  function parseToMoney(num) {
+    num = parseFloat(num.toFixed(3))
+    let [integer, decimal] = String.prototype.split.call(num, '.')
+    integer = integer.replace(/\d(?=(\d{3})+$)/g, '$&,')
+    return integer + '.' + (decimal ? decimal : '')
+  }
+
+  const convertHex = (hex) => {
+    const [r, g, b] = parseInt(hex.replace('#', ''), 16)
+      .toString(2)
+      .replace(/\d(?=(\d{8})+$)/gi, '$&,')
+      .split(',')
+    return `rgb(${parseInt(r, 2)},${parseInt(g, 2)},${parseInt(b, 2)})`
+  }
+</script>

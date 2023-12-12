@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>两栏布局</title>
+    <style>
+      .container {
+        width: 100vw;
+        height: 100px;
+        /* display: grid;
+            grid-template-columns: 300px auto; */
+      }
+
+      .left {
+        width: 300px;
+        height: inherit;
+        background-color: #1ab394;
+        float: left;
+      }
+
+      .auto {
+        height: inherit;
+        background: #f111e1;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="left"></div>
+      <div class="auto">
+        123412412=====> Lorem ipsum dolor, sit amet consectetur adipisicing
+        elit. Expedita aperiam incidunt sapiente officiis, dolores facere, ipsa,
+        dolor sequi animi consequatur blanditiis omnis odit! Beatae, nesciunt
+        aliquid temporibus corporis tenetur quaerat!
+      </div>
+    </div>
+  </body>
+</html>

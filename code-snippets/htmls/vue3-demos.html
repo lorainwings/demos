@@ -1,0 +1,26 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app">
+  <div>template: {{ message }}</div>
+</div>
+
+<script>
+  const { createApp, h } = Vue
+
+  createApp({
+    // template: `<div id="app">{{ msg }}</div>`,
+    data() {
+      return {
+        message: 'template msg',
+        message2: 'render msg'
+      }
+    },
+    // setup() {
+    //   const message1 = 'setup msg'
+    //   return () => h('div', message1)
+    // },
+    render() {
+      return h('div', this.message2)
+    }
+  }).mount('#app')
+</script>

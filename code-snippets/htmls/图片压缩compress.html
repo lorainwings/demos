@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>图片压缩测试</title>
+    <style>
+      .image-info {
+        display: flex;
+        padding: 10px;
+      }
+
+      .image-info .item {
+        flex: 1 0 0;
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        max-width: 50%;
+      }
+
+      div {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body class="p-10">
+    <div class="container flex flex-col items-center">
+      <form class="form w-full" id="compress-form">
+        <div class="item pb-4 flex justify-center items-center">
+          <label class="text-gray-700 text-sm font-bold mb-2 mr-5" for="scale">
+            裁剪比率:
+          </label>
+          <input
+            class="flex-1 w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="number"
+            min="0"
+            max="1"
+            step="0.1"
+            id="scale"
+            placeholder="默认宽高不裁剪"
+          />
+        </div>
+        <div class="item pb-4 flex justify-center items-center">
+          <label
+            class="text-gray-700 text-sm font-bold mb-2 mr-5"
+            for="quality"
+          >
+            压缩比率:
+          </label>
+          <input
+            class="flex-1 w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="number"
+            min="0"
+            max="1"
+            step="0.1"
+            id="quality"
+            placeholder="默认压缩率为1(不压缩)"
+          />
+        </div>
+        <div class="item pb-4 flex justify-center items-center">
+          <label class="text-gray-700 text-sm font-bold mb-2 mr-5" for="imgFile"
+            >上传原图:</label
+          >
+          <input
+            class="flex-1 w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100"
+            type="file"
+            multiple="multiple"
+            name=""
+            id="imgFile"
+            accept="image/*"
+            onchange="change(this)"
+          />
+        </div>
+
+        <div class="w-80">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="sumbit"
+          >
+            显示压缩预览信息
+          </button>
+        </div>
+      </form>
+
+      <div
+        class="mt-10 image-info min-h-[200px] w-full border-2 border-cyan-100"
+      >
+        <div class="item h-full p-4 origin-info">
+          <div class="py-2">源图片信息:</div>
+        </div>
+        <div class="border min-h-[inherit] w-[2px] border-cyan-100"></div>
+        <div class="item h-full p-4 compress-info">
+          <div class="py-2">压缩图片信息:</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const form = document.getElementById('compress-form')
+      const input = document.getElementById('imgFile')
+      // 所有待处理的原始文件
+      let originInfos = []
+      // 所有已经压缩的文件
+      let compressInfos = []
+
+      const handleCompress = async () => {
+        const quality = document.querySelector('#quality').value || 1
+        const scale = document.querySelector('#scale').value || 1
+        const compressPromises = originInfos.map((fileInfo) =>
+          compress({ fileInfo, ratio: +scale, quality: +quality })
+        )
+        return Promise.all(compressPromises)
+      }
+
+      const compress = async ({ fileInfo, ratio, quality = 1 }) => {
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+        const { type, name, width, height, image: originImg } = fileInfo
+        canvas.width = parseInt(width * ratio)
+        canvas.height = parseInt(height * ratio)
+        ctx.drawImage(originImg, 0, 0, canvas.width, canvas.height)
+        return new Promise((resolve) => {
+          // 压缩完成,开始图片显示或下载 (可以使用toDataUrl和toBlob来生成本地图片)
+          // toDataUrl的quality参数对png图像无效
+          canvas.toBlob(
+            async (blob) => {
+              const { width: nw, height: nh, image } = await getImgAttr(blob)
+              resolve({
+                type,
+                name,
+                size: blob.size,
+                width: nw,
+                height: nh,
+                measure: `${nw}*${nh}`,
+                file: blob,
+                image
+              })
+            },
+            type,
+            quality
+          )
+        })
+      }
+
+      const getImgAttr = async (file) => {
+        const image = new Image()
+        const path = URL.createObjectURL(file)
+        image.src = path
+        return new Promise((rs, rj) => {
+          image.onload = () => {
+            const { naturalWidth, naturalHeight } = image
+            rs({ width: naturalWidth, height: naturalHeight, image })
+          }
+        })
+      }
+
+      const handleDownload = () => {
+        const download = ({ file, type, name }) => {
+          const path = URL.createObjectURL(file)
+          const a = document.createElement('a')
+          a.href = path
+          const format = type.split('/')[1]
+          a.setAttribute('download', `${name}`)
+          a.click()
+        }
+        compressInfos.forEach((cInfo) => download(cInfo))
+      }
+
+      const getOriginInfo = async (file) => {
+        const { name, size, type } = file
+        const { width, height } = await getImgAttr(file)
+        return { name, size, type, measure: `${width}*${height}` }
+      }
+
+      const handleOriginFiles = async (files) => {
+        const infoPromises = Array.from(files).map(async (file) => {
+          return new Promise(async (resolve) => {
+            const { width, height, image } = await getImgAttr(file)
+            const { name, size, type } = file
+            resolve({
+              name,
+              size,
+              type,
+              file,
+              width,
+              height,
+              image,
+              measure: `${width}*${height}`
+            })
+          })
+        })
+        return Promise.all(infoPromises)
+      }
+
+      const change = async (e) => {
+        const files = e.files
+        const cList = ['.origin-info', '.compress-info']
+        originInfos = await handleOriginFiles(files)
+        cList.forEach(clearRenderInfos)
+        renderInfos(cList[0], originInfos)
+      }
+
+      const validate = () => {
+        const files = document.querySelector('#imgFile').files
+        const quality = document.querySelector('#quality').value || 1
+        const scale = document.querySelector('#scale').value || 1
+        if (!files.length) return alert('文件不存在'), false
+        if (quality > 1 || quality < 0 || scale > 1 || scale < 0)
+          return alert('范围为0~1'), false
+        return true
+      }
+
+      form.onsubmit = async function (e) {
+        e.preventDefault()
+        const cls = '.compress-info'
+        clearRenderInfos(cls)
+        const valiResult = validate()
+        if (!valiResult) return
+        compressInfos = await handleCompress()
+        renderInfos(cls, compressInfos)
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        const bool = window.confirm(
+          '请检查压缩后的文件信息是否满足要求, 然后确认是否下载压缩后的文件?'
+        )
+        if (!bool) return
+        handleDownload()
+      }
+
+      const clearRenderInfos = (cls) => {
+        const text = cls === '.origin-info' ? '源图片信息' : '压缩图片信息'
+        const html = `<div class="py-2">${text}:</div>`
+        document.querySelector(cls).innerHTML = html
+      }
+
+      const renderInfos = (cls, infos) => {
+        const container = document.querySelector(cls)
+        const bg = {
+          '.origin-info': 'bg-gray-100',
+          '.compress-info': 'bg-orange-100'
+        }
+        const sty = bg[cls]
+        const render = (o) => {
+          const html = `<div class="info ${sty} p-4 mb-4">
+            <div class="name flex py-2">
+              <div class="mr-4">图片名称:</div>
+              <span class="w-full block whitespace-nowrap text-ellipsis overflow-hidden">${
+                o.name
+              }</span>
+            </div>
+            <div class="type flex py-2">
+              <div class="mr-4">图片类型:</div>
+              <span class="w-full block whitespace-nowrap text-ellipsis overflow-hidden">${
+                o.type
+              }</span>
+            </div>
+            <div class="size flex py-2">
+              <div class="mr-4">图片尺寸:</div>
+              <span class="w-full block whitespace-nowrap text-ellipsis overflow-hidden">${
+                o.measure
+              }</span>
+            </div>
+            <div class="size flex py-2">
+              <div class="mr-4">图片大小:</div>
+              <span class="w-full block whitespace-nowrap text-ellipsis overflow-hidden">${parseInt(
+                `${o.size / 1024}`
+              )}kb</span>
+            </div>
+          </div>`
+          container.innerHTML += html
+        }
+        infos.forEach(render)
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      // 使表达式add[1][2][10] + 100 = 123 成立
+
+      const add = new Proxy(
+        {
+          __store: 0
+        },
+        {
+          get(target, prop, receiver) {
+            if (prop === Symbol.toPrimitive) {
+              return function (hint) {
+                return target.__store
+              }
+            }
+            target.__store += +prop
+            return receiver
+          }
+        }
+      )
+
+      // test
+      console.log('add[2][5][10] + 100 + 200 =', add[2][5][10] + 100 + 200)
+    </script>
+  </body>
+</html>

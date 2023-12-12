@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>浏览器进程共享</title>
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" sizes="any" mask="" href="https://picsum.photos/50" />
+  </head>
+
+  <body>
+    <h1>Chrome 同源页面中共享渲染进程探索</h1>
+
+    <p>
+      Site Instance 是一组相关联(connected)的 Site。如果在页面的 JS
+      代码中获取页面的引用(window.opener)，我们则认为页面是相关联的。
+    </p>
+
+    <p>
+      两个页面为 Same Site, 并满足下面的条件(本质是页面间通过 opener
+      建立连接)，就是同一个 Site Instance:
+    </p>
+
+    <p>
+      - 用户通过 a 标签的 href 打开的新页面(rel=”opener” 和 target=”_blank”
+      必须同时出现)
+    </p>
+    <p>- 通过 JS 代码打开的新页面(如window.open)</p>
+
+    <aside>
+      <h1>同源页面使用a标签共享渲染进程</h1>
+      <div>
+        <a
+          href="/code-snippets/htmls/chrome共享渲染进程.html"
+          target="_blank"
+          rel="opener"
+        >
+          使用opener打开当前页面(共享进程)
+        </a>
+        &nbsp; &nbsp;
+        <a
+          href="/code-snippets/htmls/chrome共享渲染进程.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          使用noreferrer打开当前页面(新开进程)
+        </a>
+      </div>
+    </aside>
+
+    <aside>
+      <h1>同源页面使用window.open标签共享渲染进程</h1>
+      <div>
+        <button onclick="openPage()">
+          使用window.open打开当前页面(共享进程)
+        </button>
+        <script>
+          function openPage() {
+            window.open(location.href)
+          }
+        </script>
+      </div>
+    </aside>
+  </body>
+</html>

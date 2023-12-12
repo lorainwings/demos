@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Vue滑动卡片跟随动画</title>
+    <style>
+      div {
+        box-sizing: border-box;
+      }
+
+      .card {
+        overflow: hidden;
+      }
+
+      .card-stack {
+        width: 100%;
+        min-height: 600px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective-origin: 50%;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+      }
+
+      .card-stack-item {
+        position: absolute;
+      }
+
+      .moving {
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .card-image {
+        width: 220px;
+        height: 300px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.12);
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <div id="app"></div>
+
+    <script>
+      const throttle = (fn, time, context) => {
+        let timer = null,
+          pre = 0
+        return (...args) => {
+          if (Date.now() - pre > time) {
+            timer = null
+            pre = Date.now()
+            clearTimeout(timer)
+            fn.apply(context, args)
+          } else if (!timer) {
+            timer = setTimeout(() => {
+              fn.apply(context, args)
+            }, time)
+          }
+        }
+      }
+
+      const App = Vue.component('app', {
+        template: `<div class="card">
+                     <div class="card-stack" @touchstart="touchStart" @touchmove.stop.capture.prevent="touchMove" @touchend="touchEnd" @transitionend="transitionEnd">
+                        <div v-for="(item, idx) in imgList" :class="[ record.moving && item.display === 'block' ? 'moving' : '', 'card-stack-item', 'c-'+idx ]" :style="{ transform:item.transform, display: item.display }">
+                            <img class="card-image" :src="item.url" />
+                        </div>
+                    </div>
+                </div>`,
+        data() {
+          return {
+            record: {
+              spx: 0,
+              spy: 0,
+              mpx: 0,
+              mpy: 0,
+              epx: 0,
+              epy: 0,
+              timer: 0, // 动画计时器
+              idAct: 0, // 当前卡片的index
+              moving: 0, // 是否开始过渡
+              offset: 20, // 每个堆叠的偏移距离
+              stackNum: 3, // 堆叠层级数量
+              distance: 100, // 触发next的最大距离
+              hiddenAxis: -500, // 卡片滑动出屏幕的坐标
+              tracking: false, // 正在触发中
+              isAnimation: false //正在播放动画
+            },
+            imgList: [
+              {
+                url: './imgs/1.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              },
+              {
+                url: './imgs/2.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              },
+              {
+                url: './imgs/3.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              },
+              {
+                url: './imgs/4.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              },
+              {
+                url: './imgs/5.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              },
+              {
+                url: './imgs/6.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              },
+              {
+                url: './imgs/7.png',
+                xAxis: 0,
+                yAxis: 0,
+                zAxis: 0,
+                display: '',
+                transform: ''
+              }
+            ]
+          }
+        },
+        created() {
+          this.initView()
+        },
+        methods: {
+          initView() {
+            const list = this.imgList.map((item, idx) => {
+              const ratio =
+                idx < this.record.stackNum ? idx : this.record.stackNum
+              item.xAxis = ratio * this.record.offset
+              item.zAxis = this.record.offset * (this.record.stackNum - idx)
+              item.display = item.zAxis < 0 ? 'none' : 'block'
+              item.transform = `translate3d(${item.xAxis}px,${item.yAxis}px,${item.zAxis}px)`
+              return item
+            })
+            this.imgList = list
+          },
+          updateView() {
+            const idLast = this.imgList.length - 1
+            const list = this.imgList.map((item, idx, arr) => {
+              const idPrev = idx - 1 < 0 ? idLast : idx - 1
+              const { xAxis, yAxis, zAxis } = arr[idPrev]
+              const origin = {
+                ...arr[idPrev],
+                url: item.url,
+                transform: `translate3d(${xAxis}px,${yAxis}px,${zAxis}px)`
+              }
+              return origin
+            })
+            this.imgList = list
+          },
+          move() {
+            const itemAct = this.imgList[this.record.idAct]
+            itemAct.transform = `translate3d(${this.record.mpx}px, ${this.record.mpy}px, ${itemAct.zAxis}px)`
+          },
+          next() {
+            const len = this.imgList.length - 1
+            const itemAct = this.imgList[this.record.idAct]
+            itemAct.transform = `translate3d(${this.record.hiddenAxis}px,${itemAct.yAxis}px,${itemAct.zAxis}px)`
+            this.record.idAct =
+              this.record.idAct >= len ? 0 : this.record.idAct + 1
+            setTimeout(this.updateView, 500)
+          },
+          reset() {
+            const itemAct = this.imgList[this.record.idAct]
+            itemAct.transform = `translate3d(${itemAct.xAxis}px,${itemAct.yAxis}px,${itemAct.zAxis}px)`
+          },
+          touchStart(e) {
+            this.record.moving = 0
+            if (this.record.tracking) return
+            const { clientX, clientY } = e.changedTouches[0]
+            ;[this.record.spx, this.record.spy] = [clientX, clientY]
+            this.record.tracking = true
+            this.record.isAnimation = false
+          },
+          touchMove(e) {
+            // console.log("move");
+            if (this.record.tracking && !this.record.isAnimation) {
+              e.preventDefault()
+              const { clientX, clientY } = e.changedTouches[0]
+              ;[this.record.mpx, this.record.mpy] = [
+                clientX - this.record.spx,
+                clientY - this.record.spy
+              ]
+              this.move()
+            }
+          },
+          touchEnd() {
+            console.log('end')
+            this.record.moving = 1
+            if (
+              this.record.mpx <= 0 &&
+              Math.abs(this.record.mpx) > this.record.distance
+            ) {
+              console.log('动画开始')
+              this.next()
+            } else {
+              console.log('动画还原')
+              this.reset()
+            }
+          },
+          transitionEnd(e) {
+            console.log('过度结束', e)
+            this.record.tracking = false
+            this.record.isAnimation = true
+          }
+        }
+      })
+
+      new Vue({
+        render: (h) => h(App)
+      }).$mount('#app')
+    </script>
+  </body>
+</html>

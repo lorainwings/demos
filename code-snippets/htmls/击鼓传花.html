@@ -1,0 +1,13 @@
+<script>
+  const peoQueue = ['John', 'Jack', 'Camila', 'Ingrid', 'Carl']
+  const num = 7
+
+  while (peoQueue.length > 1) {
+    for (let i = 0; i < num; i++) {
+      peoQueue.push(peoQueue.shift())
+    }
+    const elimitated = peoQueue.shift()
+    console.log('本轮淘汰者:', elimitated)
+  }
+  console.log('胜出者:', peoQueue[0])
+</script>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      function createPromise(val) {
+        return new Promise((resolve) => {
+          console.log('call', val)
+          setTimeout(() => {
+            console.log('settimeout 100')
+            resolve(val)
+          }, 1000)
+        })
+      }
+
+      const p1 = createPromise(100)
+      const p2 = createPromise(200)
+      const p3 = createPromise(300)
+
+      /*
+
+    promise到底是在resolve时被推入微任务队列还是在then的时候呢？
+    最开始是被题目中的问题所困惑，后来仔细想想，发现题目本身就是个伪命题，这种说法就不对，哈哈哈，难怪会很困惑，
+    其实不存在在执行哪个的时候将promise推入到微任务中，promise是立即执行，创建就执行，
+    resolve是用来表示promise的状态，只有当这种状态传递给then时，then中的函数才会被推入微任务。
+
+    ————————————————
+    版权声明：本文为CSDN博主「xm2by」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+    原文链接：https://blog.csdn.net/XuM222222/article/details/88582131
+
+    */
+
+      setTimeout(() => {
+        console.log('先入队')
+
+        p1.then(async (res1) => {
+          console.log('===call microtask')
+
+          console.log(res1)
+          setTimeout(() => {
+            console.log('stthen')
+          })
+          Promise.resolve(1111).then((v) => console.log(v))
+          const res2 = await p2
+          console.log(res2)
+        })
+      }, 2000)
+    </script>
+  </body>
+</html>
