@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { useEventListener } from '../'
+import { useEventListener } from '..'
 
 describe('useEventListener', () => {
   it('should be defined', () => {

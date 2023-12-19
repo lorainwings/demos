@@ -91,7 +91,7 @@ type Watcher<T extends Record<string, any>> = {
 
 function watch<T extends Record<string, unknown>>(params: T): Watcher<T> {
   return {
-    on() {}
+    on() { }
   }
 }
 
@@ -101,7 +101,7 @@ const pw = watch({
   age: 26
 })
 
-pw.on('firstNameChange', (ow, nw) => {})
+pw.on('firstNameChange', (ow, nw) => { })
 
 interface ComplexObject {
   mandatory: string
@@ -130,3 +130,15 @@ type TestOptionkey =
 type Same = number | undefined extends number ? 1 : 2 // 2
 
 type t6 = Omit<{ a: number; b: number } & { a: string; c: string }, never> // { a: 1 | 'zss' }
+
+type UnionToInsertion<T>
+  = (T extends T ? (x: T) => void : never) extends (x: infer R) => void ? R : never
+
+type tui = UnionToInsertion<{ a: string } | { a: number }>
+
+
+type tes
+  = (((x: { a: string }) => void)
+  | ((x: { b: number }) => void)
+  | ((x: { c: boolean }) => void)) extends ((x: infer T) => void) ? T : never
+

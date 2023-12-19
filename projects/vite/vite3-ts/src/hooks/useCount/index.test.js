@@ -1,4 +1,4 @@
-import useCounter from '../useCount'
+import useCounter from '.'
 import { act, renderHook } from '@testing-library/react'
 
 describe('useCounter 测试', () => {
