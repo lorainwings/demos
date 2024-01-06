@@ -1,6 +1,8 @@
 import { type PropsWithChildren } from 'react'
 
-const Block: React.FC<PropsWithChildren> = (props: PropsWithChildren) => {
+const Block: React.FC<PropsWithChildren<unknown>> = (
+  props: PropsWithChildren<unknown>
+) => {
   const colors = [
     Math.random() * 80,
     Math.random() * 80 + 80,
