@@ -1,18 +1,7 @@
 // store.ts
-import { create } from 'zustand'
-type Data = {
-  id: string
-  full_name: string
-  html_url: string
-}
+import type { StateCreator } from 'zustand'
 
-export interface DataState {
-  data: Data[]
-  status: string
-  getData: (query: string) => void
-}
-
-export const useDataStore = create<DataState>()((set, get) => ({
+export const createDataSlice: StateCreator<DataState> = (set, get) => ({
   data: [],
   status: 'Idle',
   getData: async (query) => {
@@ -26,4 +15,4 @@ export const useDataStore = create<DataState>()((set, get) => ({
     set({ status: 'Success', data: data.items })
     console.log('get', get())
   }
-}))
+})

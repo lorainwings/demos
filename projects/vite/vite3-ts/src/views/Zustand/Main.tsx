@@ -1,10 +1,5 @@
 // zustand
-import {
-  useCountStore,
-  useNumberStore,
-  CountState,
-  NumberState
-} from '@/zustand-store'
+import { useBoundStore } from '@/zustand-store'
 
 type Props = {
   onClick: () => void
@@ -16,14 +11,14 @@ function Button({ onClick, children }: Props) {
 }
 
 function DeepChild() {
-  const { count, increase, resetCount } = useCountStore<CountState>(
+  const { count, increaseCount, resetCount } = useBoundStore<CountState>(
     (state) => state
   )
   return (
     <div>
       <h3>DeepChild</h3>
       <p>Count:{count}</p>
-      <Button onClick={() => increase(1)}>increase</Button>
+      <Button onClick={() => increaseCount(1)}>increase</Button>
       <Button onClick={resetCount}>reset</Button>
     </div>
   )
@@ -39,7 +34,7 @@ const Child = function Child() {
 }
 
 function ParentOne() {
-  const { count } = useCountStore<CountState>((state) => state)
+  const { count } = useBoundStore<CountState>((state) => state)
   console.log('ParentOne render')
   return (
     <div style={{ border: 'solid 1px black' }}>
@@ -51,14 +46,14 @@ function ParentOne() {
 }
 function ParentTwo() {
   console.log('ParentTwo render')
-  const { number, increase, resetNumber } = useNumberStore<NumberState>(
+  const { number, increaseNumber, resetNumber } = useBoundStore<NumberState>(
     (state) => state
   )
   return (
     <div style={{ border: 'solid 1px black' }}>
       <h1>Here is Parent Two</h1>
       <p>Number:{number}</p>
-      <Button onClick={() => increase(1)}>increase</Button>
+      <Button onClick={() => increaseNumber(1)}>increase</Button>
       <Button onClick={resetNumber}>reset</Button>
     </div>
   )

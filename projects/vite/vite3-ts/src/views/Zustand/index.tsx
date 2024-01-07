@@ -4,7 +4,7 @@ import { AsyncItem } from './Async'
 
 const Block: React.FC = (props) => {
   return (
-    <div>
+    <div style={{ background: 'white', color: 'black', padding: '20px' }}>
       <h1>Zustand</h1>
       <Demo></Demo>
       <hr style={{ margin: '40px 0' }} />

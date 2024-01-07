@@ -1,25 +1,13 @@
 import { create } from 'zustand'
 
-export interface CountState {
-  count: number
-  increase: (by: number) => void
-  resetCount: () => void
-}
+import { createDataSlice } from './async'
+import { createBearSlice, createCountSlice, createNumberSlice } from './bear'
 
-export interface NumberState {
-  number: number
-  increase: (by: number) => void
-  resetNumber: () => void
-}
-
-export const useCountStore = create<CountState>()((set) => ({
-  count: 0,
-  increase: (by) => set((state) => ({ count: state.count + by })),
-  resetCount: () => set({ count: 0 })
-}))
-
-export const useNumberStore = create<NumberState>()((set) => ({
-  number: 0,
-  increase: (by) => set((state) => ({ number: state.number + by })),
-  resetNumber: () => set({ number: 0 })
+export const useBoundStore = create<
+  BearsType & DataState & CountState & NumberState
+>((...args) => ({
+  ...createBearSlice(...args),
+  ...createDataSlice(...args),
+  ...createCountSlice(...args),
+  ...createNumberSlice(...args)
 }))

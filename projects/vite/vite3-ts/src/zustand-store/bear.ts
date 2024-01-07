@@ -1,6 +1,6 @@
-import { create } from 'zustand'
+import type { StateCreator } from 'zustand'
 
-const useStore = create<BearsType>()((set, get) => {
+export const createBearSlice: StateCreator<BearsType> = (set, get) => {
   // 返回的对象, 用于存储全局共享的数据或方法
   return {
     bears: 0,
@@ -15,6 +15,16 @@ const useStore = create<BearsType>()((set, get) => {
       get().incrementBears()
     }
   }
+}
+
+export const createCountSlice: StateCreator<CountState> = (set) => ({
+  count: 0,
+  increaseCount: (by) => set((state) => ({ count: state.count + by })),
+  resetCount: () => set({ count: 0 })
 })
 
-export default useStore
+export const createNumberSlice: StateCreator<NumberState> = (set) => ({
+  number: 0,
+  increaseNumber: (by) => set((state) => ({ number: state.number + by })),
+  resetNumber: () => set({ number: 0 })
+})

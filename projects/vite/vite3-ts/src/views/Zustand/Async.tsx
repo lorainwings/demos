@@ -1,9 +1,9 @@
 // app.tsx
 import { useState } from 'react'
-import { useDataStore } from '@/zustand-store/async'
+import { useBoundStore } from '@/zustand-store'
 
 export function AsyncItem() {
-  const { data, status, getData } = useDataStore((state) => state)
+  const { data, status, getData } = useBoundStore((state) => state)
   const [value, setValue] = useState('')
 
   function clickHandler() {

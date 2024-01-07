@@ -1,13 +1,17 @@
 import { FC } from 'react'
-import useStore from '@/zustand-store/bear'
+import { useBoundStore } from '@/zustand-store'
 
 export const Demo: FC = () => {
   // 调用useStore,同时提供一个选择数据的选择器
   // state => 要访问的数据
-  const bears = useStore((state) => state.bears)
-  const incrementBears = useStore((state) => state.incrementBears)
-  const decrementBearsByStep = useStore((state) => state.decrementBearsByStep)
-  const asyncIncrementBears = useStore((state) => state.asyncIncrementBears)
+  const bears = useBoundStore((state) => state.bears)
+  const incrementBears = useBoundStore((state) => state.incrementBears)
+  const decrementBearsByStep = useBoundStore(
+    (state) => state.decrementBearsByStep
+  )
+  const asyncIncrementBears = useBoundStore(
+    (state) => state.asyncIncrementBears
+  )
 
   return (
     <>
