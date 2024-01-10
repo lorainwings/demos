@@ -69,6 +69,7 @@
   - [t](https://lorainwings.github.io/demos/t.html)
   - [table溢出父元素](https://lorainwings.github.io/demos/table溢出父元素.html)
   - [text-shape](https://lorainwings.github.io/demos/text-shape.html)
+  - [transform-origin](https://lorainwings.github.io/demos/transform-origin.html)
   - [translate3d](https://lorainwings.github.io/demos/translate3d.html)
   - [video-stream](https://lorainwings.github.io/demos/video-stream.html)
   - [vue-$attrs-$listeners](https://lorainwings.github.io/demos/vue-$attrs-$listeners.html)
