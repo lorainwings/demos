@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聚焦的游离节点的内存泄露</title>
+</head>
+
+<body>
+  <h1>
+    聚焦的游离节点的内存泄露
+  </h1>
+
+  <div>
+    <button class="btn" onclick="createInput(false)">正常情况(移除未聚焦的游离节点)</button>
+    <button class="btn" onclick="createInput(true)">泄露情况(移除已聚焦的游离节点)</button>
+  </div>
+
+  <script>
+    function createInput(isFocus) {
+      const input = document.createElement('input')
+      input.setAttribute('placeholder', isFocus ? '已聚焦的游离节点' : '未聚焦的游离节点')
+      document.body.appendChild(input)
+      isFocus && input.focus()
+      setTimeout(() => {
+        input.remove()
+      }, 2000)
+    }
+  </script>
+</body>
+
+</html>

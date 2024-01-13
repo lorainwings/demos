@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .border {
+      border: 1px solid black;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>经典TheThing问题</h1>
+  <h2>共享词法作用域导致的内存泄露</h2>
+  <hr>
+  <div class="border">
+    <h3>场景一、闭包链表(已被修复)</h3>
+    <button id="start-btn">开始计时</button>
+    <button id="stop-btn">停止计时</button>
+    <script>
+      var theThing = null;
+      var timer = null;
+      var replaceThing = function () {
+        var originalThing = theThing;
+        var unused = function () {
+          if (originalThing)
+            console.log("hi");
+        };
+        theThing = {
+          longStr: new Array(1000000).join('*'),
+          someMethod: function () {
+            console.log(someMessage);
+          }
+        };
+      };
+      const startBtn = document.querySelector('#start-btn')
+      const stopBtn = document.querySelector('#stop-btn')
+      startBtn.onclick = () => {
+        console.log('开始执行');
+        timer = setInterval(replaceThing, 1000);
+      }
+      stopBtn.onclick = () => {
+        console.log('停止执行');
+        clearInterval(timer);
+      }
+    </script>
+  </div>
+
+  <hr>
+
+  <div class="border">
+    <h3>场景二、词法环境扩张(最新chrome仍然存在该问题)</h3>
+    <button id="vo-btn">开始执行</button>
+    <script>
+      var newElem;
+
+      function outer() {
+        var someText = new Array(1000000);
+        var elem = newElem;
+
+        function inner() {
+          if (elem) return someText;
+        }
+
+        return function () { };
+      }
+      document.querySelector('#vo-btn').onclick = () => {
+        setInterval(function () {
+          newElem = outer();
+        }, 5);
+      }
+    </script>
+  </div>
+</body>
+
+</html>
