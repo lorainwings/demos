@@ -1,8 +1,9 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: { name: String },
   setup(props, { slots }) {
-    return () => <div>Test</div>
+    return () => <div>{props.name}</div>
   }
 })
 
