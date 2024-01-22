@@ -1,3 +1,7 @@
+/* 两种引入方式都是@import支持的语法 */
+/* @import url() */
+@import '@styles/custom.css';
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,7 +28,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -47,6 +50,8 @@ button,
   cursor: pointer;
   transition: border-color 0.25s;
   color: white;
+  /* 使用postcss-plugin/console插件来打印日志 */
+  /* @console.error hello root; */
 }
 button:hover {
   border-color: #646cff;
@@ -60,7 +65,8 @@ button:focus-visible {
   padding: 2em;
 }
 
-#app {
+#app,
+.extra {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;

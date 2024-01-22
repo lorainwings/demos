@@ -11,8 +11,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     // indent: 'off',
     // '@typescript-eslint/indent': ['error', 2],
-    quotes: 'off',
-    '@typescript-eslint/quotes': ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
+    // '@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true }],
     semi: 'off',
     '@typescript-eslint/semi': ['error', 'never'],
     'react/display-name': 'off'
@@ -23,3 +23,4 @@ module.exports = {
     }
   }
 }
+

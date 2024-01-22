@@ -5,6 +5,9 @@ import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  esbuild: {
+    jsxInject: "import React from 'react'"
+  },
   server: {
     // https 选项需要开启
     https: true
