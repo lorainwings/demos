@@ -14,12 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup nodejs
-        uses: actions/setup-node@v2-beta
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '12'
-          registry-url: 'https://registry.npmmirror.com'
-          check-latest: true
+          node-version: 20
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -39,3 +37,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./code-snippets/htmls
+
