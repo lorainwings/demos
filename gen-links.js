@@ -29,8 +29,9 @@ const dirList = async () => {
       .map((filename) => {
         const name = filename.slice(0, filename.indexOf('.'))
         const type = path.extname(filename)
-        const link = `https://lorainwings.github.io/demos/${filename}`
-        return { name, type, link }
+        const viewLink = `https://lorainwings.github.io/demos/${filename}`
+        const codeLink = `https://github.com/lorainwings/demos/tree/master/code-snippets/htmls/${filename}`
+        return { name, type, link: viewLink, code: codeLink }
       })
   )
   const htmlTemp = path.resolve(__dirname, './template/html.ejs')
