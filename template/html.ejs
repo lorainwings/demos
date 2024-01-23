@@ -95,7 +95,7 @@
   <h1 class="title">DEMOS小案例预览列表</h1>
   <div class="container">
     <%_ for( let index=0; index < list.length; index++ ) { _%>
-      <div class="item" title="<%= index %>、<%= list[index] %>">
+      <div class="item" title="<%= index %>、<%= list[index].name %>">
         <a href="<%= list[index].link %>" class="h-link" target="_blank">
           <%_ if (list[index].type === ".html") { _%>
           <svg class="icon" viewBox="0 0 1000 1000">
