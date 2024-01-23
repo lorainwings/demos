@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    <h3>浏览器importsmap</h3>
-    <div id="root"></div>
-    <script type="importmap">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <h3>浏览器importsmap</h3>
+  <div id="root"></div>
+  <script type="importmap">
       {
         "imports": {
           "react": "https://cdn.skypack.dev/react"
@@ -18,9 +19,17 @@
       }
     </script>
 
-    <script type="module">
-      import React from 'react'
-      console.log(React)
-    </script>
-  </body>
+  <script type="module">
+    import React from 'react'
+    // 获取 json 对象
+    import json from 'http://127.0.0.1:5500/code-snippets/htmls/mock/data.json' assert { type: 'json' };
+    // 获取 CSS Modules 对象
+    import sheet from 'http://127.0.0.1:5500/code-snippets/htmls/mock/index.css' assert { type: 'css' };
+    console.log('React', React)
+    console.log('json', json)
+    console.log('sheet', sheet);
+
+  </script>
+</body>
+
 </html>
