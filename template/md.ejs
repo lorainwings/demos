@@ -6,7 +6,7 @@
 
 所有小案例都已经托管到了[Github Pages](https://pages.github.com/)上，点击标题的预览链接可以直接访问
 
-![预览链接](https://github.com/lorainwings/demos/blob/gh-pages/assets/images/demos-preview.jpg)
+[![预览链接](https://github.com/lorainwings/demos/raw/master/assets/images/demos-preview.jpg)](https://lorainwings.github.io/demos)
 
 ## 代码链接列表
 
