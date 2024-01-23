@@ -6,7 +6,7 @@
 
 - [示例项目相关](https://github.com/lorainwings/demos/tree/master/projects/)
 
-- [代码片段 HTML](https://github.com/lorainwings/demos/tree/master/code-snippets/)
+- [代码片段 HTML](https://github.com/lorainwings/demos/tree/master/code-snippets/README.md)
 
 - [数据库相关](https://github.com/lorainwings/demos/tree/master/database/)
 
