@@ -17,6 +17,9 @@ jobs:
         with:
           ref: master
 
+      - name: Copy Script
+        run: |
+          cp -r ./code-snippets/exam ./code-snippets/htmls/exam
       # - name: Install Node.js
       #   uses: actions/setup-node@v4
       #   with:
