@@ -28,10 +28,10 @@ const dirList = async () => {
   const hRet = await renderFile(htmlTemp, { list })
   const mRet = await renderFile(mdTemp, { list })
   const configs = [
-    {
-      name: './code-snippets/README.md',
-      content: mRet
-    },
+    // {
+    //   name: './code-snippets/README.md',
+    //   content: mRet
+    // },
     {
       name: './code-snippets/htmls/index.html',
       content: hRet
