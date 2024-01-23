@@ -4,9 +4,11 @@
 
 ## [在线预览链接](https://lorainwings.github.io/demos)
 
-所有小案例都已经托管到了[Github Pages](https://pages.github.com/)上，点击标题的预览链接可以直接访问
+所有小案例都已经托管到了[Github Pages](https://pages.github.com/)上，点击图片即可跳转到预览链接
 
-[![预览链接](https://github.com/lorainwings/demos/raw/master/assets/images/demos-preview.jpg)](https://lorainwings.github.io/demos)
+<a href="https://lorainwings.github.io/demos" target="_blank">
+  <img src="https://github.com/lorainwings/demos/raw/master/assets/images/demos-preview.jpg" alt="预览链接" >
+</a>
 
 ## 代码链接列表
 
