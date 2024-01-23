@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    <script src="../exam/异步原子性.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
 
-    <button onclick="startClick()">开始任务</button>
-    <button onclick="pauseClick()">暂停任务</button>
+<body>
+  <script src="/code-snippets/exam/异步原子性.js"></script>
 
-    <script>
-      const startClick = async () => {
-        console.log('开始任务')
-        const result = await start()
-        console.log('任务完成', result)
-      }
-      const pauseClick = () => {
-        console.log('暂停任务')
-        pause()
-      }
-    </script>
-  </body>
+  <button onclick="startClick()">开始任务</button>
+  <button onclick="pauseClick()">暂停任务</button>
+
+  <script>
+    const startClick = async () => {
+      console.log('开始任务')
+      const result = await start()
+      console.log('任务完成', result)
+    }
+    const pauseClick = () => {
+      console.log('暂停任务')
+      pause()
+    }
+  </script>
+</body>
+
 </html>
