@@ -2,7 +2,8 @@
 
 <p align="center">
   <br>
-  <img width="300" src="https://github.com/lorainwings/demos/raw/master/assets/images/demos-icon.svg" alt="logo of demos repository">
+  <!--img width="300" src="https://github.com/lorainwings/demos/raw/master/assets/images/demos-icon.svg" alt="logo of demos repository"-->
+  <img width="300" src="/assets/images/demos-icon.svg" alt="logo of demos repository">
   <br>
   <br>
 </p>
@@ -18,15 +19,16 @@
 
 ## 分类
 
-- [示例项目相关](https://github.com/lorainwings/demos/tree/master/projects/)
+<!-- - [示例项目相关](https://github.com/lorainwings/demos/tree/master/projects/) -->
+- [示例项目相关](/projects/)
 
-- [代码片段 HTML](https://github.com/lorainwings/demos/tree/master/code-snippets/README.md)
+- [代码片段 HTML](/code-snippets/README.md)
 
-- [数据库相关](https://github.com/lorainwings/demos/tree/master/database/)
+- [数据库相关](/database/)
 
-- [Node 相关](https://github.com/lorainwings/demos/tree/master/node/)
+- [Node 相关](/node/)
 
-- [第三方脚本-油候 & Autojs](https://github.com/lorainwings/demos/tree/master/third-scripts/)
+- [第三方脚本-油候 & Autojs](/third-scripts/)
 
 ## Monorepo
 
