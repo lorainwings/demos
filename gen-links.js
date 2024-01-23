@@ -21,17 +21,31 @@ const writeCtx = async (configs) => {
 
 const dirList = async () => {
   const fullpath = path.resolve(__dirname, './code-snippets/htmls')
+  const whiteList = ['.html', '.js', '.ts']
   const readdirAsync = promisify(fs.readdir)
-  const list = await readdirAsync(fullpath)
+  const list = await readdirAsync(fullpath).then((files) =>
+    files
+      .filter((n) => whiteList.includes(path.extname(n)))
+      .map((filename) => {
+        const name = filename.slice(0, filename.indexOf('.'))
+        const type = path.extname(filename)
+        const link = `https://lorainwings.github.io/demos/${filename}`
+        return { name, type, link }
+      })
+  )
   const htmlTemp = path.resolve(__dirname, './template/html.ejs')
   const mdTemp = path.resolve(__dirname, './template/md.ejs')
   const hRet = await renderFile(htmlTemp, { list })
-  const mRet = await renderFile(mdTemp, { list })
+  const mRet = await renderFile(mdTemp, { list, maxShowNum: 4 })
   const configs = [
-    // {
-    //   name: './code-snippets/README.md',
-    //   content: mRet
-    // },
+    {
+      name: './code-snippets/README.md',
+      content: mRet
+    },
+    {
+      name: './code-snippets/htmls/README.md',
+      content: mRet
+    },
     {
       name: './code-snippets/htmls/index.html',
       content: hRet
@@ -43,3 +57,4 @@ const dirList = async () => {
 
 console.log('正在生成快捷访问链接.....')
 dirList()
+
