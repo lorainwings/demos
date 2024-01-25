@@ -29,6 +29,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "#helpers": [
+        "helpers/index.default.ts",
       ]
     }
   },
@@ -39,7 +42,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/*",
-    "plugins"
+    "plugins",
+    "helpers/**/*.ts"
   ],
   "references": [
     {
