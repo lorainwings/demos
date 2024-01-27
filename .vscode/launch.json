@@ -86,6 +86,7 @@
       "request": "launch",
       // 默认是 node, 从 PATH 的环境变量中查找对应名字的 runtime 启动
       "runtimeExecutable": "ts-node", // ts-node也可以, 执行效率没有esno快
+      "args": ["--transpileOnly"], // 仅执行不检查
       "skipFiles": ["<node_internals>/**"],
       "type": "node",
       // 入口处断住

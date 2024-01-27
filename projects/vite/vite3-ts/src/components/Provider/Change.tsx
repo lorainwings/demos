@@ -1,4 +1,4 @@
-import { useStateValue } from '../../store/stateContext'
+import { useStateValue } from '../../store/zustand/stateContext'
 
 const ChangeTheme = () => {
   const [state, dispatch] = useStateValue()

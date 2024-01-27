@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <dialog id="dialog">
+    <div class="container">
+      <h2>生成网页二维码</h2>
+      <p>按ESC或者点击空白处关闭弹窗</p>
+      <img src="data:;base64," alt="" id="img">
+    </div>
+  </dialog>
+
+  <button id="open">显示dialog</button>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container h2 {
+      margin: 0;
+    }
+
+    dialog {
+      border: 1px solid #aaa;
+      border-radius: 10px;
+    }
+
+    dialog::backdrop {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  </style>
+
+  <script type="module">
+    (function () {
+      const dialog = document.getElementById("dialog");
+      const openBtn = document.getElementById("open");
+      const closeBtn = document.getElementById("close");
+      const img = document.getElementById('img')
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(location.href)}`
+
+      dialog.onclick = dialog.close
+      openBtn.onclick = () => {
+        // 打开dialog，显示遮罩层
+        dialog.showModal();
+        dialog.show();
+      }
+
+    })();
+  </script>
+
+  <script>
+    /* (function () {
+      const u = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(location.href)}`;
+      const d = document.createElement('div');
+      d.setAttribute('id', 'dailog');
+      const s = document.createElement('style');
+      const b = document.body;
+      s.innerHTML = `
+      #dailog {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+      }
+      .container {
+        width: 400px;
+        color: #666;
+        border: 1px solid #aaa;
+        border-radius: 10px;
+        background-color: #fff;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }`;
+      d.innerHTML = `
+      <div class="container">
+      <h2>生成网页二维码</h2>
+      <p>点击空白处关闭弹窗</p>
+      <img src="${u}">
+    </div>`;
+      d.addEventListener('click', () => {
+        b.removeChild(s);
+        b.removeChild(d);
+      });
+      b.appendChild(s);
+      b.appendChild(d);
+    })(); */
+  </script>
+</body>
+
+</html>

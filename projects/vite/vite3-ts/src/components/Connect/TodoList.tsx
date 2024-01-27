@@ -1,4 +1,4 @@
-import { useStateValue } from '../../store/stateContext'
+import { useStateValue } from '../../store/zustand/stateContext'
 import { connect } from './Index'
 import './style.css'
 

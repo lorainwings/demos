@@ -12,7 +12,7 @@ import ConnectedTodoList from '@/components/Connect/TodoList'
 
 import Change from './components/Provider/Change'
 
-import { reducer, initialState } from './store'
+import { reducer, initialState } from './store/zustand'
 import './App.css'
 
 function App() {

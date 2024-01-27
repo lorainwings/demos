@@ -1,0 +1,1 @@
+javascript:(function(){(window.isBottom=!window.isBottom)?window.scrollTo({left:0,top:Math.max(document.documentElement.scrollHeight,document.body.scrollHeight),behavior:"smooth"}):window.scrollTo({top:0,left:0,behavior:"smooth"})})();

@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
-import { StateContext } from '../../store/stateContext'
-import type { Actions, InitialState } from '../../store'
+import { StateContext } from '../../store/zustand/stateContext'
+import type { Actions, InitialState } from '../../store/zustand'
 
 interface ProviderInterface {
   reducer: (state: InitialState, action: Actions) => InitialState
