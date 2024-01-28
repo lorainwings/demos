@@ -175,7 +175,7 @@
       "watchMode": false,
 
       // If the debugger should stop on the first line of the program.
-      "stopOnEntry": false,
+      "stopOnEntry": true,
 
       // If the debugger should be disabled. (for example, breakpoints will not be hit)
       "noDebug": false,

@@ -59,44 +59,43 @@
 
   <script>
     /* (function () {
-      const u = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(location.href)}`;
-      const d = document.createElement('div');
-      d.setAttribute('id', 'dailog');
-      const s = document.createElement('style');
+      const i = new Image();
+      i.src = `https://tool.oschina.net/action/qrcode/generate?data=${location.href}&output=image/gif&error=H&type=10&margin=10&size=4`
       const b = document.body;
-      s.innerHTML = `
-      #dailog {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-      }
-      .container {
-        width: 400px;
-        color: #666;
-        border: 1px solid #aaa;
-        border-radius: 10px;
-        background-color: #fff;
-        padding: 20px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-      }`;
+      const d = document.createElement('div');
+      d.id = 'dailog';
       d.innerHTML = `
+      <style>
+          #dailog {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        }
+        .container {
+          width: 350px;
+          height: 430px;
+          box-sizing: border-box;
+          color: #666;
+          border: 1px solid #aaa;
+          border-radius: 10px;
+          background-color: #fff;
+          padding: 40px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+        }
+      </style>
       <div class="container">
-      <h2>生成网页二维码</h2>
-      <p>点击空白处关闭弹窗</p>
-      <img src="${u}">
-    </div>`;
-      d.addEventListener('click', () => {
-        b.removeChild(s);
-        b.removeChild(d);
-      });
-      b.appendChild(s);
+        <h2>生成网页二维码</h2>
+        <p>点击空白处关闭弹窗</p>
+      </div>`;
+      d.onclick = () => b.removeChild(d);
+      d.lastChild.appendChild(i);
       b.appendChild(d);
     })(); */
   </script>
