@@ -100,11 +100,17 @@
               all: revert;
               font-size: 12px !important;
             }
+
+            & img {
+              width: 248px;
+              height: 248px;
+              border: 1px solid #eee;
+            }
           }
         }
       </style>
       <div class="container">
-        <h2>生成网页二维码</h2>
+        <h2>显示网页二维码</h2>
         <p>点击空白处关闭弹窗</p>
       </div>`;
       d.onclick = () => b.removeChild(d);
