@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="playground" id="play">playground</div>
+  <button id="work">start work</button>
+  <button id="interaction">handle some user interaction</button>
+
+  <style>
+    .playground {
+      background: palevioletred;
+      padding: 20px;
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <script>
+    const play = document.getElementById("play")
+    const workBtn = document.getElementById("work")
+    const interactionBtn = document.getElementById("interaction")
+    let iterationCount = 10000
+    let value = 0
+
+    // 耗时任务
+    const expensiveCalculation = function (deadline) {
+      while (iterationCount > 0 && deadline.timeRemaining() > 1) {
+        console.log('iterationCount', value);
+        value = Math.random() < 0.5 ? value + Math.random() : value + Math.random()
+        iterationCount = iterationCount - 1
+      }
+      // 无剩余时间时, 开启下次空闲任务
+      requestIdleCallback(expensiveCalculation)
+    }
+
+    workBtn.addEventListener("click", function () {
+      requestIdleCallback(expensiveCalculation)
+    })
+
+    interactionBtn.addEventListener("click", function () {
+      console.log('------',);
+
+      play.style.background = "palegreen"
+    })
+  </script>
+</body>
+
+</html>
