@@ -10,7 +10,9 @@
   <img src="https://github.com/lorainwings/demos/raw/master/assets/images/demos-preview.jpg" alt="预览链接" >
 </a>
 
-## 代码链接列表(点小按钮可以访问代码或者预览链接)
+## 代码链接列表
+
+> 点小按钮可以访问代码或者预览链接
 
 <table>
 <%_ for( let index=0; index < list.length; index +=maxShowNum) { _%>
@@ -23,6 +25,7 @@
         <span>
           <%= index + c + 1 %>、<%= list[index + c].name _%>
         </span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <a href="<%= list[index + c].code %>" target="_blank" style="margin-left: auto" title="代码">📎</a>
         &nbsp;
         <a href="<%= list[index + c].link %>" target="_blank" title="预览">🌐</a>
