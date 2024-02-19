@@ -4,13 +4,13 @@
 
 ## [在线预览链接](https://lorainwings.github.io/demos)
 
-所有小案例都已经托管到了[Github Pages](https://pages.github.com/)上，点击图片即可跳转到预览链接
+所有小案例都已经托管到了[Github Pages](https://pages.github.com/)上，点击图片即可跳转到预览链接汇总列表
 
 <a href="https://lorainwings.github.io/demos" target="_blank">
   <img src="https://github.com/lorainwings/demos/raw/master/assets/images/demos-preview.jpg" alt="预览链接" >
 </a>
 
-## 代码链接列表
+## 代码链接列表(点小按钮可以访问代码或者预览链接)
 
 <table>
 <%_ for( let index=0; index < list.length; index +=maxShowNum) { _%>
@@ -19,9 +19,14 @@
   <%_ for( let c=0; c < maxShowNum; c++ ) { _%>
     <%_ if (index + c < list.length) { _%>
     <td>
-      <a href="<%= list[index + c].code %>" target="_blank">
-        <%= index + c + 1 %>、<%= list[index + c].name _%>
-      </a>
+      <div style="display:flex; align-items: center;">
+        <span>
+          <%= index + c + 1 %>、<%= list[index + c].name _%>
+        </span>
+        <a href="<%= list[index + c].code %>" target="_blank" style="margin-left: auto" title="代码">📎</a>
+        &nbsp;
+        <a href="<%= list[index + c].link %>" target="_blank" title="预览">🌐</a>
+      </div>
     </td>
     <%_ } _%>
   <%_ } _%>
