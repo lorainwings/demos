@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<div class="container">
+  <div class="box">
+    <h3 class="center">使用Canvas播放视频</h3>
+    <canvas id="canvas" width="500" height="300"></canvas>
+    <div class="center">
+      <input type="button" value="播放" id="play" />
+      <input type="button" value="暂停" id="stop" />
+    </div>
+  </div>
+</div>
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #canvas {
+    background-color: #333;
+    margin: 10px;
+  }
+
+  .box {
+    border: 1px solid #888;
+    padding: 20px;
+    width: fit-content;
+  }
+
+  .center {
+    text-align: center;
+  }
+</style>
+<script>
+  let timer = null, currentTime = 0, isPlaying = false;
+  const video = document.createElement("video");
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+
+  function drawTip(text) {
+    canvas.width = canvas.width;
+    canvas.height = canvas.height;
+    ctx.font = "13px Microsoft YaHei";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  }
+
+  function init() {
+    video.src = "https://www.twle.cn/static/i/html/html_video_2.mp4"
+  }
+
+  video.oncanplay = function () {
+    drawTip("已加载完毕，点击播放")
+  }
+
+  function play() {
+    if (!isPlaying) video.play(), (video.currentTime = currentTime);
+    timer = setInterval(function () {
+      if (video.currentTime >= video.duration) {
+        stop();
+      };
+      ctx.drawImage(video, (canvas.width - video.videoWidth) / 2, (canvas.height - video.videoHeight) / 2, video.videoWidth, video.videoHeight);//绘制视频
+    }, 16);
+  }
+
+  function stop() {
+    isPlaying = false;
+    clearInterval(timer);
+    video.pause();
+    currentTime = video.currentTime
+  }
+
+  init()
+  video.addEventListener("playing", () => (isPlaying = true));
+  document.getElementById("play").onclick = play
+  document.getElementById("stop").onclick = stop
+</script>
