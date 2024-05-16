@@ -195,6 +195,23 @@
       // The URL of the WebSocket inspector to attach to.
       // This value can be retrieved by using `bun --inspect`.
       "url": "ws://localhost:6499/"
-    }
+    },
+    {
+      "name": "Debug Webpack Plugin",
+      "request": "launch",
+      "program": "./node_modules/webpack/bin/webpack.js",
+      "cwd": "${workspaceFolder}/projects/webpack-plugin-loader-develop",
+      "skipFiles": [],
+      "type": "node",
+      "stopOnEntry": true
+      // 还可以使用下面的attach到端口的方式, 需要先启动pnpm debug的调试服务
+      // "request": "attach",
+      // "port": 9229,
+      // "runtimeArgs": [
+      //   "run-script",
+      //   "debug"
+      // ],
+      // "runtimeExecutable": "pnpm",
+    },
   ]
 }
