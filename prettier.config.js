@@ -20,5 +20,5 @@ module.exports = {
   bracketSameLine: false,
   // 箭头函数仅有一个参数时也需要括号，如 (arg) => {}
   // 使用 crlf 作为换行符
-  endOfLine: 'crlf'
-}
+  endOfLine: 'lf'
+};
