@@ -73,11 +73,11 @@
         "ENV_VAR": "1123"
       },
       // "envFile":"...",
-      "runtimeArgs": ["run-script", "build-dev"],
+      "runtimeArgs": [ "run-script", "build-dev" ],
       "runtimeExecutable": "pnpm",
-      "skipFiles": [],
+      "skipFiles": [ ],
       "type": "node",
-      "resolveSourceMapLocations": ["${workspaceFolder}/**"],
+      "resolveSourceMapLocations": [ "${workspaceFolder}/**" ],
       "stopOnEntry": true
     },
     {
@@ -86,8 +86,8 @@
       "request": "launch",
       // 默认是 node, 从 PATH 的环境变量中查找对应名字的 runtime 启动
       "runtimeExecutable": "ts-node", // ts-node也可以, 执行效率没有esno快
-      "args": ["--transpileOnly"], // 仅执行不检查
-      "skipFiles": ["<node_internals>/**"],
+      "args": [ "--transpileOnly" ], // 仅执行不检查
+      "skipFiles": [ "<node_internals>/**" ],
       "type": "node",
       // 入口处断住
       "stopOnEntry": true
@@ -97,7 +97,7 @@
       "name": "Child进程调试",
       "program": "${file}",
       "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [ "<node_internals>/**" ],
       "type": "node",
       "console": "internalConsole",
       "autoAttachChildProcesses": true
@@ -106,7 +106,7 @@
       "name": "Pick进程调试",
       "processId": "${command:PickProcess}",
       "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [ "<node_internals>/**" ],
       "type": "node"
     },
     {
@@ -114,7 +114,7 @@
       "type": "chrome",
       "request": "launch",
       "runtimeExecutable": "canary",
-      "runtimeArgs": ["--auto-open-devtools-for-tabs"],
+      "runtimeArgs": [ "--auto-open-devtools-for-tabs" ],
       "userDataDir": false,
       "url": "http://localhost:3000",
       // vite 时会有一些热更之类的文件，也会被映射到源码，导致断在某名奇妙的地方
@@ -131,7 +131,7 @@
       "port": 9222,
       // "preLaunchTask": "launch-chrome",
       "webRoot": "${workspaceFolder}/projects/module-federation/",
-      "skipFiles": [],
+      "skipFiles": [ ],
       "sourceMapPathOverrides": {
         "webpack:///./*": "${webRoot}/*",
         "webpack:///src/*": "${webRoot}/*",
@@ -146,7 +146,7 @@
       "name": "Server附加调试",
       "port": 9229,
       "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [ "<node_internals>/**" ],
       "type": "node"
     },
     {
@@ -158,13 +158,13 @@
       "program": "${file}",
 
       // The arguments to pass to the program, if any.
-      "args": [],
+      "args": [ ],
 
       // The working directory of the program.
       "cwd": "${workspaceFolder}",
 
       // The environment variables to pass to the program.
-      "env": {},
+      "env": { },
 
       // If the environment variables should not be inherited from the parent process.
       "strictEnv": false,
@@ -185,7 +185,7 @@
 
       // The arguments to pass to the `bun` executable, if any.
       // Unlike `args`, these are passed to the executable itself, not the program.
-      "runtimeArgs": [],
+      "runtimeArgs": [ ],
     },
     {
       "type": "bun",
@@ -194,14 +194,14 @@
 
       // The URL of the WebSocket inspector to attach to.
       // This value can be retrieved by using `bun --inspect`.
-      "url": "ws://localhost:6499/"
+      "url": "ws://localhost:9229/"
     },
     {
       "name": "Debug Webpack Plugin",
       "request": "launch",
       "program": "./node_modules/webpack/bin/webpack.js",
       "cwd": "${workspaceFolder}/projects/webpack-plugin-loader-develop",
-      "skipFiles": [],
+      "skipFiles": [ ],
       "type": "node",
       "stopOnEntry": true
       // 还可以使用下面的attach到端口的方式, 需要先启动pnpm debug的调试服务
