@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2>Fetch可以读取下载的进度监控, 但无法处理上传的进度监控</h2>
+  <script type="module">
+    /* 下载(响应)的进度监控 */
+    const onProgress = ({ loaded, total }) => console.log('通过Fetch读取下载数据的进度监控', loaded, total);
+    export function request(options = {}) {
+      return new Promise(async (resolve) => {
+        const resp = await fetch(url, {
+          body: data
+        });
+        const total = +resp.headers.get('content-length');
+        const decoder = new TextDecoder();
+        let body = '';
+        const reader = resp.body.getReader();
+        let loaded = Θ;
+        while (1) {
+          const { done, value /* value是buffer */ } = await reader.read();
+          if (done) break;
+          loaded += value.length;
+          body += decoder.decode(value);
+          onProgress && onProgress({ loaded, total });
+        }
+        resolve(body)
+      })
+    }
+  </script>
+
+
+  <h2>XHR 即可以做上传的进度监控, 也可以做下载的进度监控</h2>
+  <script type="module">
+    export function request(options = {}) {
+      return new Promise((resolve) => {
+        const { method, url, data, onProgress } = options;
+        const xhr = new XMLHttpRequest()
+
+        xhr.addEventListener('readystatechange', () => {
+          resolve(xhr.responseText)
+        });
+
+        xhr.upload.addEventListener('progress', (e) => {
+          console.log(e.loaded, e.total)
+        });
+
+        xhr.addEventListener('progress', (e) => {
+          console.log(e.loaded, e.total)
+          onProgress && onProgress({ loaded: e.loaded, total: e.total })
+        });
+
+        xhr.open(method, url);
+        xhr.send(data);
+      });
+    }
+  </script>
+</body>
+
+</html>
