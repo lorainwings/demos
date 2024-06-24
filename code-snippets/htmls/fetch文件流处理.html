@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>fetch处理文件流</h1>
+
+  <script type="module">
+    const sendRequest = async () => {
+      const promise = null;
+      const res = await fetch("https://www.52pojie.cn/search.php", {
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "accept-language": "zh-CN,zh;q=0.9",
+          "cache-control": "max-age=0",
+          "sec-ch-ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"macOS\"",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1"
+        },
+        "referrerPolicy": "strict-origin-when-cross-origin",
+        "body": null,
+        "method": "GET",
+        "mode": "cors",
+        "credentials": "include"
+      }).then(async r => {
+        const reader = r.body.getReader()
+        const textDecoder = new TextDecoder('GBK')
+        let buf = '';
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break;
+          const str = textDecoder.decode(value)
+          buf += str;
+        }
+        return buf
+      });
+      return res
+    }
+
+    const res = await sendRequest()
+
+    console.log('%c------>[LOG:]Fetch Result', 'color: fuchsia', res)
+  </script>
+</body>
+
+</html>

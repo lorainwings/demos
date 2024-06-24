@@ -18,12 +18,13 @@
 // @match        *://stackoverflow.com/questions/*
 // @match        *://medium.com/javascript-in-plain-english/*
 // @match        *://www.alloyteam.com/*
+// @match        *://www.douyin.com/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js
 // @grant        none
 // @connect *
 // ==/UserScript==
 
-;(function () {
+; (function () {
   'use strict'
   $(function () {
     $(document.head).append(`
@@ -39,7 +40,7 @@
                     position:fixed;
                     right:0;
                     top:0;
-                    z-index:9999;
+                    z-index:99999999;
                     cursor:pointer;
                     width:27px;
                     height:27px;
@@ -75,10 +76,10 @@
       true
     )
 
-    const addSavePlugin = (style, fn) => {
+    const btnActionRegister = (style, doPost) => {
       $('#___control_btn').delegate('div#__insert_btn', 'click', function () {
         console.log('%c------>[LOG:]Register Plugin', 'color: fuchsia')
-        if (fn) fn()
+        if (doPost) doPost()
         $(this).hide()
         $(document.head).append(style)
         window.print()
@@ -112,7 +113,7 @@
                    display:none !important
                 }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
     const juejin = (() => {
       if (!/juejin/gi.test(location.href)) return
@@ -143,7 +144,7 @@
                    width: 90vw !important;
                 }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
     const jianshu = (() => {
       if (!/jianshu\.com/gi.test(location.href)) return
@@ -153,7 +154,7 @@
                    display:none !important;
                 }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
     const github = (() => {
       if (!/github\.com/gi.test(location.href)) return
@@ -167,7 +168,7 @@
                     display: none !important;
                 }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
     const segment = (() => {
       if (!/segmentfault\.com/gi.test(location.href)) return
@@ -190,7 +191,7 @@
                     display: none !important;
                 }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
     const medium = (() => {
       if (!/medium\.com/gi.test(location.href)) return
@@ -201,7 +202,7 @@
                display:none !important
             }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
     const zhihu = (() => {
       if (!/zhihu\.com/gi.test(location.href)) return
@@ -228,7 +229,7 @@
                 width:0;
             }
             </style>`
-      addSavePlugin(style, () => {
+      btnActionRegister(style, () => {
         $('button.Button.QuestionRichText-more.Button--plain').click()
       })
     })()
@@ -270,7 +271,7 @@
               margin: 0;
             }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
 
     const gitbooks = (() => {
@@ -284,7 +285,7 @@
                display:none !important;
             }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
 
     const stackoverflow = (() => {
@@ -301,7 +302,7 @@
                display:none !important;
             }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
     })()
 
     const alloyteam = (() => {
@@ -312,7 +313,36 @@
                display:none !important;
             }
             </style>`
-      addSavePlugin(style)
+      btnActionRegister(style)
+    })()
+
+    const duyi = (() => {
+      if (!/douyin/gi.test(location.href)) return
+      const channelName = document.querySelector('.ds1zWG9C').innerText
+      if (!/渡一/gi.test(channelName)) return
+
+      const handler = function () {
+        $(document.head).append(`<style>
+            .I6wDOE47, [id*=login-full-panel-]{
+              display:none !important;
+            }
+            body {
+              overflow: auto !important;
+            }
+          </style>`)
+        const scroll = () => {
+          const doc = document.documentElement
+          const dbo = document.body
+          const empty = document.querySelector('.B_mbw29p')
+          if (doc.scrollHeight <= window.innerHeight + doc.scrollTop && empty) return;
+          const maxHeight = Math.max(doc.scrollHeight, dbo.scrollHeight)
+          window.scrollTo({ left: 0, top: maxHeight })
+          setTimeout(scroll, 500)
+        }
+        scroll()
+      }
+
+      handler()
     })()
   })
   // Your code here...
