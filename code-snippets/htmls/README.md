@@ -1130,17 +1130,25 @@
     </td>
     <td align="left">
       <span>
-        132、转圈动画      </span>
+        132、视察滚动      </span>
     </td>
     <td align="center">
-      <a href="/code-snippets/htmls/转圈动画.html" target="_blank" style="margin-left: auto" title="代码">&lt;/&gt;</a>
-      <a href="https://lorainwings.github.io/demos/转圈动画.html" target="_blank" title="预览">🌐</a>
+      <a href="/code-snippets/htmls/视察滚动.html" target="_blank" style="margin-left: auto" title="代码">&lt;/&gt;</a>
+      <a href="https://lorainwings.github.io/demos/视察滚动.html" target="_blank" title="预览">🌐</a>
     </td>
   </tr>
   <tr>
     <td align="left">
       <span>
-        133、递归      </span>
+        133、转圈动画      </span>
+    </td>
+    <td align="center">
+      <a href="/code-snippets/htmls/转圈动画.html" target="_blank" style="margin-left: auto" title="代码">&lt;/&gt;</a>
+      <a href="https://lorainwings.github.io/demos/转圈动画.html" target="_blank" title="预览">🌐</a>
+    </td>
+    <td align="left">
+      <span>
+        134、递归      </span>
     </td>
     <td align="center">
       <a href="/code-snippets/htmls/递归.html" target="_blank" style="margin-left: auto" title="代码">&lt;/&gt;</a>
@@ -1148,7 +1156,7 @@
     </td>
     <td align="left">
       <span>
-        134、长列表优化      </span>
+        135、长列表优化      </span>
     </td>
     <td align="center">
       <a href="/code-snippets/htmls/长列表优化.html" target="_blank" style="margin-left: auto" title="代码">&lt;/&gt;</a>
@@ -1156,7 +1164,7 @@
     </td>
     <td align="left">
       <span>
-        135、高度自适应      </span>
+        136、高度自适应      </span>
     </td>
     <td align="center">
       <a href="/code-snippets/htmls/高度自适应.html" target="_blank" style="margin-left: auto" title="代码">&lt;/&gt;</a>
