@@ -219,6 +219,7 @@
             .Sticky,
             .ContentItem-actions.Sticky.RichContent-actions,
             .ModalWrap,
+            footer,
             .ModalLoading-content{
                display:none !important
             }
