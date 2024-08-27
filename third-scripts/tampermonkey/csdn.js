@@ -319,31 +319,17 @@
 
     const duyi = (() => {
       if (!/douyin/gi.test(location.href)) return
-      const channelName = document.querySelector('.ds1zWG9C').innerText
-      if (!/渡一/gi.test(channelName)) return
+      const isDuyi = /<span>(.*)渡一(.*)<\/span>/.test(document.body.innerHTML);
+      if (!isDuyi) return
 
-      const handler = function () {
-        $(document.head).append(`<style>
-            .I6wDOE47, [id*=login-full-panel-]{
-              display:none !important;
-            }
-            body {
-              overflow: auto !important;
-            }
-          </style>`)
-        const scroll = () => {
-          const doc = document.documentElement
-          const dbo = document.body
-          const empty = document.querySelector('.B_mbw29p')
-          if (doc.scrollHeight <= window.innerHeight + doc.scrollTop && empty) return;
-          const maxHeight = Math.max(doc.scrollHeight, dbo.scrollHeight)
-          window.scrollTo({ left: 0, top: maxHeight })
-          setTimeout(scroll, 500)
-        }
-        scroll()
+      const scroll = () => {
+        const doc = document.querySelector('.route-scroll-container')
+        const empty = /<div class="[^>]+">暂时没有更多了<\/div>/.test(document.body.innerHTML)
+        if (doc.scrollHeight <= window.innerHeight + doc.scrollTop && empty) return;
+        doc.scrollTo({ left: 0, top: doc.scrollHeight })
+        setTimeout(scroll, 500)
       }
-
-      handler()
+      scroll()
     })()
   })
   // Your code here...

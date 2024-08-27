@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="a">hello</div>
+  <button onclick="b()">点我</button>
+</body>
+<script>
+  const delay = (t) => {
+    const date = Date.now();
+    while (Date.now() - date < t) { }
+  };
+
+  const b = () => {
+    const a = document.getElementById('a');
+    a.textContent = '你好！！！！！！！！！！！';
+    delay(2000);
+    setTimeout(() => {
+      console.log(5);
+      a.textContent = '666';
+    }, 0);
+    function logStart() {
+      console.log('1 frame')
+      requestAnimationFrame(logStart)
+    }
+    requestAnimationFrame(logStart)
+  };
+</script>
+
+</html>
