@@ -324,8 +324,8 @@
 
       const scroll = () => {
         const doc = document.querySelector('.route-scroll-container')
-        const empty = /<div class="[^>]+">暂时没有更多了<\/div>/.test(document.body.innerHTML)
-        if (doc.scrollHeight <= window.innerHeight + doc.scrollTop && empty) return;
+        const isEmpty = /<div class="[^>]+">暂时没有更多了<\/div>/.test(document.body.innerHTML)
+        if (isEmpty) return;
         doc.scrollTo({ left: 0, top: doc.scrollHeight })
         setTimeout(scroll, 500)
       }
