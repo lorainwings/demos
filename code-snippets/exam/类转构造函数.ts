@@ -44,7 +44,7 @@ Object.defineProperty(PersonFuc.prototype, 'sayHello', {
     }
     console.log(this.name)
   },
-  // 4. 原型上函数不可枚举/不可配置/不可写
+  // 4. 原型上函数不可枚举/可配置/可写
   enumerable: false,
   configurable: true,
   writable: true

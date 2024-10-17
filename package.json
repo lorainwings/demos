@@ -26,12 +26,14 @@
     "prettier": "^2.7.1"
   },
   "devDependencies": {
+    "@types/node": "^22.5.4",
     "ejs": "^3.1.8",
     "esbuild": "^0.15.10",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "markdownlint-cli": "^0.23.2",
-    "tailwindcss": "^3.3.6"
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.6.2"
   },
   "lint-staged": {
     "*.{md,markdown}": []
