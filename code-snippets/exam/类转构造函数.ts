@@ -31,18 +31,13 @@ const PersonFuc = function (this: PersonInstance, name: string, age: number) {
   this.age = age
 }
 
-
-PersonFuc.prototype.sayHello = function () {
-  console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`)
-}
-
 Object.defineProperty(PersonFuc.prototype, 'sayHello', {
   // 3. 原型上函数无法使用new调用
   value: function () {
     if (new.target) {
       throw new TypeError('This function must be called without the new keyword. ');
     }
-    console.log(this.name)
+    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`)
   },
   // 4. 原型上函数不可枚举/可配置/可写
   enumerable: false,
