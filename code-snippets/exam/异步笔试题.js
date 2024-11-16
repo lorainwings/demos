@@ -28,3 +28,5 @@ a = new Promise(async (resolve) => {
 
 
 console.log('end')
+
+// 'promise 1 '=>' undefined'=> "end" => 'promise 2' => 'promise 3' => 'promise 4' => 'promise 5' => "after1" => Promise{<pending>}

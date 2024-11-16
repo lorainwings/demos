@@ -10,13 +10,11 @@ function processTasks(...tasks) {
   let isRunning = false
   let runningIndex = 0
   const result = []
-  let asyncResult = null
   return {
     // start是一个async函数, 用他来返回最终结果
     // 如果不使用promise来接管他的结果, 那么中断也就返回了结果
     async start() {
       return new Promise(async (resolve, reject) => {
-        if (asyncResult) return asyncResult.then(resolve, reject)
         if (isRunning) return
         isRunning = true
         while (runningIndex < tasks.length) {
@@ -25,16 +23,14 @@ function processTasks(...tasks) {
           } catch (err) {
             isRunning = false
             reject(err)
-            asyncResult = Promise.reject(err)
             return
           }
           runningIndex++
           // 最后一个异步任务中断已经毫无意义
-          if (!isRunning && runningIndex < tasks.length) return
+          if (!isRunning) return
         }
         isRunning = false
         resolve(result)
-        asyncResult = Promise.resolve(result)
       })
     },
     pause() {
