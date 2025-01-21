@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D轮播图</title>
+
+  <svg t="1732080624486" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    p-id="17994" width="200" height="200" style="display: none">
+    <symbol id="prev-button" viewBox="0 0 1024 1024">
+      <path
+        d="M525.653333 550.826667a32 32 0 0 1-13.653333-26.026667v-26.453333a32 32 0 0 1 13.653333-26.026667l314.453334-220.586667a31.146667 31.146667 0 0 1 34.133333 0l5.12 2.56a32.853333 32.853333 0 0 1 15.786667 27.733334v461.226666a32.426667 32.426667 0 0 1-15.786667 27.733334l-5.12 2.56a31.146667 31.146667 0 0 1-34.133333 0z m-426.666666 0l314.453333 221.013333a31.146667 31.146667 0 0 0 34.133333 0l5.12-2.56a32.426667 32.426667 0 0 0 15.786667-27.733333V280.32a32.853333 32.853333 0 0 0-15.786667-27.733333l-5.12-2.56a31.146667 31.146667 0 0 0-34.133333 0l-314.453333 222.293333a32 32 0 0 0-13.653334 26.026667v26.453333a32 32 0 0 0 13.653334 26.026667z"
+        p-id="17995"></path>
+    </symbol>
+  </svg>
+
+  <svg t="1732080614092" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    p-id="17832" width="200" height="200" style="display: none">
+    <symbol id="next-button" viewBox="0 0 1024 1024">
+      <path
+        d="M497.493333 472.746667a32 32 0 0 1 13.653334 26.026666v26.453334a32 32 0 0 1-13.653334 26.026666L183.04 772.266667a32 32 0 0 1-34.133333 0l-5.12-2.56a32.853333 32.853333 0 0 1-15.786667-26.453334V280.32a32.426667 32.426667 0 0 1 15.786667-27.733333l5.12-2.56a31.146667 31.146667 0 0 1 34.133333 0z m426.666667 0L609.706667 251.733333a31.146667 31.146667 0 0 0-34.133334 0l-5.12 2.56a32.426667 32.426667 0 0 0-15.786666 27.733334v461.226666a32.853333 32.853333 0 0 0 15.786666 27.733334l5.12 2.56a32 32 0 0 0 34.133334 0l314.453333-221.013334a32 32 0 0 0 13.653333-26.026666v-26.453334a32 32 0 0 0-13.653333-27.306666z"
+        p-id="17833"></path>
+    </symbol>
+  </svg>
+  <style>
+    body {
+      width: 100vw;
+      height: 100vh;
+      background-color: grey;
+    }
+
+    .container {
+      width: 100%;
+      padding: 150px 0;
+      display: flex;
+      perspective: 1000px;
+    }
+
+    .items {
+      width: 400px;
+      height: 300px;
+      display: flex;
+      flex: 4 0 0;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .item {
+      cursor: pointer;
+      position: absolute;
+      object-fit: contain;
+      user-select: none;
+      transition: all .6s;
+    }
+
+    .prev,
+    .next {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1 0 0;
+    }
+
+    .svg-icon {
+      width: 100px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="prev">
+      <svg class="svg-icon">
+        <use xlink:href="#prev-button" />
+      </svg>
+    </div>
+
+    <div class="items">
+      <img class="item" src="https://picsum.photos/id/1/400/300">
+      <img class="item" src="https://picsum.photos/id/20/400/300">
+      <img class="item" src="https://picsum.photos/id/30/400/300">
+      <img class="item" src="https://picsum.photos/id/40/400/300">
+      <img class="item" src="https://picsum.photos/id/50/400/300">
+      <img class="item" src="https://picsum.photos/id/60/400/300">
+    </div>
+
+    <div class="next">
+      <svg class="svg-icon">
+        <use xlink:href="#next-button" />
+      </svg>
+    </div>
+  </div>
+
+
+  <script>
+    const items = [...document.querySelector('.items').children]
+    const prev = document.querySelector('.prev')
+    const next = document.querySelector('.next')
+
+    let currentIdx = 2
+
+    function repaintItems() {
+      const offsetStep = 100; // 每个 item 之间的偏移量const scaleStep = 0.6； // 每个 item 之间的缩放比例
+      const scaleStep = 0.6;
+      const opacityStep = 0.6;
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        const dis = i - currentIdx; // 下标距离
+        let xoffset = dis * offsetStep; // × 轴偏移量
+        const sign = Math.sign(dis); // 1 或者 -1
+        let rotateY = 0;
+        if (i !== currentIdx) {
+          xoffset = xoffset + 100 * sign;
+          rotateY = 45 * -sign;
+        }
+        const scale = scaleStep ** Math.abs(dis);  // 缩放比例
+        rotateY = 45 * sign; // 旋转角度
+        item.style.transform = `translateX(${xoffset}px) scale(${scale}) rotateY(${rotateY}deg)`;
+        const zIndex = items.length - Math.abs(dis);
+        item.style.zIndex = zIndex;
+        const opacity = opacityStep ** Math.abs(dis);
+        item.style.opacity = opacity;
+      }
+    }
+
+    prev.addEventListener('click', () => {
+      if (currentIdx === 0) return
+      currentIdx--
+      repaintItems()
+    })
+
+    next.addEventListener('click', () => {
+      if (currentIdx >= items.length - 1) return
+      currentIdx++
+      repaintItems()
+    })
+
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        currentIdx = index
+        repaintItems()
+      })
+    })
+
+    repaintItems()
+  </script>
+</body>
+
+</html>
