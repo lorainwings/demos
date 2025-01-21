@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="module">
+    import test from './library/test.esm.js'
+    import { value } from './library/test.esm.js'
+    import * as tmod from "./library/test.esm.js"
+
+    // console.log('模块内部状态', test, value)
+    console.log('模块内部状态', tmod)
+
+    setTimeout(() => {
+      // test.name = 'zhangandan '
+      // test.age = 30
+      // value = 3000
+      // console.log('修改模块后状态', value)
+      tmod.default.name = 'zhangandan'
+      tmod.default.age = 28
+
+
+      // tmod.value = 8989
+      // tmod.desc = '-------------------------'
+      console.log('修改模块后状态', tmod)
+    }, 1000)
+  </script>
+</body>
+
+</html>
