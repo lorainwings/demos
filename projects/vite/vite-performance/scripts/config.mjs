@@ -8,8 +8,7 @@ import mkcert from 'vite-plugin-mkcert'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 import { analyticsResolver } from '@hhorg/analytics/resolver'
-import { createVendorChunksStrategy } from './utils.mjs'
-import { getAdvancedChunkStrategy } from './build-optimization.mjs'
+import { createChunkStrategy } from './chunk-strategy.mjs'
 // 构建分析工具
 import { visualizer } from 'rollup-plugin-visualizer'
 
@@ -92,7 +91,7 @@ export const getDefineConfig = (input) => ({
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         compact: true,
-        manualChunks: getAdvancedChunkStrategy()
+        manualChunks: createChunkStrategy()
       }
     }
   },
