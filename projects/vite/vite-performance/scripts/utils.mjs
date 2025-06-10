@@ -112,10 +112,10 @@ export const createVendorChunksStrategy = () => {
 
   // 包大小限制配置 (KB)
   const sizeThresholds = {
-    small: 50,    // 小包：< 50KB
-    medium: 200,  // 中包：50KB - 200KB
-    large: 500,   // 大包：200KB - 500KB
-    xlarge: 1000  // 超大包：500KB - 1MB，超过需要拆分
+    small: 50, // 小包：< 50KB
+    medium: 200, // 中包：50KB - 200KB
+    large: 500, // 大包：200KB - 500KB
+    xlarge: 1000 // 超大包：500KB - 1MB，超过需要拆分
   }
 
   const extractPackageName = (id) => {
@@ -153,7 +153,7 @@ export const createVendorChunksStrategy = () => {
 
     // 模糊匹配 - 处理子包
     for (const [groupName, packages] of Object.entries(allVendorGroups)) {
-      if (packages.some(lib => pkgName.startsWith(lib) || pkgName.includes(lib))) {
+      if (packages.some((lib) => pkgName.startsWith(lib) || pkgName.includes(lib))) {
         return groupName
       }
     }

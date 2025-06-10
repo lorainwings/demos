@@ -9,6 +9,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 import { analyticsResolver } from '@hhorg/analytics/resolver'
 import { createVendorChunksStrategy } from './utils.mjs'
+import { getAdvancedChunkStrategy } from './build-optimization.mjs'
 // 构建分析工具
 import { visualizer } from 'rollup-plugin-visualizer'
 
@@ -17,7 +18,6 @@ const __dirname = path.dirname(__filename)
 
 // 是否启用分析模式
 const isAnalyze = process.env.ANALYZE === 'true'
-const isDev = process.env.NODE_ENV === 'dev'
 
 /**
  * @type { import('vite').UserConfig }
@@ -92,7 +92,7 @@ export const getDefineConfig = (input) => ({
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         compact: true,
-        manualChunks: createVendorChunksStrategy()
+        manualChunks: getAdvancedChunkStrategy()
       }
     }
   },
