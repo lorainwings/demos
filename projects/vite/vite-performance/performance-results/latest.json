@@ -1,0 +1,164 @@
+{
+  "timestamp": 1749545656519,
+  "date": "2025-06-10T08:54:16.519Z",
+  "build": {
+    "duration": 208941,
+    "durationSeconds": "208.94",
+    "success": true
+  },
+  "bundles": {
+    "total": 22,
+    "totalSize": 7351901,
+    "totalSizeKB": 7180,
+    "totalSizeMB": "7.01",
+    "largest": {
+      "name": "vendor-vue-core-7c0e9e41.js",
+      "size": 2388702,
+      "sizeKB": 2333,
+      "sizeMB": "2.28",
+      "type": "vendor"
+    },
+    "vendors": {
+      "count": 14,
+      "totalSize": 5397069,
+      "ratio": "73.4"
+    },
+    "pages": {
+      "count": 2,
+      "totalSize": 1709191
+    },
+    "bundles": [
+      {
+        "name": "vendor-vue-core-7c0e9e41.js",
+        "size": 2388702,
+        "sizeKB": 2333,
+        "sizeMB": "2.28",
+        "type": "vendor"
+      },
+      {
+        "name": "xh-h5-98d1e2cd.js",
+        "size": 1495216,
+        "sizeKB": 1460,
+        "sizeMB": "1.43",
+        "type": "page"
+      },
+      {
+        "name": "vendor-misc-32b49ccb.js",
+        "size": 1001089,
+        "sizeKB": 978,
+        "sizeMB": "0.95",
+        "type": "vendor"
+      },
+      {
+        "name": "vendor-echarts-cc507d91.js",
+        "size": 446653,
+        "sizeKB": 436,
+        "sizeMB": "0.43",
+        "type": "vendor"
+      },
+      {
+        "name": "vendor-ui-1f4528bb.js",
+        "size": 303689,
+        "sizeKB": 297,
+        "sizeMB": "0.29",
+        "type": "vendor"
+      },
+      {
+        "name": "vendor-dev-tools-ba290547.js",
+        "size": 287708,
+        "sizeKB": 281,
+        "sizeMB": "0.27",
+        "type": "vendor"
+      },
+      {
+        "name": "vendor-video-9fd5f1b8.js",
+        "size": 283140,
+        "sizeKB": 277,
+        "sizeMB": "0.27",
+        "type": "vendor"
+      },
+      {
+        "name": "app-pink-ribbon-76086fea.js",
+        "size": 213975,
+        "sizeKB": 209,
+        "sizeMB": "0.20",
+        "type": "page"
+      },
+      {
+        "name": "vendor-image-d873f355.js",
+        "size": 209101,
+        "sizeKB": 204,
+        "sizeMB": "0.20",
+        "type": "vendor"
+      },
+      {
+        "name": "vendor-lodash-3e6a3709.js",
+        "size": 160649,
+        "sizeKB": 157,
+        "sizeMB": "0.15",
+        "type": "vendor"
+      }
+    ]
+  },
+  "performance": {
+    "loadingTimes": {
+      "3G": {
+        "downloadTime": 29810,
+        "totalTime": 30110,
+        "criticalSize": 6105
+      },
+      "4G": {
+        "downloadTime": 5300,
+        "totalTime": 5450,
+        "criticalSize": 6105
+      },
+      "WiFi": {
+        "downloadTime": 1590,
+        "totalTime": 1640,
+        "criticalSize": 6105
+      }
+    },
+    "estimatedMetrics": {
+      "FCP": 3270,
+      "LCP": 6540,
+      "TTI": 8175
+    }
+  },
+  "recommendations": [
+    {
+      "type": "size",
+      "level": "warning",
+      "title": "总包大小过大",
+      "description": "当前总大小7.01MB，建议控制在5MB以内",
+      "suggestions": [
+        "启用代码分割和懒加载",
+        "移除未使用的依赖",
+        "使用CDN加载大型库",
+        "启用Tree Shaking"
+      ]
+    },
+    {
+      "type": "chunk",
+      "level": "error",
+      "title": "单个包过大",
+      "description": "vendor-vue-core-7c0e9e41.js 大小为2333KB，建议拆分",
+      "suggestions": [
+        "进一步细分vendor包",
+        "使用动态导入",
+        "考虑使用CDN"
+      ]
+    },
+    {
+      "type": "performance",
+      "level": "warning",
+      "title": "LCP性能需要优化",
+      "description": "预估LCP为6540ms，建议控制在2.5s以内",
+      "suggestions": [
+        "优化关键资源加载",
+        "使用资源预加载",
+        "优化图片和字体",
+        "启用HTTP/2推送"
+      ]
+    }
+  ]
+}
