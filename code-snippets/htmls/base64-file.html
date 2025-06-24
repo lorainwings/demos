@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64转文件下载</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      flex-grow: 1;
+    }
+
+    .result {
+      margin-top: 20px;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Base64转文件下载</h1>
+
+  <div>
+    <h2>输入Base64字符串</h2>
+    <textarea id="base64Input" placeholder="在此处粘贴base64编码的字符串，不需要包含'data:image/png;base64,'等前缀"></textarea>
+
+    <div class="controls">
+      <input type="text" id="fileNameInput" placeholder="文件名（包括扩展名，如：image.png, document.pdf）">
+      <select id="mimeTypeSelect">
+        <option value="auto">自动检测</option>
+        <option value="image/png">PNG图片</option>
+        <option value="image/jpeg">JPEG图片</option>
+        <option value="application/pdf">PDF文档</option>
+        <option value="text/plain">文本文件</option>
+        <option value="application/zip">ZIP压缩文件</option>
+        <option value="application/json">JSON文件</option>
+        <option value="custom">自定义</option>
+      </select>
+      <input type="text" id="customMimeType" placeholder="自定义MIME类型" style="display: none;">
+    </div>
+
+    <button id="downloadBtn">生成并下载文件</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <div class="result">
+    <h2>预览</h2>
+    <div id="preview"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const base64Input = document.getElementById('base64Input');
+      const fileNameInput = document.getElementById('fileNameInput');
+      const mimeTypeSelect = document.getElementById('mimeTypeSelect');
+      const customMimeType = document.getElementById('customMimeType');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const errorDiv = document.getElementById('error');
+      const previewDiv = document.getElementById('preview');
+
+      // 显示/隐藏自定义MIME类型输入框
+      mimeTypeSelect.addEventListener('change', function () {
+        if (this.value === 'custom') {
+          customMimeType.style.display = 'block';
+        } else {
+          customMimeType.style.display = 'none';
+        }
+      });
+
+      // 尝试从文件名推断MIME类型
+      function getMimeTypeFromFileName(fileName) {
+        const extension = fileName.split('.').pop().toLowerCase();
+        const mimeTypes = {
+          'png': 'image/png',
+          'jpg': 'image/jpeg',
+          'jpeg': 'image/jpeg',
+          'gif': 'image/gif',
+          'pdf': 'application/pdf',
+          'txt': 'text/plain',
+          'html': 'text/html',
+          'csv': 'text/csv',
+          'json': 'application/json',
+          'zip': 'application/zip',
+          'doc': 'application/msword',
+          'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'xls': 'application/vnd.ms-excel',
+          'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'mp3': 'audio/mpeg',
+          'mp4': 'video/mp4',
+          'wav': 'audio/wav'
+        };
+
+        return mimeTypes[extension] || 'application/octet-stream';
+      }
+
+      // 尝试从base64数据推断MIME类型
+      function detectMimeType(base64String) {
+        // 检查是否已经包含data URL前缀
+        if (base64String.startsWith('data:')) {
+          const matches = base64String.match(/^data:([^;]+);base64,/);
+          if (matches && matches.length > 1) {
+            return matches[1];
+          }
+        }
+
+        // 尝试通过文件头部特征识别常见文件类型
+        try {
+          // 解码base64的前几个字节来检测文件类型
+          const binaryString = atob(base64String.replace(/^data:.*;base64,/, '').trim());
+          const bytes = new Uint8Array(8);
+
+          for (let i = 0; i < Math.min(8, binaryString.length); i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+
+          // 检查文件头部特征
+          if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+            return 'image/jpeg';
+          }
+          if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+            return 'image/png';
+          }
+          if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) {
+            return 'image/gif';
+          }
+          if (bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46) {
+            return 'application/pdf';
+          }
+          if (bytes[0] === 0x50 && bytes[1] === 0x4B) {
+            return 'application/zip';
+          }
+        } catch (e) {
+          console.error('Error detecting MIME type:', e);
+        }
+
+        // 默认返回二进制流
+        return 'application/octet-stream';
+      }
+
+      // 处理下载按钮点击事件
+      downloadBtn.addEventListener('click', function () {
+        try {
+          errorDiv.textContent = '';
+          let base64String = base64Input.value.trim();
+
+          if (!base64String) {
+            throw new Error('请输入Base64字符串');
+          }
+
+          // 如果包含data URL前缀，提取出纯base64部分
+          if (base64String.includes('base64,')) {
+            base64String = base64String.split('base64,')[1];
+          }
+
+          // 获取文件名
+          let fileName = fileNameInput.value.trim();
+          if (!fileName) {
+            fileName = 'download.bin'; // 默认文件名
+          }
+
+          // 确定MIME类型
+          let mimeType;
+          if (mimeTypeSelect.value === 'auto') {
+            // 先尝试从文件名推断
+            mimeType = getMimeTypeFromFileName(fileName);
+            if (mimeType === 'application/octet-stream') {
+              // 如果无法从文件名推断，尝试从base64内容推断
+              mimeType = detectMimeType(base64String);
+            }
+          } else if (mimeTypeSelect.value === 'custom') {
+            mimeType = customMimeType.value.trim() || 'application/octet-stream';
+          } else {
+            mimeType = mimeTypeSelect.value;
+          }
+
+          // 创建完整的data URL
+          const dataUrl = `data:${mimeType};base64,${base64String}`;
+
+          // 创建下载链接
+          const downloadLink = document.createElement('a');
+          downloadLink.href = dataUrl;
+          downloadLink.download = fileName;
+          downloadLink.style.display = 'none';
+          document.body.appendChild(downloadLink);
+
+          // 触发下载
+          downloadLink.click();
+
+          // 清理
+          setTimeout(() => {
+            document.body.removeChild(downloadLink);
+          }, 100);
+
+          // 尝试预览（仅支持图片和PDF）
+          previewDiv.innerHTML = '';
+          if (mimeType.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.style.maxWidth = '100%';
+            previewDiv.appendChild(img);
+          } else if (mimeType === 'application/pdf') {
+            const iframe = document.createElement('iframe');
+            iframe.src = dataUrl;
+            iframe.width = '100%';
+            iframe.height = '500px';
+            previewDiv.appendChild(iframe);
+          } else {
+            previewDiv.textContent = '此文件类型无法预览';
+          }
+
+        } catch (error) {
+          errorDiv.textContent = error.message;
+          console.error('Error:', error);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
