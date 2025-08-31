@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      z-index: 100;
+    }
+
+    .content {
+      padding-top: 100px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    li {
+      margin: 0 20px;
+    }
+
+    a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      height: 800px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>My Website</h1>
+    <nav>
+      <ul>
+        <li><a href="#section-1">Section 1</a></li>
+        <li><a href="#section-2">Section 2</a></li>
+        <li><a href="#section-3">Section 3</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="content">
+    <section id="section-1">
+      <!-- section 1 content -->
+    </section>
+    <section id="section-2">
+      <!-- section 2 content -->
+    </section>
+    <section id="section-3">
+      <!-- section 3 content -->
+    </section>
+  </div>
+
+</body>
+
+</html>
