@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web蓝牙API演示</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2196F3, #1976D2);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: 300;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .status {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-left: 4px solid #2196F3;
+    }
+
+    .status h3 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .status-text {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #2196F3, #1976D2);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      min-width: 120px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+    }
+
+    .btn-danger:hover {
+      box-shadow: 0 8px 20px rgba(244, 67, 54, 0.3);
+    }
+
+    .devices-section {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .devices-section h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .device-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .device-item {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .device-item:hover {
+      border-color: #2196F3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .device-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .device-id {
+      font-size: 0.9rem;
+      color: #666;
+      font-family: 'Courier New', monospace;
+    }
+
+    .device-services {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    .log-section {
+      background: #263238;
+      color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .log-section h3 {
+      margin-bottom: 15px;
+      color: #81c784;
+    }
+
+    .log-entry {
+      margin-bottom: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #37474f;
+    }
+
+    .log-time {
+      color: #90a4ae;
+      margin-right: 10px;
+    }
+
+    .log-error {
+      color: #f44336;
+    }
+
+    .log-success {
+      color: #4caf50;
+    }
+
+    .log-info {
+      color: #2196f3;
+    }
+
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .warning strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .controls {
+        flex-direction: column;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔵 Web蓝牙API演示</h1>
+      <p>扫描、连接和与蓝牙设备交互</p>
+    </div>
+
+    <div class="content">
+      <!-- 兼容性警告 -->
+      <div class="warning" id="compatibilityWarning" style="display: none;">
+        <strong>⚠️ 兼容性提醒</strong>
+        您的浏览器不支持Web蓝牙API。请使用Chrome、Edge或其他支持的浏览器，并确保在HTTPS环境下访问。
+      </div>
+
+      <!-- 状态显示 -->
+      <div class="status">
+        <h3>📊 连接状态</h3>
+        <div class="status-text" id="statusText">准备就绪 - 点击扫描设备开始</div>
+      </div>
+
+      <!-- 控制按钮 -->
+      <div class="controls">
+        <button class="btn" id="scanBtn" onclick="scanForDevices()">
+          🔍 扫描设备
+        </button>
+        <button class="btn btn-danger" id="disconnectBtn" onclick="disconnectDevice()" disabled>
+          🔌 断开连接
+        </button>
+        <button class="btn" id="clearLogBtn" onclick="clearLog()">
+          🗑️ 清空日志
+        </button>
+      </div>
+
+      <!-- 设备列表 -->
+      <div class="devices-section">
+        <h3>📱 发现的设备</h3>
+        <div class="device-list" id="deviceList">
+          <div style="text-align: center; color: #666; padding: 20px;">
+            暂无设备，请点击"扫描设备"开始搜索
+          </div>
+        </div>
+      </div>
+
+      <!-- 日志显示 -->
+      <div class="log-section">
+        <h3>📋 操作日志</h3>
+        <div id="logContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentDevice = null;
+    let currentServer = null;
+
+    // 检查浏览器兼容性
+    function checkCompatibility() {
+      if (!navigator.bluetooth) {
+        document.getElementById('compatibilityWarning').style.display = 'block';
+        document.getElementById('scanBtn').disabled = true;
+        logMessage('浏览器不支持Web蓝牙API', 'error');
+        return false;
+      }
+      return true;
+    }
+
+    // 日志记录函数
+    function logMessage(message, type = 'info') {
+      const logContainer = document.getElementById('logContainer');
+      const timestamp = new Date().toLocaleTimeString();
+      const logEntry = document.createElement('div');
+      logEntry.className = 'log-entry';
+
+      let className = 'log-info';
+      let icon = 'ℹ️';
+
+      switch (type) {
+        case 'error':
+          className = 'log-error';
+          icon = '❌';
+          break;
+        case 'success':
+          className = 'log-success';
+          icon = '✅';
+          break;
+        case 'warning':
+          className = 'log-warning';
+          icon = '⚠️';
+          break;
+      }
+
+      logEntry.innerHTML = `
+                <span class="log-time">[${timestamp}]</span>
+                <span class="${className}">${icon} ${message}</span>
+            `;
+
+      logContainer.appendChild(logEntry);
+      logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    // 更新状态显示
+    function updateStatus(message) {
+      document.getElementById('statusText').textContent = message;
+    }
+
+    // 扫描蓝牙设备
+    async function scanForDevices() {
+      if (!checkCompatibility()) return;
+
+      try {
+        updateStatus('正在扫描蓝牙设备...');
+        logMessage('开始扫描蓝牙设备');
+
+        // 请求蓝牙设备
+        const device = await navigator.bluetooth.requestDevice({
+          // acceptAllDevices: true, // 接受所有设备（需要用户手动选择）
+          filters: [
+            { services: ['battery_service'] },
+            { services: ['heart_rate'] },
+            { services: ['device_information'] },
+            { namePrefix: 'Arduino' },
+            { namePrefix: 'ESP32' },
+            { namePrefix: 'Mi' },
+            { namePrefix: 'iPhone' },
+            { namePrefix: 'Samsung' }
+          ],
+          optionalServices: [
+            'battery_service',
+            'device_information',
+            'heart_rate',
+            'generic_access',
+            'generic_attribute'
+          ]
+        });
+
+        logMessage(`发现设备: ${device.name || '未知设备'} (${device.id})`, 'success');
+        displayDevice(device);
+
+        // 尝试连接设备
+        await connectToDevice(device);
+
+      } catch (error) {
+        console.error('扫描设备失败:', error);
+        logMessage(`扫描失败: ${error.message}`, 'error');
+        updateStatus('扫描失败 - 请重试');
+      }
+    }
+
+    // 显示设备信息
+    function displayDevice(device) {
+      const deviceList = document.getElementById('deviceList');
+      deviceList.innerHTML = '';
+
+      const deviceItem = document.createElement('div');
+      deviceItem.className = 'device-item';
+      deviceItem.onclick = () => connectToDevice(device);
+
+      deviceItem.innerHTML = `
+                <div class="device-name">${device.name || '未知设备'}</div>
+                <div class="device-id">ID: ${device.id}</div>
+                <div class="device-services">点击连接设备</div>
+            `;
+
+      deviceList.appendChild(deviceItem);
+    }
+
+    // 连接到设备
+    async function connectToDevice(device) {
+      try {
+        updateStatus(`正在连接到 ${device.name || '设备'}...`);
+        logMessage(`尝试连接到设备: ${device.name || '未知设备'}`);
+
+        // 连接到GATT服务器
+        const server = await device.gatt.connect();
+        currentDevice = device;
+        currentServer = server;
+
+        logMessage('设备连接成功!', 'success');
+        updateStatus(`已连接到 ${device.name || '设备'}`);
+
+        // 启用断开连接按钮
+        document.getElementById('disconnectBtn').disabled = false;
+        document.getElementById('scanBtn').disabled = true;
+
+        // 监听设备断开连接事件
+        device.addEventListener('gattserverdisconnected', onDeviceDisconnected);
+
+        // 获取设备服务信息
+        await getDeviceServices(server);
+
+      } catch (error) {
+        console.error('连接设备失败:', error);
+        logMessage(`连接失败: ${error.message}`, 'error');
+        updateStatus('连接失败 - 请重试');
+      }
+    }
+
+    // 获取设备服务
+    async function getDeviceServices(server) {
+      try {
+        logMessage('正在获取设备服务...');
+
+        // 获取主要服务
+        const services = await server.getPrimaryServices();
+        logMessage(`发现 ${services.length} 个服务`, 'success');
+
+        for (const service of services) {
+          logMessage(`服务UUID: ${service.uuid}`);
+
+          try {
+            // 获取服务特征
+            const characteristics = await service.getCharacteristics();
+            logMessage(`  - 包含 ${characteristics.length} 个特征`);
+
+            for (const characteristic of characteristics) {
+              logMessage(`    特征UUID: ${characteristic.uuid}`);
+
+              // 如果是电池服务，尝试读取电池电量
+              if (service.uuid === '0000180f-0000-1000-8000-00805f9b34fb' &&
+                characteristic.uuid === '00002a19-0000-1000-8000-00805f9b34fb') {
+                try {
+                  const value = await characteristic.readValue();
+                  const batteryLevel = value.getUint8(0);
+                  logMessage(`电池电量: ${batteryLevel}%`, 'success');
+                } catch (e) {
+                  logMessage('无法读取电池电量', 'warning');
+                }
+              }
+            }
+          } catch (e) {
+            logMessage(`无法获取服务 ${service.uuid} 的特征`, 'warning');
+          }
+        }
+
+      } catch (error) {
+        console.error('获取服务失败:', error);
+        logMessage(`获取服务失败: ${error.message}`, 'error');
+      }
+    }
+
+    // 设备断开连接事件处理
+    function onDeviceDisconnected(event) {
+      logMessage(`设备 ${event.target.name || '未知设备'} 已断开连接`, 'warning');
+      updateStatus('设备已断开连接');
+
+      currentDevice = null;
+      currentServer = null;
+
+      document.getElementById('disconnectBtn').disabled = true;
+      document.getElementById('scanBtn').disabled = false;
+    }
+
+    // 手动断开连接
+    function disconnectDevice() {
+      if (currentDevice && currentDevice.gatt.connected) {
+        currentDevice.gatt.disconnect();
+        logMessage('手动断开设备连接', 'info');
+      }
+    }
+
+    // 清空日志
+    function clearLog() {
+      document.getElementById('logContainer').innerHTML = '';
+      logMessage('日志已清空', 'info');
+    }
+
+    // 页面加载时检查兼容性
+    window.addEventListener('load', () => {
+      checkCompatibility();
+      logMessage('Web蓝牙API演示已加载', 'success');
+
+      // 添加一些使用说明
+      logMessage('使用说明:', 'info');
+      logMessage('1. 点击"扫描设备"开始搜索附近的蓝牙设备', 'info');
+      logMessage('2. 在弹出的设备列表中选择要连接的设备', 'info');
+      logMessage('3. 连接成功后可以查看设备服务和特征', 'info');
+      logMessage('4. 某些设备可能需要配对或授权', 'info');
+    });
+
+    // 处理页面关闭时断开连接
+    window.addEventListener('beforeunload', () => {
+      if (currentDevice && currentDevice.gatt.connected) {
+        currentDevice.gatt.disconnect();
+      }
+    });
+  </script>
+</body>
+
+</html>
