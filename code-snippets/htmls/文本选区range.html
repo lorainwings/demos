@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- <p id="para">Hello <strong>World</strong>!</p> -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+  <style>
+    /* 允许文本被选中 */
+    .selectable {
+      -webkit-user-select: text;
+      user-select: text;
+    }
+  </style>
+
+  <div id="block" class="selectable">
+    这是普通 div。双击它，马上就会出现系统自带的拖动手柄，可继续扩选。
+  </div>
+
+  <script>
+    const block = document.getElementById('block')
+
+    block.addEventListener('dblclick', (e) => {
+      // 1. 不要 preventDefault()
+      // 2. 临时启用可编辑
+      block.contentEditable = 'true'
+      block.focus()
+
+      // 3. 这里什么都不用选 —— 用户双击那一瞬间的“第二击”
+      //    已经被浏览器当作“文本选择”来处理
+
+      // 4. 选区已经出现，下一帧改回不可编辑，避免用户改内容
+      requestAnimationFrame(() => {
+        block.contentEditable = 'false'
+      })
+    })
+  </script>
+
+  <!-- <script>
+    const selection = window.getSelection();
+    const para = document.getElementById("para");
+
+    // 创建初始折叠（起始）点
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.setStart(para.firstChild, 0);  // "Hello " 的开头
+    range.collapse(true);
+    selection.addRange(range);
+
+    // 扩展选区到 "World" 的中间
+    const worldTextNode = para.querySelector("strong").firstChild; // "World"
+    selection.extend(worldTextNode, 3);  // 到 "Wor"
+
+  </script> -->
+</body>
+
+</html>

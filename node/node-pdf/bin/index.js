@@ -17,7 +17,7 @@ const options = {
   '-l, --link [link]': {
     description: 'resource download link',
     example:
-      'pdf-do -l https://juejin.cn/book/7086408430491172901/section/7086440845053788196'
+      'pdf-do -l https://juejin.cn/book/7178741001677176836/section/7178820702689034244'
   },
   '-r, --range <page>': {
     description: 'resource download page range',
