@@ -184,14 +184,14 @@
   </div>
 
   <script>
-    // 企业微信配置信息
+    // 企业微信配置信息 - 请在实际使用时替换为您的配置
     const CONFIG = {
-      CORP_ID: 'YOUR_CORP_ID',
-      CORP_SECRET: 'YOUR_CORP_SECRET',
+      CORP_ID: process.env.CORP_ID || 'YOUR_CORP_ID', // 企业ID
+      CORP_SECRET: process.env.CORP_SECRET || 'YOUR_CORP_SECRET', // 企业密钥
       REDIRECT_URI: encodeURIComponent(window.location.origin + window.location.pathname),
       SCOPE: 'snsapi_privateinfo', // 或者使用 snsapi_privateinfo 获取敏感信息
       STATE: 'demo_state_' + Date.now(),
-      AGENT_ID: '1000005'
+      AGENT_ID: process.env.AGENT_ID || 'YOUR_AGENT_ID' // 应用ID
     };
 
     // DOM 元素
