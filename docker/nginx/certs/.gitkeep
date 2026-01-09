@@ -1,0 +1,5 @@
+# 此目录用于存放 HTTPS 证书
+# 使用 mkcert 生成本地证书:
+#   mkcert -install
+#   mkcert dev.yourdomain.com
+#   mv dev.yourdomain.com*.pem ./docker/nginx/certs/
