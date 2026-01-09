@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Three.js — 简化人体骨骼与器官示例</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    #ui {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+      font-size: 13px;
+    }
+
+    #ui label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    #credits {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="ui">
+    <label><input id="toggleBones" type="checkbox" checked> 显示骨骼</label>
+    <label><input id="toggleOrgans" type="checkbox" checked> 显示器官</label>
+    <label><input id="wireframe" type="checkbox"> 骨骼线框</label>
+    <label>缩放: <input id="scale" type="range" min="0.6" max="1.6" step="0.01" value="1"></label>
+    <small style="color:#666">拖拽旋转 / 滚轮缩放</small>
+  </div>
+  <div id="credits">Three.js 简化人体示例</div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // --- 基本场景 / 相机 / 渲染器 ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x111217);
+
+    const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 2000);
+    camera.position.set(0, 1.6, 4);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 1.2, 0);
+    controls.update();
+
+    // --- 照明 ---
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+    hemi.position.set(0, 2, 0);
+    scene.add(hemi);
+
+    const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+    dir.position.set(5, 10, 7);
+    dir.castShadow = true;
+    scene.add(dir);
+
+    // --- 帮助线及地面 ---
+    const grid = new THREE.GridHelper(10, 20, 0x222233, 0x15151a);
+    grid.position.y = 0;
+    scene.add(grid);
+
+    const axes = new THREE.AxesHelper(0.6);
+    scene.add(axes);
+
+    // --- 材质 ---
+    const boneMat = new THREE.MeshStandardMaterial({ color: 0xf0e6d6, roughness: 0.9, metalness: 0.0 });
+    const organMats = {
+      brain: new THREE.MeshStandardMaterial({ color: 0xffd1dc, roughness: 0.7 }),
+      heart: new THREE.MeshStandardMaterial({ color: 0xff5b5b, roughness: 0.6 }),
+      lung: new THREE.MeshStandardMaterial({ color: 0xc6e7ff, roughness: 0.7, opacity: 0.95, transparent: true }),
+      liver: new THREE.MeshStandardMaterial({ color: 0xd86a3e, roughness: 0.7 }),
+      stomach: new THREE.MeshStandardMaterial({ color: 0xffc78e, roughness: 0.7 }),
+      intestines: new THREE.MeshStandardMaterial({ color: 0xffefb7, roughness: 0.8 })
+    };
+
+    // --- 组：骨骼、器官 ---
+    const bonesGroup = new THREE.Group();
+    bonesGroup.name = 'bones';
+    scene.add(bonesGroup);
+
+    const organsGroup = new THREE.Group();
+    organsGroup.name = 'organs';
+    scene.add(organsGroup);
+
+    // --- 辅助函数：创建骨骼段与关节 ---
+    function createBone(length = 0.4, radius = 0.06) {
+      const geo = new THREE.CylinderGeometry(radius, radius, length, 16);
+      const mesh = new THREE.Mesh(geo, boneMat);
+      return mesh;
+    }
+    function createJoint(radius = 0.08) {
+      const geo = new THREE.SphereGeometry(radius, 16, 16);
+      return new THREE.Mesh(geo, boneMat);
+    }
+
+    // --- 构建脊柱（简化） ---
+    const spine = new THREE.Group();
+    spine.position.y = 0.7;
+    bonesGroup.add(spine);
+
+    const spineSegments = 6;
+    for (let i = 0; i < spineSegments; i++) {
+      const segLength = 0.22;
+      const bone = createBone(segLength, 0.055);
+      bone.rotation.z = Math.PI / 2;
+      bone.position.x = 0; // keep centered
+      bone.position.y = i * segLength * 0.85; // small gap
+      spine.add(bone);
+
+      const joint = createJoint(0.06);
+      joint.position.copy(bone.position);
+      spine.add(joint);
+    }
+    // adjust spine origin
+    spine.position.y = 0.6;
+
+    // --- 骨盆 ---
+    const pelvis = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.16, 0.18), boneMat);
+    pelvis.position.set(0, 0.15, 0);
+    bonesGroup.add(pelvis);
+
+    // --- 肋骨（简化）---
+    const ribs = new THREE.Group();
+    ribs.position.set(0, 1.15, 0);
+    bonesGroup.add(ribs);
+    for (let i = 0; i < 8; i++) {
+      const radius = 0.7 - i * 0.06;
+      const tor = new THREE.TorusGeometry(radius, 0.03, 8, 48, Math.PI);
+      const m = new THREE.Mesh(tor, boneMat);
+      m.rotation.x = Math.PI / 2;
+      m.position.y = -i * 0.035;
+      m.position.z = -0.05;
+      ribs.add(m);
+    }
+
+    // --- 头颅 (简化球体) ---
+    const skull = new THREE.Mesh(new THREE.SphereGeometry(0.18, 24, 20), boneMat);
+    skull.position.set(0, 1.65, 0);
+    bonesGroup.add(skull);
+
+    // --- 上/下肢（非常简化） ---
+    function makeLimb(side = 1, upperLen = 0.5, lowerLen = 0.45) {
+      const limb = new THREE.Group();
+      // upper arm / thigh
+      const upper = createBone(upperLen, 0.055);
+      upper.rotation.z = Math.PI / 2;
+      upper.position.set(side * (0.28 + 0.05 * upperLen), 1.25, 0);
+      upper.rotation.y = side * 0.2;
+      limb.add(upper);
+      limb.upper = upper;
+
+      // elbow/knee joint
+      const joint = createJoint(0.06);
+      joint.position.copy(upper.position).add(new THREE.Vector3(side * upperLen * 0.5, -0.05, 0));
+      limb.add(joint);
+
+      // lower
+      const lower = createBone(lowerLen, 0.045);
+      lower.rotation.z = Math.PI / 2;
+      lower.position.copy(joint.position).add(new THREE.Vector3(side * lowerLen * 0.42, -0.05, 0));
+      lower.rotation.y = side * -0.08;
+      limb.add(lower);
+
+      return limb;
+    }
+
+    const leftArm = makeLimb(-1, 0.38, 0.35);
+    const rightArm = makeLimb(1, 0.38, 0.35);
+    bonesGroup.add(leftArm);
+    bonesGroup.add(rightArm);
+
+    function makeLeg(side = 1) {
+      const leg = new THREE.Group();
+      const upper = createBone(0.5, 0.07);
+      upper.rotation.z = Math.PI / 2;
+      upper.position.set(side * 0.21, -0.05, 0);
+      upper.position.y = 0.1; // relative to pelvis
+      leg.add(upper);
+
+      const knee = createJoint(0.07);
+      knee.position.copy(upper.position).add(new THREE.Vector3(side * 0.05, -0.45, 0));
+      leg.add(knee);
+
+      const lower = createBone(0.5, 0.06);
+      lower.rotation.z = Math.PI / 2;
+      lower.position.copy(knee.position).add(new THREE.Vector3(side * 0.05, -0.28, 0));
+      leg.add(lower);
+
+      // translate whole leg to pelvis area
+      leg.position.y = 0.05;
+      leg.position.x = side * 0.12;
+      return leg;
+    }
+
+    const leftLeg = makeLeg(-1);
+    const rightLeg = makeLeg(1);
+    bonesGroup.add(leftLeg);
+    bonesGroup.add(rightLeg);
+
+    // --- 器官（简化） ---
+    // 脑：位于头颅内部（球体略小）
+    const brain = new THREE.Mesh(new THREE.SphereGeometry(0.14, 20, 16), organMats.brain);
+    brain.position.copy(skull.position).add(new THREE.Vector3(0, -0.02, 0));
+    organsGroup.add(brain);
+
+    // 心脏：在肋骨内部、偏左
+    const heart = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 16), organMats.heart);
+    heart.position.set(-0.12, 1.05, 0.05);
+    organsGroup.add(heart);
+
+    // 两肺：左右两半椭球
+    function ellipsoid(rx, ry, rz, mats) {
+      const s = new THREE.SphereGeometry(1, 24, 16);
+      // scale when mesh created
+      const m = new THREE.Mesh(s, mats);
+      m.scale.set(rx, ry, rz);
+      return m;
+    }
+    const leftLung = ellipsoid(0.6, 0.9, 0.4, organMats.lung);
+    const rightLung = ellipsoid(0.6, 0.9, 0.4, organMats.lung);
+    leftLung.position.set(-0.28, 1.07, 0.08);
+    rightLung.position.set(0.12, 1.07, 0.08);
+    organsGroup.add(leftLung, rightLung);
+
+    // 肝：右侧、较大扁体
+    const liver = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.18, 0.18), organMats.liver);
+    liver.position.set(0.35, 0.86, 0.06);
+    liver.rotation.z = -0.28;
+    organsGroup.add(liver);
+
+    // 胃：左下胸腔
+    const stomach = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 12), organMats.stomach);
+    stomach.position.set(-0.25, 0.88, 0.05);
+    organsGroup.add(stomach);
+
+    // 肠道（用扭曲的管道近似 — 这里用多个小球组成一簇）
+    const intestines = new THREE.Group();
+    for (let i = 0; i < 18; i++) {
+      const b = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 12), organMats.intestines);
+      const ang = i * 0.35;
+      b.position.set(Math.sin(ang) * 0.15, 0.6 - (i * 0.015), Math.cos(ang) * 0.08);
+      intestines.add(b);
+    }
+    intestines.position.y = 0.58;
+    organsGroup.add(intestines);
+
+    // --- 交互 UI 逻辑 ---
+    const toggleBones = document.getElementById('toggleBones');
+    const toggleOrgans = document.getElementById('toggleOrgans');
+    const wireframeCB = document.getElementById('wireframe');
+    const scaleRange = document.getElementById('scale');
+
+    toggleBones.addEventListener('change', e => bonesGroup.visible = e.target.checked);
+    toggleOrgans.addEventListener('change', e => organsGroup.visible = e.target.checked);
+    wireframeCB.addEventListener('change', e => {
+      const v = e.target.checked;
+      boneMat.wireframe = v;
+    });
+    scaleRange.addEventListener('input', e => {
+      const s = parseFloat(e.target.value);
+      bonesGroup.scale.set(s, s, s);
+      organsGroup.scale.set(s, s, s);
+    });
+
+    // --- 动画循环 ---
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      // 轻微呼吸动画：让肺和心脏随时间微动
+      const breath = Math.sin(t * 1.8) * 0.02 + 1.0;
+      leftLung.scale.y = 0.9 * breath;
+      rightLung.scale.y = 0.9 * breath;
+      heart.position.y = 1.05 + Math.sin(t * 3.2) * 0.01;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- 自适应窗口 ----
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  </script>
+</body>
+
+</html>
