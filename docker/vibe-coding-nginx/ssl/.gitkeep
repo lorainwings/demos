@@ -1,8 +1,0 @@
-# SSL 证书目录
-# 请将以下文件放入此目录：
-# - cert.pem  (SSL 证书)
-# - key.pem   (SSL 私钥)
-#
-# 可以使用 mkcert 生成本地开发证书：
-# mkcert -install
-# mkcert -key-file key.pem -cert-file cert.pem localhost 127.0.0.1 ::1
